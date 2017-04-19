@@ -1,3 +1,4 @@
+import { Login } from './../pages/login/login';
 import { Component, ViewChild } from '@angular/core';
 
 import { Platform, MenuController, Nav } from 'ionic-angular';
@@ -16,7 +17,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make HelloIonicPage the root (or first) page
-  rootPage = HelloIonicPage;
+  rootPage = Login;
   pages: Array<{title: string, component: any}>;
 
   constructor(

@@ -1,3 +1,10 @@
+import { ShopHome } from './../pages/shop-home/shop-home';
+import { Profile } from './../pages/profile/profile';
+import { ListHome } from './../pages/list-home/list-home';
+import { HistoryHome } from './../pages/history-home/history-home';
+import { TabPage } from './../pages/tab-page/tab-page';
+import { Register } from './../pages/register/register';
+import { Login } from './../pages/login/login';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -15,7 +22,14 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     MyApp,
     HelloIonicPage,
     ItemDetailsPage,
-    ListPage
+    ListPage,
+    Login,
+    Register,
+    TabPage,
+    HistoryHome,
+    ListHome,
+    Profile,
+    ShopHome
   ],
   imports: [
     BrowserModule,
@@ -26,7 +40,14 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     MyApp,
     HelloIonicPage,
     ItemDetailsPage,
-    ListPage
+    ListPage,
+    Login,
+    Register,
+    TabPage,
+    HistoryHome,
+    ListHome,
+    Profile,
+    ShopHome
   ],
   providers: [
     StatusBar,

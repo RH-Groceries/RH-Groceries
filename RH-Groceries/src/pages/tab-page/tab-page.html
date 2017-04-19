@@ -1,0 +1,32 @@
+<ion-menu [content]="mycontent">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item (click)="signout()">Sign out</ion-item>
+      <ion-item>Help</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-header>
+  <ion-navbar #mycontent hideBackButton="true">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>RH Groceries</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-tabs>
+    <ion-tab [root]="tab1Root" tabTitle="Your List" tabIcon="create"></ion-tab>
+    <ion-tab [root]="tab2Root" tabTitle="Shop" tabIcon="cart"></ion-tab>
+    <ion-tab [root]="tab3Root" tabTitle="Profile" tabIcon="person"></ion-tab>
+    <ion-tab [root]="tab4Root" tabTitle="History" tabIcon="archive"></ion-tab>
+  </ion-tabs>
+</ion-content>
