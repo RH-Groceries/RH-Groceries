@@ -12,7 +12,7 @@ export class Profile {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Profile');
+    // console.log('ionViewDidLoad Profile');
   }
 
 }

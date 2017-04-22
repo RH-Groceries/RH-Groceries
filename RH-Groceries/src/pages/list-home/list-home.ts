@@ -12,7 +12,7 @@ export class ListHome {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ListHome');
+    // console.log('ionViewDidLoad ListHome');
   }
 
 }

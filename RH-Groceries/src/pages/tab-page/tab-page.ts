@@ -1,3 +1,4 @@
+import { AuthService } from './../../providers/auth-service';
 import { Login } from './../login/login';
 import { HistoryHome } from './../history-home/history-home';
 import { Profile } from './../profile/profile';
@@ -24,7 +25,7 @@ export class TabPage {
   tab3Root: any;
   tab4Root: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private authService: AuthService) {
     this.tab1Root = ListHome;
     this.tab2Root = ShopHome;
     this.tab3Root = Profile;
@@ -32,11 +33,13 @@ export class TabPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TabPage');
+    // console.log('ionViewDidLoad TabPage');
   }
 
   signout(){
-    this.navCtrl.setRoot(Login);
+    this.authService.signOut().then( () => {
+      this.navCtrl.setRoot(Login);
+    });
   }
 
 }

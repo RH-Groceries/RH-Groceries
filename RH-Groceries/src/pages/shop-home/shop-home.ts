@@ -12,7 +12,7 @@ export class ShopHome {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ShopHome');
+    // console.log('ionViewDidLoad ShopHome');
   }
 
 }

@@ -1,9 +1,12 @@
+import { ImagePicker } from '@ionic-native/image-picker';
+import { ProfileSetup } from './../pages/profile-setup/profile-setup';
+import { AuthService } from './../providers/auth-service';
+import { environment } from './../environments/environment.prod';
 import { ShopHome } from './../pages/shop-home/shop-home';
 import { Profile } from './../pages/profile/profile';
 import { ListHome } from './../pages/list-home/list-home';
 import { HistoryHome } from './../pages/history-home/history-home';
 import { TabPage } from './../pages/tab-page/tab-page';
-import { Register } from './../pages/register/register';
 import { Login } from './../pages/login/login';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
@@ -17,6 +20,8 @@ import { ListPage } from '../pages/list/list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { AngularFireModule } from 'angularfire2';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -24,16 +29,17 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ItemDetailsPage,
     ListPage,
     Login,
-    Register,
     TabPage,
     HistoryHome,
     ListHome,
     Profile,
-    ShopHome
+    ShopHome,
+    ProfileSetup
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -42,14 +48,16 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ItemDetailsPage,
     ListPage,
     Login,
-    Register,
     TabPage,
     HistoryHome,
     ListHome,
     Profile,
-    ShopHome
+    ShopHome,
+    ProfileSetup
   ],
   providers: [
+    AuthService,
+    ImagePicker,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

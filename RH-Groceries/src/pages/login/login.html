@@ -1,15 +1,21 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>login</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>RH Groceries</ion-title>
   </ion-navbar>
-
 </ion-header>
-
-
-<ion-content padding>
-  TODO: Login page
-  <br/>
-  <button ion-button class="submit-btn" (click)="login()">Login</button>
-  <button ion-button class="register-btn" (click)="createAccount()">Create New Account</button>
+<ion-content text-center class="vertical-align-content">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-content>
+          <p text-center class="login-text">Tired of getting groceries?<br><br>
+Have someone else grab them for you while they are out!</p>
+            <button ion-button text-center id="login-btn" (click)="login()">Login</button>
+            <p text-center class="login-text">Please log in using your Rose-Hulman credentials.</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

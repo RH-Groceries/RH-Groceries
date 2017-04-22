@@ -12,7 +12,7 @@ export class HistoryHome {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HistoryHome');
+    // console.log('ionViewDidLoad HistoryHome');
   }
 
 }

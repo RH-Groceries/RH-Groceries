@@ -13,7 +13,7 @@
 </ion-menu>
 
 <ion-header>
-  <ion-navbar #mycontent hideBackButton="true">
+  <ion-navbar hideBackButton="true">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -22,7 +22,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding #mycontent >
   <ion-tabs>
     <ion-tab [root]="tab1Root" tabTitle="Your List" tabIcon="create"></ion-tab>
     <ion-tab [root]="tab2Root" tabTitle="Shop" tabIcon="cart"></ion-tab>

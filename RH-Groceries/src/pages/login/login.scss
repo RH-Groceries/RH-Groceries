@@ -1,3 +1,23 @@
-page-login {
-
+.vertical-align-content > *
+{
+     display: flex;
+     align-content: center;
+     align-items: center;
 }
+
+.fixed-content {
+    background-color: rgb(221, 221, 221)
+}
+
+.login-text {
+    font-size: 24px !important;
+}
+#login-btn {
+  background-color: #800000;
+  color: white;
+  font-size: 30px;
+  font-weight: normal;
+  height: 60px;
+  margin: 25px;
+}
+
