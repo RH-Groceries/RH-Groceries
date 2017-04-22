@@ -8,19 +8,15 @@
       <ion-col col-auto>New Item:</ion-col>
       <ion-col>
         <ion-item>
-          <ion-input type="text" placeholder="new-item" required></ion-input>
+          <ion-input name="new-item" type="text" placeholder="New Item..." [(ngModel)]="newItemValue" (keyup.enter)="addItem()" required></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
 
     <ion-list>
-      <ion-item>
-        Item Divider
-        <button ion-button item-right>Button</button>
-      </ion-item>
-      <ion-item>
-        Item Divider 2
-        <button ion-button item-right>Button</button>
+      <ion-item *ngFor="let item of list">
+        {{ item }}
+        <button ion-button outline item-right>Remove</button>
       </ion-item>
     </ion-list>
 

@@ -8,11 +8,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ListHome {
 
+  public list: Array<string>;
+  public newItemValue: string;
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.list = new Array<string>();
   }
 
   ionViewDidLoad() {
     // console.log('ionViewDidLoad ListHome');
+  }
+
+  addItem(): void {
+    this.list.push(this.newItemValue);
+    this.newItemValue = "";
   }
 
 }
