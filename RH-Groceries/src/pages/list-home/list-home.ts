@@ -24,4 +24,9 @@ export class ListHome {
     this.newItemValue = "";
   }
 
+  removeListItem(item: string): void {
+    var index = this.list.indexOf(item);
+    this.list.splice(index, 1);
+  }
+
 }

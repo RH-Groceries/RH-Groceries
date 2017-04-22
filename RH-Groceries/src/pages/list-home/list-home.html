@@ -16,7 +16,7 @@
     <ion-list>
       <ion-item *ngFor="let item of list">
         {{ item }}
-        <button ion-button outline item-right>Remove</button>
+        <button ion-button outline item-right (click)="removeListItem(item)">Remove</button>
       </ion-item>
     </ion-list>
 
