@@ -54,7 +54,6 @@ export class ListHome {
     var index = this.buyerLists.indexOf(list);
     this.buyerLists.splice(index, 1);
 
-
   }
 
 }

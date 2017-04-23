@@ -27,14 +27,14 @@
 
 
 
+  <div *ngIf="buyerLists.length!=0">
+    <h3 center text-center id="setuplabel"> Active Lists </h3>
 
-  <h3 center text-center id="setuplabel"> Active Lists </h3>
-
-  <ion-list>
+    <ion-list>
       <ion-item *ngFor="let list of buyerLists">
         {{ list.name }}
         <button ion-button outline item-right (click)="removeBuyerList(list)">Remove</button>
       </ion-item>
     </ion-list>
-
+  </div>
 </ion-content>
