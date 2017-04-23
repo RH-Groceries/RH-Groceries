@@ -14,5 +14,10 @@
 
 
 <ion-content padding>
-
+  <ion-list>
+      <ion-item *ngFor="let item of items">
+        {{ item }}
+        <button ion-button outline item-right>Remove</button>
+      </ion-item>
+    </ion-list>
 </ion-content>

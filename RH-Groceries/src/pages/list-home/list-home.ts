@@ -57,8 +57,8 @@ export class ListHome {
 
   }
 
-  viewBuyerList(): void {
-    let buyerListModal = this.modalCtrl.create(BuyerListModal);
+  viewBuyerList(list: ShoppingList): void {
+    let buyerListModal = this.modalCtrl.create(BuyerListModal, {"listData": list});
     buyerListModal.present();
   }
 
