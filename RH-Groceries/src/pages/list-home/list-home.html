@@ -22,6 +22,19 @@
 
   </ion-grid>
 
-  <div text-center><button id="savebutton" ion-button> Create </button></div>
+  <div text-center><button id="savebutton" ion-button (click)="activateList()"> Create </button></div>
+
+
+
+
+
+  <h3 center text-center id="setuplabel"> Active Lists </h3>
+
+  <ion-list>
+      <ion-item *ngFor="let list of buyerLists">
+        {{ list.name }}
+        <button ion-button outline item-right (click)="removeBuyerList(list)">Remove</button>
+      </ion-item>
+    </ion-list>
 
 </ion-content>
