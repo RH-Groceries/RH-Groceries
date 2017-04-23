@@ -8,46 +8,41 @@
 
   <p center text-center id="setuplabel"> Profile Setup </p>
 
-  <ion-grid>
+  <form #form="ngForm" (ngSubmit)="saveProfile(form)" >
 
-    <ion-row align-items-center>
-      <ion-col col-auto>Name:</ion-col>
-      <ion-col>
-        <ion-item>
-          <ion-input type="text" placeholder="Name" required></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+    <ion-grid>
 
-    <ion-row align-items-center>
-      <ion-col col-auto>Address:</ion-col>
-      <ion-col>
-        <ion-item>
-          <ion-input type="text" placeholder="Address" required></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+      <ion-row align-items-center>
+        <ion-col col-auto>Address:</ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-input type="text" placeholder="Address" class="form-control" [(ngModel)]="user.address" name="address" required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
 
-    <ion-row align-items-center>
-      <ion-col col-auto>Phone #:</ion-col>
-      <ion-col>
-        <ion-item>
-          <ion-input type="text" placeholder="Phone Number" required></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+      <ion-row align-items-center>
+        <ion-col col-auto>Phone #:</ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-input type="text" placeholder="Phone Number" class="form-control" [(ngModel)]="user.phone" name="phone" required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
 
-    <ion-row align-items-center>
-      <ion-col col-auto>Profile Image:</ion-col>
-      <ion-col>
-        <button ion-button (click)="pickImage()">Choose</button>
-      </ion-col>
-      <ion-col>
-        <img src="" alt="profile image">
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      <ion-row align-items-center>
+        <ion-col col-auto>Profile Image:</ion-col>
+        <ion-col>
+          <button ion-button type="button" (click)="pickImage()">Choose</button>
+        </ion-col>
+        <ion-col>
+          <img *ngIf="this.imageUrl" src="" alt="profile image">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-  <div text-center><button id="savebutton"ion-button (click)="saveProfile()"> Finish </button></div>
+    <div text-center><button id="savebutton" [disabled]="!form.valid" ion-button type="submit"> Finish </button></div>
+
+  </form>
 
 </ion-content>

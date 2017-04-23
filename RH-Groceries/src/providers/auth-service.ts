@@ -12,6 +12,7 @@ import { Observable } from "rxjs/Observable";
 export class AuthService {
 
   private authState: FirebaseAuthState;
+  public rfUser: any;
 
   constructor(public auth$: AngularFireAuth) {
     this.authState = auth$.getAuth();
@@ -29,6 +30,8 @@ export class AuthService {
             observer.next(false);
             observer.complete();
           }
+          this.rfUser = rfUser;
+          console.log(rfUser);
           this.auth$.login(rfUser.token, {
             method: AuthMethods.CustomToken,
             provider: AuthProviders.Custom,
