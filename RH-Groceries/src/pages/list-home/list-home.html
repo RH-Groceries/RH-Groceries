@@ -31,7 +31,7 @@
     <h3 center text-center id="setuplabel"> Active Lists </h3>
 
     <ion-list>
-      <ion-item *ngFor="let list of buyerLists">
+      <ion-item *ngFor="let list of buyerLists" (click)="viewBuyerList()">
         {{ list.name }}
         <button ion-button outline item-right (click)="removeBuyerList(list)">Remove</button>
       </ion-item>

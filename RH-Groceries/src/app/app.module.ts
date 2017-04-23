@@ -16,6 +16,7 @@ import { MyApp } from './app.component';
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
+import { BuyerListModal } from './../pages/buyer-list-modal/buyer-list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -34,7 +35,8 @@ import { AngularFireModule } from 'angularfire2';
     ListHome,
     Profile,
     ShopHome,
-    ProfileSetup
+    ProfileSetup,
+    BuyerListModal
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ import { AngularFireModule } from 'angularfire2';
     ListHome,
     Profile,
     ShopHome,
-    ProfileSetup
+    ProfileSetup,
+    BuyerListModal
   ],
   providers: [
     AuthService,
