@@ -1,14 +1,14 @@
 <ion-content padding>
-  <h3 center text-center id="setuplabel"> Your List </h3>
+  <h4 center text-center id="setuplabel"> Make a New List </h4>
 
-
-  <ion-grid>
 
     <ion-row align-items-center>
         <ion-item>
-          <ion-input name="new-item" type="text" placeholder="New Item..." [(ngModel)]="newItemValue" (keyup.enter)="addItem()" required></ion-input>
+          <ion-input name="new-item" type="text" placeholder="New Item..." [(ngModel)]="newItemValue" (keyup.enter)="addItem()"></ion-input>
         </ion-item>
     </ion-row>
+
+    <ion-item-divider color="light" *ngIf="list.length!=0">New List</ion-item-divider>
 
     <ion-list>
       <ion-item *ngFor="let item of list">
@@ -16,16 +16,17 @@
         <button ion-button outline item-right (click)="removeListItem(item)">Remove</button>
       </ion-item>
     </ion-list>
+    <div text-center><button id="savebutton" style="margin: 0 !important;" ion-button (click)="activateList()"> Create </button></div>
 
-  </ion-grid>
 
-  <div text-center><button id="savebutton" ion-button (click)="activateList()"> Create </button></div>
+  
 
 
 
 
   <div *ngIf="buyerLists.length!=0">
-    <h3 center text-center id="setuplabel"> Active Lists </h3>
+    <hr>
+    <h4 center text-center id="setuplabel"> Active Lists </h4>
 
     <ion-list>
       <ion-item *ngFor="let list of buyerLists" (click)="viewBuyerList()">
