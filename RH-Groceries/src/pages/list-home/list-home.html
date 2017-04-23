@@ -5,12 +5,9 @@
   <ion-grid>
 
     <ion-row align-items-center>
-      <ion-col col-auto>New Item:</ion-col>
-      <ion-col>
         <ion-item>
           <ion-input name="new-item" type="text" placeholder="New Item..." [(ngModel)]="newItemValue" (keyup.enter)="addItem()" required></ion-input>
         </ion-item>
-      </ion-col>
     </ion-row>
 
     <ion-list>
