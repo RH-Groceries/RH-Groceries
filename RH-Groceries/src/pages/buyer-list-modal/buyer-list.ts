@@ -27,4 +27,8 @@ export class BuyerListModal {
     console.log('ionViewDidLoad BuyerList');
   }
 
+  closeModal(): void {
+    this.viewCtrl.dismiss();
+  }
+
 }
