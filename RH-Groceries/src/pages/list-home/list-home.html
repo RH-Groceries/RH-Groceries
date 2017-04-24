@@ -24,17 +24,17 @@
 
 
 
-  <div *ngIf="buyerLists.length!=0">
+  <div *ngIf="(buyerLists | async)?.length!=0">
     <hr>
     <h4 center text-center id="setuplabel"> Active Lists </h4>
 
     <ion-grid>
       <ion-row wrap>
-        <div class="divList" *ngFor="let list of buyerLists; index as i; odd as isOdd; even as isEven" (click)="viewBuyerList(list)">
+        <div class="divList" *ngFor="let list of (buyerLists | async); index as i; odd as isOdd; even as isEven" (click)="viewBuyerList(list)">
           <ion-col *ngIf="isEven">
             <ion-card>
               <ion-item>
-                <h2>{{ list.name }}</h2>
+                <h2>{{ list.nameForCard }}</h2>
                 <button ion-button outline item-right (click)="removeBuyerList(list) ">Remove</button>
               </ion-item>
             </ion-card>
@@ -42,7 +42,7 @@
           <ion-col *ngIf="isOdd">
             <ion-card>
               <ion-item>
-                <h2>{{ list.name }}</h2>
+                <h2>{{ list.nameForCard }}</h2>
                 <button ion-button outline item-right (click)="removeBuyerList(list) ">Remove</button>
               </ion-item>
             </ion-card>
