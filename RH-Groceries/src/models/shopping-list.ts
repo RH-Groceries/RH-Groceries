@@ -9,6 +9,9 @@ export class ShoppingList {
     status: number;
 
     // TODO: Need to establish what statuses there are...
+    // 0: Inactive
+    // 1: Active
+    // 2: Complete
 
     get nameForCard(): string {
         console.log("Something here");

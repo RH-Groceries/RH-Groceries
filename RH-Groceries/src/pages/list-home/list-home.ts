@@ -43,7 +43,7 @@ export class ListHome {
     newList.buyer = this.authService.authState.uid;
     newList.subtotal = 0;
     newList.tip = 0;
-    newList.status = 0;
+    newList.status = 1;
     this.buyerLists.push(newList);
 
 
