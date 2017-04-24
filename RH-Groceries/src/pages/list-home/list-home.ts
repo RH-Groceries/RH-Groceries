@@ -1,3 +1,4 @@
+import { AuthService } from './../../providers/auth-service';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { BuyerListModal } from './../buyer-list-modal/buyer-list';
 import { ShoppingList } from './../../models/shopping-list';
@@ -16,7 +17,7 @@ export class ListHome {
   public newItemValue: string;
   public buyerLists: FirebaseListObservable<ShoppingList[]>; // This will be retrieved from firebase
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private af: AngularFire) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private af: AngularFire, private authService: AuthService) {
     this.list = new Array<string>();
     this.buyerLists = this.af.database.list('/lists');
   }
@@ -36,13 +37,20 @@ export class ListHome {
   }
 
   activateList(): void {
+    // Push to firebase
     var newList: ShoppingList = new ShoppingList();
     newList.items = this.list;
+    newList.buyer = this.authService.authState.uid;
+    newList.subtotal = 0;
+    newList.tip = 0;
+    newList.status = 0;
+    this.buyerLists.push(newList);
+
+
     this.list = new Array<string>();
     this.newItemValue = "";
 
-    // Push to firebase
-    this.buyerLists.push(newList);
+
   }
 
   removeBuyerList(list: ShoppingList): void {
