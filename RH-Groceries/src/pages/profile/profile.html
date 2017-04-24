@@ -1,6 +1,22 @@
 <ion-content padding>
+
+  <div class="icons">
+    <ion-icon *ngIf="!editing;else editingIcons" name="create" (click)="edit()"></ion-icon>
+    <ng-template #editingIcons>
+      <ion-icon name="close-circle" (click)="cancel()"></ion-icon>
+      <ion-icon name="checkmark-circle" (click)="save()"></ion-icon>
+    </ng-template>
+  </div>
+
   <ion-grid>
-    <ion-row >
+
+    <ion-row>
+      <ion-col text-center id="Profile">
+        Profile
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
       <ion-col col-auto>
         <img id="profile-img" src="" alt="profile picture">
       </ion-col>
@@ -10,21 +26,55 @@
         <p>{{user?.address}}</p>
       </ion-col>
     </ion-row>
-    <ion-row>
+
+    <div *ngIf="editing;else ratings" class="edit">
+      <ion-row align-items-center>
+        <ion-col col-auto>Address:</ion-col>
         <ion-col>
-            Buying:
+          <ion-item>
+            <ion-input type="text" placeholder="Address" class="form-control" [(ngModel)]="user.address" name="address" required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row align-items-center>
+        <ion-col col-auto>Phone #:</ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-input id="phone" type="tel" placeholder="(555) 555-5555" class="form-control" [(ngModel)]="user.phone" name="phone"
+              required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row align-items-center>
+        <ion-col col-auto>Profile Image:</ion-col>
+        <ion-col>
+          <button ion-button type="button" (click)="pickImage()">Choose</button>
         </ion-col>
         <ion-col>
-            {{user?.buyerRating}}
+          <img *ngIf="this.imageUrl" src="" alt="profile image">
         </ion-col>
-    </ion-row>
-        <ion-row>
+      </ion-row>
+    </div>
+
+    <ng-template #ratings>
+      <ion-row>
         <ion-col>
-            Shopping:
+          Buying:
         </ion-col>
         <ion-col>
-            {{user?.shopperRating}}
+          {{user?.buyerRating}}
         </ion-col>
-    </ion-row>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          Shopping:
+        </ion-col>
+        <ion-col>
+          {{user?.shopperRating}}
+        </ion-col>
+      </ion-row>
+    </ng-template>
   </ion-grid>
 </ion-content>
