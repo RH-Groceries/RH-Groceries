@@ -1,3 +1,30 @@
 <ion-content padding>
-    TODO: Profile page
+  <ion-grid>
+    <ion-row >
+      <ion-col col-auto>
+        <img id="profile-img" src="" alt="profile picture">
+      </ion-col>
+      <ion-col>
+        <p>{{user?.name}}</p>
+        <p>{{user?.phone}}</p>
+        <p>{{user?.address}}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            Buying:
+        </ion-col>
+        <ion-col>
+            {{user?.buyerRating}}
+        </ion-col>
+    </ion-row>
+        <ion-row>
+        <ion-col>
+            Shopping:
+        </ion-col>
+        <ion-col>
+            {{user?.shopperRating}}
+        </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
