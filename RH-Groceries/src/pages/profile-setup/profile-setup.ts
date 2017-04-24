@@ -32,12 +32,15 @@ export class ProfileSetup {
   saveProfile(form: HTMLFormElement) {
     this.user.name = this.authService.rfUser.name;
     console.log(this.user);
-    firebase.database().ref().child('users').push(this.user, (err) => {
+    var key = firebase.database().ref().child('users').push(this.user, (err) => {
       if (err) {
         //do something
       }
-      this.navCtrl.setRoot(TabPage);
-    }); 
+      else {
+        this.authService.userKey = key;
+        this.navCtrl.setRoot(TabPage);
+      }
+    }).key; 
   }
 
   pickImage() {

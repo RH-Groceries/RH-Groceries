@@ -12,13 +12,18 @@ import { Observable } from "rxjs/Observable";
 export class AuthService {
 
   private authState: FirebaseAuthState;
-  public rfUser: any;
+  private _rfUser: any;
+  public userKey: string;
 
   constructor(public auth$: AngularFireAuth) {
     this.authState = auth$.getAuth();
     auth$.subscribe((state: FirebaseAuthState) => {
       this.authState = state;
     });
+  }
+
+  get rfUser(): any {
+    return this._rfUser;
   }
 
   signInWithRoseFire(): Observable<boolean> {
@@ -30,7 +35,7 @@ export class AuthService {
             observer.next(false);
             observer.complete();
           }
-          this.rfUser = rfUser;
+          this._rfUser = rfUser;
           console.log(rfUser);
           this.auth$.login(rfUser.token, {
             method: AuthMethods.CustomToken,
