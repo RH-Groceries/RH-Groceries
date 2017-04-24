@@ -13,7 +13,7 @@ export class Profile {
   public user;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService) {
-    firebase.database().ref('/users/' + authService.userKey).once('value').then( (snapshot) => {
+    firebase.database().ref('/users/' + authService.authState.uid).once('value').then( (snapshot) => {
       this.user = snapshot.val();
       //console.log(snapshot.val());
       // ...

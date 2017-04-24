@@ -27,20 +27,22 @@ export class ProfileSetup {
 
   ionViewDidLoad() {
     // console.log('ionViewDidLoad ProfileSetup');
+    document.getElementById('phone').addEventListener('input', function (e: any) {
+      var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+      e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    });
   }
 
   saveProfile(form: HTMLFormElement) {
     this.user.name = this.authService.rfUser.name;
-    console.log(this.user);
-    var key = firebase.database().ref().child('users').push(this.user, (err) => {
+    firebase.database().ref().child('users').child(this.authService.authState.uid).set(this.user, (err) => {
       if (err) {
         //do something
       }
       else {
-        this.authService.userKey = key;
         this.navCtrl.setRoot(TabPage);
       }
-    }).key; 
+    });
   }
 
   pickImage() {
@@ -52,7 +54,7 @@ export class ProfileSetup {
       quality: 50
     }
 
-    this.imagePicker.getPictures(options).then( (file_uris) => {
+    this.imagePicker.getPictures(options).then((file_uris) => {
       this.imageUrl = file_uris[0];
       //do something
     }, (err) => {

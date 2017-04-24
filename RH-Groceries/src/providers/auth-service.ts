@@ -11,9 +11,8 @@ import { Observable } from "rxjs/Observable";
 @Injectable()
 export class AuthService {
 
-  private authState: FirebaseAuthState;
+  public authState: FirebaseAuthState;
   private _rfUser: any;
-  public userKey: string;
 
   constructor(public auth$: AngularFireAuth) {
     this.authState = auth$.getAuth();
