@@ -1,3 +1,4 @@
+import { ListForShopperModal } from './../list-for-shopper-modal/list-for-shopper-modal';
 import { ShoppingList } from './../../models/shopping-list';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Component } from '@angular/core';
@@ -23,13 +24,17 @@ export class ShopHome {
 
     queryObservable.subscribe( (items) => {
       this.activeLists = items;
-      console.log(items);
     });
     // this.activeLists = this.af.database.list('/lists');
   }
 
   ionViewDidLoad() {
     // console.log('ionViewDidLoad ShopHome');
+  }
+
+  viewBuyerList(list: ShoppingList): void {
+    let listForShopperModal = this.modalCtrl.create(ListForShopperModal, {"listData": list});
+    listForShopperModal.present();
   }
 
 }

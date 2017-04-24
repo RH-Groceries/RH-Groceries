@@ -1,19 +1,19 @@
-import { ShoppingList } from './../../models/shopping-list';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { ShoppingList } from "../../models/shopping-list";
 
 /**
- * This is the modal buyers will see when selecting their active lists.
+ * This is the modal shoppers will see on active lists.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
 @IonicPage()
 @Component({
-  selector: 'page-buyer-list',
-  templateUrl: 'buyer-list.html',
+  selector: 'page-list-for-shopper-modal',
+  templateUrl: 'list-for-shopper-modal.html',
 })
-export class BuyerListModal {
+export class ListForShopperModal {
 
   public list: ShoppingList;
   public items: Array<string>;
@@ -24,7 +24,7 @@ export class BuyerListModal {
   }
 
   ionViewDidLoad() {
-    // console.log('ionViewDidLoad BuyerList');
+    console.log('ionViewDidLoad ListForShopperModal');
   }
 
   closeModal(): void {

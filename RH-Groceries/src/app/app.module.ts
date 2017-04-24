@@ -22,6 +22,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AngularFireModule } from 'angularfire2';
+import { ListForShopperModal } from "../pages/list-for-shopper-modal/list-for-shopper-modal";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { AngularFireModule } from 'angularfire2';
     Profile,
     ShopHome,
     ProfileSetup,
-    BuyerListModal
+    BuyerListModal,
+    ListForShopperModal
   ],
   imports: [
     BrowserModule,
@@ -56,7 +58,8 @@ import { AngularFireModule } from 'angularfire2';
     Profile,
     ShopHome,
     ProfileSetup,
-    BuyerListModal
+    BuyerListModal,
+    ListForShopperModal
   ],
   providers: [
     AuthService,

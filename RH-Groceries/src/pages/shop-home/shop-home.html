@@ -8,7 +8,7 @@
     <ion-grid>
       <ion-row wrap>
         <ion-col>
-          <ion-card *ngFor="let list of activeLists">
+          <ion-card *ngFor="let list of activeLists " (click)="viewBuyerList(list)">
             <ion-item>
               <h2>{{ list.items[0] }}</h2>
             </ion-item>
