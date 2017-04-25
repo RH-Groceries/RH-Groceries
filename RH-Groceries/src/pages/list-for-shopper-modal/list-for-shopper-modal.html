@@ -10,17 +10,36 @@
     <ion-buttons start>
       <button ion-button icon-only (click)="closeModal()">
                     <ion-icon name="md-close"></ion-icon>
-                </button>
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
+  <ion-card>
+    <ion-item>
+      <ion-avatar item-left>
+        <img *ngIf="(buyer | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
+        <ng-template #missingPhotoTemplate>
+          <img src="assets/images/missing_photo.png" alt="Missing Photo">
+        </ng-template>
+      </ion-avatar>
+      <h1>{{ (buyer | async)?.name }}</h1>
+      <h1>Rating Goes Here!</h1>
+      <br>
+      <h1>{{ items.length}} Items</h1>
+    </ion-item>
+  </ion-card>
   <ion-list>
     <ion-item *ngFor="let item of items">
       {{ item }}
-      <button ion-button outline item-right>Remove</button>
+      <button *ngIf="list.status==1 && checkIfPurchased(item)" ion-button item-right clear icon-only (click)="addToPurchased(item)">
+        <ion-icon name="md-checkbox-outline"></ion-icon>
+      </button>
+      <button *ngIf="list.status==1 && checkIfPurchased(item)" ion-button item-right clear icon-only (click)="addToPurchased(item)">
+        <ion-icon name="md-checkbox-outline"></ion-icon>
+      </button>
     </ion-item>
   </ion-list>
 </ion-content>

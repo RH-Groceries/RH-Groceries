@@ -1,3 +1,4 @@
+import { UserInfoService } from './../../providers/user-info-service';
 import { ListForShopperModal } from './../list-for-shopper-modal/list-for-shopper-modal';
 import { ShoppingList } from './../../models/shopping-list';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
@@ -14,7 +15,7 @@ export class ShopHome {
 
   activeLists: ShoppingList[] = new Array<ShoppingList>();
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private af: AngularFire, private authService: AuthService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private af: AngularFire, private authService: AuthService, private userInfoService: UserInfoService) {
     const queryObservable = af.database.list('/lists', {
       query: {
         orderByChild: 'status',
@@ -33,7 +34,8 @@ export class ShopHome {
   }
 
   viewBuyerList(list: ShoppingList): void {
-    let listForShopperModal = this.modalCtrl.create(ListForShopperModal, {"listData": list});
+    let buyer = this.userInfoService.getListCreatorName(list);
+    let listForShopperModal = this.modalCtrl.create(ListForShopperModal, {"listData": list, "buyer": buyer});
     listForShopperModal.present();
   }
 

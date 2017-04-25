@@ -23,6 +23,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AngularFireModule } from 'angularfire2';
 import { ListForShopperModal } from "../pages/list-for-shopper-modal/list-for-shopper-modal";
+import { UserInfoService } from "../providers/user-info-service";
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { ListForShopperModal } from "../pages/list-for-shopper-modal/list-for-sh
   ],
   providers: [
     AuthService,
+    UserInfoService,
     ImagePicker,
     StatusBar,
     SplashScreen,
