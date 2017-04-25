@@ -15,15 +15,32 @@ export class ListHome {
 
   public list: Array<string>;
   public newItemValue: string;
-  public buyerLists: FirebaseListObservable<ShoppingList[]>; // This will be retrieved from firebase
+  public buyerLists: ShoppingList[];
+  public buyerListsObservable: FirebaseListObservable<ShoppingList[]>;
   public titleForItem: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private af: AngularFire, private authService: AuthService) {
+    this.buyerLists = new Array<ShoppingList>();
     this.list = new Array<string>();
-    this.buyerLists = this.af.database.list('/lists');
-    this.buyerLists.subscribe( (snapshot) => {
-      this.titleForItem = snapshot.length + " Items"
+    this.buyerListsObservable = this.af.database.list('/lists');
+
+    const queryObservable = this.af.database.list('/lists', {
+      query: {
+        orderByChild: 'buyer',
+        equalTo: this.authService.authState.uid
+      }
     });
+    console.log(queryObservable);
+    queryObservable.subscribe( (shoppingLists) => {
+      console.log("Shopping List: ", shoppingLists);
+      this.buyerLists = shoppingLists;
+    });
+
+    console.log(this.buyerLists);
+    // this.buyerLists = this.af.database.list(`/lists/${this.authService.authState.uid}`);
+    // this.buyerLists.subscribe( (snapshot) => {
+    //   this.titleForItem = snapshot.length + " Items"
+    // });
   }
 
   ionViewDidLoad() {
@@ -49,7 +66,7 @@ export class ListHome {
     newList.subtotal = 0;
     newList.tip = 0;
     newList.status = 1;
-    this.buyerLists.push(newList);
+    this.buyerListsObservable.push(newList);
     // var newItemKey =  this.buyerLists.push(newList).key;
     // var ref = firebase.database().ref().child(`/lists/${newItemKey}/items`);
     // this.list.forEach( (newItem) => {
@@ -65,7 +82,7 @@ export class ListHome {
 
   removeBuyerList(list: ShoppingList): void {
     // Remove from firebase
-    this.buyerLists.remove(list.$key);
+    // this.buyerLists.remove(list.$key);
   }
 
   viewBuyerList(list: ShoppingList): void {
