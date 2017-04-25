@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ImagePicker } from '@ionic-native/image-picker';
 import * as firebase from 'firebase';
+import { User } from "../../models/user";
 
 @IonicPage()
 @Component({
@@ -12,14 +13,7 @@ import * as firebase from 'firebase';
 })
 export class ProfileSetup {
 
-  public user = {
-    name: "",
-    address: "",
-    phone: "",
-    image: "",
-    buyerRating: -1.0,
-    shopperRating: -1.0
-  };
+  public user: User;
   public imageUrl: string = "";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private imagePicker: ImagePicker, private authService: AuthService) {
@@ -34,6 +28,7 @@ export class ProfileSetup {
   }
 
   saveProfile(form: HTMLFormElement) {
+    this.user = new User();
     this.user.name = this.authService.rfUser.name;
     firebase.database().ref().child('users').child(this.authService.authState.uid).set(this.user, (err) => {
       if (err) {

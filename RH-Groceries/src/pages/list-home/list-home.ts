@@ -1,7 +1,10 @@
+import { AuthService } from './../../providers/auth-service';
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { BuyerListModal } from './../buyer-list-modal/buyer-list';
 import { ShoppingList } from './../../models/shopping-list';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -12,11 +15,11 @@ export class ListHome {
 
   public list: Array<string>;
   public newItemValue: string;
-  public buyerLists: Array<ShoppingList>; // This will be retrieved from firebase
+  public buyerLists: FirebaseListObservable<ShoppingList[]>; // This will be retrieved from firebase
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private af: AngularFire, private authService: AuthService) {
     this.list = new Array<string>();
-    this.buyerLists = new Array<ShoppingList>();
+    this.buyerLists = this.af.database.list('/lists');
   }
 
   ionViewDidLoad() {
@@ -34,27 +37,25 @@ export class ListHome {
   }
 
   activateList(): void {
+    // Push to firebase
     var newList: ShoppingList = new ShoppingList();
     newList.items = this.list;
+    newList.buyer = this.authService.authState.uid;
+    newList.subtotal = 0;
+    newList.tip = 0;
+    newList.status = 1;
+    this.buyerLists.push(newList);
+
+
     this.list = new Array<string>();
     this.newItemValue = "";
-
-    // Push to firebase
-
-    // TEMP: Keep list for display
-    this.buyerLists.push(newList);
 
 
   }
 
   removeBuyerList(list: ShoppingList): void {
     // Remove from firebase
-
-
-    // TEMP: Remove list from array (for display)
-    var index = this.buyerLists.indexOf(list);
-    this.buyerLists.splice(index, 1);
-
+    this.buyerLists.remove(list.$key);
   }
 
   viewBuyerList(list: ShoppingList): void {
