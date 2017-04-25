@@ -17,7 +17,7 @@ import { ShoppingList } from "../../models/shopping-list";
 export class ListForShopperModal {
 
   public list: ShoppingList;
-  public items: Array<string>;
+  public items: FirebaseListObservable<Array<string>>;
   public buyer: FirebaseObjectObservable<any>;
   public purchasedListObservable: FirebaseListObservable<Array<string>>;
   public purchasedList: Array<string>;
@@ -25,11 +25,11 @@ export class ListForShopperModal {
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private af: AngularFire) {
     this.list = this.navParams.get("listData");
     this.buyer = this.navParams.get("buyer");
-    this.items = this.list.items;
-    this.purchasedListObservable = this.af.database.list(`/lists/${this.list.$key}`);
-    this.purchasedListObservable.subscribe( (snapshot) => {
-      this.purchasedList = snapshot;
-    })
+    this.items = this.af.database.list(`/lists/${this.list.$key}/items`);
+    this.purchasedListObservable = this.af.database.list(`/lists/${this.list.$key}/purchased`);
+    // this.purchasedListObservable.subscribe( (snapshot) => {
+    //   this.purchasedList = snapshot;
+    // })
   }
 
   ionViewDidLoad() {
@@ -45,16 +45,18 @@ export class ListForShopperModal {
     // this.list.purchased.push(item);
   }
 
-  checkIfPurchased(item: string): boolean {
-    if (this.purchasedList.length == 0) {
-      return false;
-    } else {
-      var index = this.purchasedList.indexOf(item);
-      if (index !== -1) {
-        return true;
-      }
-    }
-    return false;
-  }
+  // checkIfPurchased(item: string): boolean {
+  //   if (this.purchasedList.length == 0) {
+  //     return false;
+  //   } else {
+  //     var index = this.purchasedList.indexOf(item);
+  //     if (index !== -1) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
+
+  // Have two lists items and purchased from firebase
 
 }
