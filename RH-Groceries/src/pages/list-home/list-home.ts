@@ -16,14 +16,19 @@ export class ListHome {
   public list: Array<string>;
   public newItemValue: string;
   public buyerLists: FirebaseListObservable<ShoppingList[]>; // This will be retrieved from firebase
+  public titleForItem: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private af: AngularFire, private authService: AuthService) {
     this.list = new Array<string>();
     this.buyerLists = this.af.database.list('/lists');
+    this.buyerLists.subscribe( (snapshot) => {
+      this.titleForItem = snapshot.length + " Items"
+    });
   }
 
   ionViewDidLoad() {
     // console.log('ionViewDidLoad ListHome');
+    console.log(this.buyerLists);
   }
 
   addItem(): void {
@@ -45,6 +50,11 @@ export class ListHome {
     newList.tip = 0;
     newList.status = 1;
     this.buyerLists.push(newList);
+    // var newItemKey =  this.buyerLists.push(newList).key;
+    // var ref = firebase.database().ref().child(`/lists/${newItemKey}/items`);
+    // this.list.forEach( (newItem) => {
+    //   ref.push(newItem);
+    // });
 
 
     this.list = new Array<string>();
