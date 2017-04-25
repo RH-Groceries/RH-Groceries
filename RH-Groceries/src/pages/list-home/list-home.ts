@@ -82,7 +82,7 @@ export class ListHome {
 
   removeBuyerList(list: ShoppingList): void {
     // Remove from firebase
-    // this.buyerLists.remove(list.$key);
+    this.buyerListsObservable.remove(list.$key);
   }
 
   viewBuyerList(list: ShoppingList): void {
