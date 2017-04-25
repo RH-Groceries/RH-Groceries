@@ -76,7 +76,6 @@ export class ListForShopperModal {
     ref.set(newPurchasedList);
   }
 
-  // DOESNT WORK !!!!!!
   removeFromPurchased(purchasedItem: any): void {
     console.log("Removed Item: ", purchasedItem);
 
@@ -90,7 +89,6 @@ export class ListForShopperModal {
     newPurchasedList.splice(newPurchasedList.indexOf(purchasedItem.$value), 1);
     ref.set(newPurchasedList);
 
-    // this.itemsObservable.remove(item);
     var newItemsList: Array<string> = new Array<string>();
     this.itemsObservable.subscribe( (snapshot: any) => {
       snapshot.forEach( (next) => {
@@ -101,21 +99,5 @@ export class ListForShopperModal {
     var itemRef = firebase.database().ref().child(`/lists/${this.list.$key}/itemsLeft`);
     itemRef.set(newItemsList);
   }
-
-  // checkIfPurchased(item: string): boolean {
-  //   if (this.purchasedList.length == 0) {
-  //     return false;
-  //   } else {
-  //     var index = this.purchasedList.indexOf(item);
-  //     if (index !== -1) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
-
-  // Have two lists items and purchased from firebase
-
-  // Get Array, Make New, Perform Action, Resubmit
 
 }
