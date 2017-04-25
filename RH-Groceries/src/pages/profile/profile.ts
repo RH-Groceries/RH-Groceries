@@ -1,8 +1,10 @@
+import { User } from './../../models/user';
 import { AuthService } from './../../providers/auth-service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import * as firebase from 'firebase';
 import { ImagePicker } from '@ionic-native/image-picker';
+import { RatingModule } from "ngx-rating";
 
 @IonicPage()
 @Component({
@@ -11,14 +13,14 @@ import { ImagePicker } from '@ionic-native/image-picker';
 })
 export class Profile {
 
-  public user;
+  public user : User;
   public editing: boolean = false;
   private backupAddr: string;
   private backupPhone: string;
   public imageUrl: string = "";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private imagePicker: ImagePicker, public authService: AuthService) {
-    firebase.database().ref('/users/' + authService.authState.uid).once('value').then((snapshot) => {
+    firebase.database().ref('/users/' + authService.authState.uid).on("value", (snapshot) => {
       this.user = snapshot.val();
       //console.log(snapshot.val());
       // ...
