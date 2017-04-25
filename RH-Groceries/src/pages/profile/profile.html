@@ -59,19 +59,27 @@
     </div>
 
     <ng-template #ratings>
-      <ion-row>
-        <ion-col>
+      <ion-row align-items-center>
+        <ion-col col-3>
           Buying:
         </ion-col>
         <ion-col>
+          <rating [(ngModel)]="user && user.buyerRating" [float]="true" [readonly]="true">
+          </rating>
+        </ion-col>
+        <ion-col col-auto>
           {{user?.buyerRating}}
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col>
+      <ion-row align-items-center>
+        <ion-col col-3>
           Shopping:
         </ion-col>
         <ion-col>
+          <rating [(ngModel)]="user && user.shopperRating" [float]="true" [readonly]="true">
+          </rating>
+        </ion-col>
+        <ion-col col-auto>
           {{user?.shopperRating}}
         </ion-col>
       </ion-row>

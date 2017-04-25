@@ -18,6 +18,7 @@ import { ProfileSetup } from './../pages/profile-setup/profile-setup';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { RatingModule } from 'ngx-rating';
 import { AngularFireModule } from 'angularfire2';
 import { ListForShopperModal } from "../pages/list-for-shopper-modal/list-for-shopper-modal";
 import { UserInfoService } from "../providers/user-info-service";
@@ -38,7 +39,8 @@ import { UserInfoService } from "../providers/user-info-service";
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    RatingModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
