@@ -35,7 +35,6 @@ export class AuthService {
             observer.complete();
           }
           this._rfUser = rfUser;
-          console.log(rfUser);
           this.auth$.login(rfUser.token, {
             method: AuthMethods.CustomToken,
             provider: AuthProviders.Custom,

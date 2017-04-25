@@ -30,24 +30,14 @@
 
     <ion-grid>
       <ion-row wrap>
-        <div class="divList" *ngFor="let list of buyerLists; index as i; odd as isOdd; even as isEven" (click)="viewBuyerList(list)">
-          <ion-col *ngIf="isEven">
-            <ion-card>
+          <ion-col>
+            <ion-card *ngFor="let list of buyerLists" (click)="viewBuyerList(list)">
               <ion-item>
-                <h2>{{ list.name }}</h2>
-                <button ion-button outline item-right (click)="removeBuyerList(list) ">Remove</button>
+                <h2>{{ list.items[0] }}</h2>
+                <button ion-button outline item-right (click)="removeBuyerList(list)">Remove</button>
               </ion-item>
             </ion-card>
           </ion-col>
-          <ion-col *ngIf="isOdd">
-            <ion-card>
-              <ion-item>
-                <h2>{{ list.name }}</h2>
-                <button ion-button outline item-right (click)="removeBuyerList(list) ">Remove</button>
-              </ion-item>
-            </ion-card>
-          </ion-col>
-        </div>
       </ion-row>
     </ion-grid>
   </div>

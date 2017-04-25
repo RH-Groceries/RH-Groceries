@@ -2,3 +2,18 @@
     width: 100px;
     height: 100px;
 }
+
+.icons {
+    position: fixed;
+    top: 20px;
+    right: 15px;
+    z-index: 1;
+    * {
+        font-size: 40px;
+    }
+}
+
+#Profile {
+    font-size: 40px;
+    font-weight: bold;
+}
