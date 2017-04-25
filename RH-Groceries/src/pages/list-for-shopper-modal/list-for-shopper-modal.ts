@@ -27,7 +27,7 @@ export class ListForShopperModal {
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private af: AngularFire) {
     this.list = this.navParams.get("listData");
     this.buyer = this.navParams.get("buyer");
-    this.itemsObservable = this.af.database.list(`/lists/${this.list.$key}/items`);
+    this.itemsObservable = this.af.database.list(`/lists/${this.list.$key}/itemsLeft`);
     this.itemsObservable.subscribe( (next) => {
       this.itemsForDisplay = next;
     });
@@ -57,7 +57,7 @@ export class ListForShopperModal {
     });
 
     newItemsList.splice(newItemsList.indexOf(item.$value), 1);
-    var itemRef = firebase.database().ref().child(`/lists/${this.list.$key}/items`);
+    var itemRef = firebase.database().ref().child(`/lists/${this.list.$key}/itemsLeft`);
     console.log("New Items List: ", newItemsList);
     itemRef.set(newItemsList);
 
@@ -98,7 +98,7 @@ export class ListForShopperModal {
       });
     });
     newItemsList.push(purchasedItem.$value);
-    var itemRef = firebase.database().ref().child(`/lists/${this.list.$key}/items`);
+    var itemRef = firebase.database().ref().child(`/lists/${this.list.$key}/itemsLeft`);
     itemRef.set(newItemsList);
   }
 
