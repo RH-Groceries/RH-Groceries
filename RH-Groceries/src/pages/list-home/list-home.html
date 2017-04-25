@@ -24,14 +24,14 @@
 
 
 
-  <div *ngIf="(buyerLists | async)?.length!=0">
+  <div *ngIf="buyerLists.length!=0">
     <hr>
     <h4 center text-center id="setuplabel"> Active Lists </h4>
 
     <ion-grid>
       <ion-row wrap>
           <ion-col>
-            <ion-card *ngFor="let list of buyerLists | async" (click)="viewBuyerList(list)">
+            <ion-card *ngFor="let list of buyerLists" (click)="viewBuyerList(list)">
               <ion-item>
                 <h2>{{ list.items[0] }}</h2>
                 <button ion-button outline item-right (click)="removeBuyerList(list)">Remove</button>
