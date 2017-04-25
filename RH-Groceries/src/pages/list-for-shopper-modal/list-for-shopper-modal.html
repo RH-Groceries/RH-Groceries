@@ -31,15 +31,23 @@
       <!--<h1>{{ items.length}} Items</h1>-->
     </ion-item>
   </ion-card>
+
   <ion-list>
-    <ion-item *ngFor="let item of items | async">
+    <ion-item *ngFor="let item of itemsObservable | async">
       {{ item.$value }}
       <button *ngIf="list.status==1" ion-button item-right clear icon-only (click)="addToPurchased(item)">
         <ion-icon name="md-checkbox-outline"></ion-icon>
       </button>
-      <button *ngIf="list.status==1" ion-button item-right clear icon-only (click)="addToPurchased(item)">
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item *ngFor="let purchasedItem of purchasedItemsObservable | async">
+      {{ purchasedItem.$value }}
+      <button *ngIf="list.status==1" ion-button item-right clear icon-only (click)="removeFromPurchased(purchasedItem)">
         <ion-icon name="md-checkbox"></ion-icon>
       </button>
     </ion-item>
   </ion-list>
+
 </ion-content>

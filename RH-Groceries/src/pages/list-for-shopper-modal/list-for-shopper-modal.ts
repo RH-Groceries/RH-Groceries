@@ -2,6 +2,7 @@ import { FirebaseObjectObservable, AngularFire, FirebaseListObservable } from 'a
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ShoppingList } from "../../models/shopping-list";
+import * as firebase from 'firebase';
 
 /**
  * This is the modal shoppers will see on active lists.
@@ -17,19 +18,15 @@ import { ShoppingList } from "../../models/shopping-list";
 export class ListForShopperModal {
 
   public list: ShoppingList;
-  public items: FirebaseListObservable<Array<string>>;
+  public itemsObservable: FirebaseListObservable<Array<string>>;
   public buyer: FirebaseObjectObservable<any>;
-  public purchasedListObservable: FirebaseListObservable<Array<string>>;
-  public purchasedList: Array<string>;
+  public purchasedItemsObservable: FirebaseListObservable<Array<string>>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private af: AngularFire) {
     this.list = this.navParams.get("listData");
     this.buyer = this.navParams.get("buyer");
-    this.items = this.af.database.list(`/lists/${this.list.$key}/items`);
-    this.purchasedListObservable = this.af.database.list(`/lists/${this.list.$key}/purchased`);
-    // this.purchasedListObservable.subscribe( (snapshot) => {
-    //   this.purchasedList = snapshot;
-    // })
+    this.itemsObservable = this.af.database.list(`/lists/${this.list.$key}/items`);
+    this.purchasedItemsObservable = this.af.database.list(`/lists/${this.list.$key}/purchased`);
   }
 
   ionViewDidLoad() {
@@ -40,9 +37,21 @@ export class ListForShopperModal {
     this.viewCtrl.dismiss();
   }
 
-  addToPurchased(item: string): void {
+  addToPurchased(item: any): void {
     console.log("Added Item: ", item);
-    // this.list.purchased.push(item);
+    var ref = firebase.database().ref().child(`/lists/${this.list.$key}/purchased`);
+    console.log(`${this.list.$key}`);
+    console.log(`/lists/${this.list.$key}/purchased`);
+    console.log(item);
+    // this new, empty ref only exists locally
+    var newChildRef = ref.push(item.$value);
+    // newChildRef.set(item);
+
+    this.itemsObservable.remove(item);
+  }
+
+  removeFromPurchased(purchasedItem): void {
+
   }
 
   // checkIfPurchased(item: string): boolean {
