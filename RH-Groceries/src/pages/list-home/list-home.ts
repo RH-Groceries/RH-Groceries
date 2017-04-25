@@ -62,6 +62,7 @@ export class ListHome {
     // Push to firebase
     var newList: ShoppingList = new ShoppingList();
     newList.items = this.list;
+    newList.itemsLeft = this.list;
     newList.buyer = this.authService.authState.uid;
     newList.subtotal = 0;
     newList.tip = 0;

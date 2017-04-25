@@ -5,6 +5,7 @@ export class ShoppingList {
     shopper?: string;
     subtotal: number;
     tip: number;
+    itemsLeft?: Array<string>;
     purchased?: Array<string>;
     status: number;
 
