@@ -38,12 +38,6 @@ export class ListForShopperModal {
   }
 
   addToPurchased(item: any): void {
-
-
-
-    // REMAKE ARRAY AND SET HERE
-
-
     console.log("Added Item: ", item);
     // this.itemsObservable.remove(item);
     var newItemsList: Array<string> = new Array<string>();
