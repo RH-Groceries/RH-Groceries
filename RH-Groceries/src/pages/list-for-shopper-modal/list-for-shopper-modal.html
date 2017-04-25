@@ -34,11 +34,11 @@
   <ion-list>
     <ion-item *ngFor="let item of items">
       {{ item }}
-      <button *ngIf="list.status==1 && checkIfPurchased(item)" ion-button item-right clear icon-only (click)="addToPurchased(item)">
+      <button *ngIf="list.status==1 && !checkIfPurchased(item)" ion-button item-right clear icon-only (click)="addToPurchased(item)">
         <ion-icon name="md-checkbox-outline"></ion-icon>
       </button>
       <button *ngIf="list.status==1 && checkIfPurchased(item)" ion-button item-right clear icon-only (click)="addToPurchased(item)">
-        <ion-icon name="md-checkbox-outline"></ion-icon>
+        <ion-icon name="md-checkbox"></ion-icon>
       </button>
     </ion-item>
   </ion-list>

@@ -1,4 +1,4 @@
-import { FirebaseObjectObservable, AngularFire } from 'angularfire2';
+import { FirebaseObjectObservable, AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ShoppingList } from "../../models/shopping-list";
@@ -19,13 +19,17 @@ export class ListForShopperModal {
   public list: ShoppingList;
   public items: Array<string>;
   public buyer: FirebaseObjectObservable<any>;
-  public listObservable: FirebaseObjectObservable<any>;
+  public purchasedListObservable: FirebaseListObservable<Array<string>>;
+  public purchasedList: Array<string>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private af: AngularFire) {
     this.list = this.navParams.get("listData");
     this.buyer = this.navParams.get("buyer");
     this.items = this.list.items;
-    this.listObservable = this.af.database.object(`/lists/${this.list.$key}`);
+    this.purchasedListObservable = this.af.database.list(`/lists/${this.list.$key}`);
+    this.purchasedListObservable.subscribe( (snapshot) => {
+      this.purchasedList = snapshot;
+    })
   }
 
   ionViewDidLoad() {
@@ -42,12 +46,15 @@ export class ListForShopperModal {
   }
 
   checkIfPurchased(item: string): boolean {
-    // console.log(this.list.purchased.indexOf(item))
-    // Check if in purchased array
-    // if (this.listObservable.purchased)
-
-
-    return true;
+    if (this.purchasedList.length == 0) {
+      return false;
+    } else {
+      var index = this.purchasedList.indexOf(item);
+      if (index !== -1) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }
