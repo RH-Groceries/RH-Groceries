@@ -38,20 +38,45 @@ export class ListForShopperModal {
   }
 
   addToPurchased(item: any): void {
+
+
+
+    // REMAKE ARRAY AND SET HERE
+
+
     console.log("Added Item: ", item);
+    // this.itemsObservable.remove(item);
+    var newItemsList: Array<string> = new Array<string>();
+    this.itemsObservable.subscribe( (snapshot: any) => {
+      console.log("Snapshot: ", snapshot);
+      snapshot.forEach( (next) => {
+        newItemsList.push(next.$value);
+      });
+    });
+    newItemsList.splice(newItemsList.indexOf(item.$value), 1);
+    var itemRef = firebase.database().ref().child(`/lists/${this.list.$key}/items`);
+    console.log("New Items List: ", newItemsList);
+    itemRef.set(newItemsList);
+
     var ref = firebase.database().ref().child(`/lists/${this.list.$key}/purchased`);
     console.log(`${this.list.$key}`);
     console.log(`/lists/${this.list.$key}/purchased`);
     console.log(item);
-    // this new, empty ref only exists locally
-    var newChildRef = ref.push(item.$value);
-    // newChildRef.set(item);
-
-    this.itemsObservable.remove(item);
+    var newPurchasedList: Array<string> = new Array<string>();
+    this.purchasedItemsObservable.subscribe( (snapshot: any) => {
+      snapshot.forEach( (next) => {
+        newPurchasedList.push(next.$value);
+      });
+    });
+    newPurchasedList.push(item.$value);
+    console.log(newPurchasedList);
+    ref.set(newPurchasedList);
   }
 
-  removeFromPurchased(purchasedItem): void {
-
+  removeFromPurchased(purchasedItem: any): void {
+    var ref = firebase.database().ref().child(`/lists/${this.list.$key}/items`);
+    ref.push(purchasedItem.$value);
+    this.purchasedItemsObservable.remove(purchasedItem);
   }
 
   // checkIfPurchased(item: string): boolean {
@@ -67,5 +92,7 @@ export class ListForShopperModal {
   // }
 
   // Have two lists items and purchased from firebase
+
+  // Get Array, Make New, Perform Action, Resubmit
 
 }
