@@ -21,12 +21,20 @@ export class ListForShopperModal {
   public itemsObservable: FirebaseListObservable<Array<string>>;
   public buyer: FirebaseObjectObservable<any>;
   public purchasedItemsObservable: FirebaseListObservable<Array<string>>;
+  public itemsForDisplay: Array<string>;
+  public purchasedItemsForDisplay: Array<string>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private af: AngularFire) {
     this.list = this.navParams.get("listData");
     this.buyer = this.navParams.get("buyer");
     this.itemsObservable = this.af.database.list(`/lists/${this.list.$key}/items`);
+    this.itemsObservable.subscribe( (next) => {
+      this.itemsForDisplay = next;
+    });
     this.purchasedItemsObservable = this.af.database.list(`/lists/${this.list.$key}/purchased`);
+    this.purchasedItemsObservable.subscribe( (next) => {
+      this.purchasedItemsForDisplay = next;
+    });
   }
 
   ionViewDidLoad() {
@@ -47,6 +55,7 @@ export class ListForShopperModal {
         newItemsList.push(next.$value);
       });
     });
+
     newItemsList.splice(newItemsList.indexOf(item.$value), 1);
     var itemRef = firebase.database().ref().child(`/lists/${this.list.$key}/items`);
     console.log("New Items List: ", newItemsList);
@@ -67,10 +76,30 @@ export class ListForShopperModal {
     ref.set(newPurchasedList);
   }
 
+  // DOESNT WORK !!!!!!
   removeFromPurchased(purchasedItem: any): void {
-    var ref = firebase.database().ref().child(`/lists/${this.list.$key}/items`);
-    ref.push(purchasedItem.$value);
-    this.purchasedItemsObservable.remove(purchasedItem);
+    console.log("Removed Item: ", purchasedItem);
+
+    var ref = firebase.database().ref().child(`/lists/${this.list.$key}/purchased`);
+    var newPurchasedList: Array<string> = new Array<string>();
+    this.purchasedItemsObservable.subscribe( (snapshot: any) => {
+      snapshot.forEach( (next) => {
+        newPurchasedList.push(next.$value);
+      });
+    });
+    newPurchasedList.splice(newPurchasedList.indexOf(purchasedItem.$value), 1);
+    ref.set(newPurchasedList);
+
+    // this.itemsObservable.remove(item);
+    var newItemsList: Array<string> = new Array<string>();
+    this.itemsObservable.subscribe( (snapshot: any) => {
+      snapshot.forEach( (next) => {
+        newItemsList.push(next.$value);
+      });
+    });
+    newItemsList.push(purchasedItem.$value);
+    var itemRef = firebase.database().ref().child(`/lists/${this.list.$key}/items`);
+    itemRef.set(newItemsList);
   }
 
   // checkIfPurchased(item: string): boolean {
