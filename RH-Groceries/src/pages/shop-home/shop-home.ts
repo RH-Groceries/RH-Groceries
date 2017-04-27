@@ -23,7 +23,10 @@ export class ShopHome {
       }
     });
 
-    queryObservable.subscribe( (items) => {
+    queryObservable.subscribe((items) => {
+      for (let i = items.length - 1; i >= 0; i--) {
+        if (items[i].buyer === this.authService.authState.uid) items.splice(i, 1);
+      }
       this.activeLists = items;
     });
     // this.activeLists = this.af.database.list('/lists');
@@ -35,7 +38,7 @@ export class ShopHome {
 
   viewBuyerList(list: ShoppingList): void {
     let buyer = this.userInfoService.getListCreatorName(list);
-    let listForShopperModal = this.modalCtrl.create(ListForShopperModal, {"listData": list, "buyer": buyer});
+    let listForShopperModal = this.modalCtrl.create(ListForShopperModal, { "listData": list, "buyer": buyer });
     listForShopperModal.present();
   }
 
