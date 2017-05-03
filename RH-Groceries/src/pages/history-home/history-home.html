@@ -1,14 +1,14 @@
 <ion-content>
   <!--<a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_ANoVOQ5X3RwS6GdalUOfnS7wc99iR5uh&scope=read_write" class="button">Connect with Stripe</a>-->
 
-  <div ion-fixed style="height: 100%; width: 100%; display: flex;  flex-direction: column" padding>
+  <div ion-fixed id="full-div" padding>
     <div text-center id="title">
       Payment History
     </div>
-    <div style="flex-grow: 1; position:relative; margin-bottom: 10px;">
+    <div class="list-container">
       <ion-scroll scrollY="true" class="scroll-view">
         <ion-list no-lines>
-          <div *ngFor="let item of historyList" [style.background-color]="(item.total < 0)?'red':'green'" style="margin-top: 20px; display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-around; height: 40px; font-size: 20px; align-items: center">
+          <div class="history-item" *ngFor="let item of historyList" [style.background-color]="(item.total < 0)?'red':'green'">
            <span>{{item.total | currency:'USD':true}}</span>
            <span>{{item.date | date:'shortDate'}}</span>
           </div>
@@ -16,10 +16,10 @@
       </ion-scroll>
     </div>
 
-    <hr style="width: 100%">
+    <hr class="full-width">
 
-    <div style="align-self: flex-end; width: 100%; font-size: 20px;">
-      <div class="payment-info" style="display: flex; justify-content: space-around;">
+    <div class="full-width payment-container">
+      <div class="payment-info">
         <div>
           Total Made:
         </div>
@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <div class="payment-info" style="display: flex;  justify-content: space-around;">
+      <div class="payment-info">
         <div>
           Total Spent:
         </div>
