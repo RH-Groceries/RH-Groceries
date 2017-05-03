@@ -1,3 +1,23 @@
 page-history-home {
+  #title {
+    font-size: 30px;
+    font-weight: bold;
+    padding-bottom: 20px;
+  }
+  .scroll-view {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .payment-info {
+      display: flex; 
+      justify-content: space-around;
+      padding: 20px;
 
+  }
+  ion-list {
+      margin-bottom: 0px !important;
+  }
 }
