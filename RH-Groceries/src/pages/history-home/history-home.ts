@@ -1,3 +1,5 @@
+import { AuthService } from './../../providers/auth-service';
+import { AngularFire } from 'angularfire2';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -8,7 +10,25 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class HistoryHome {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  public historyList: Number[];
+  public totalSpent: Number;
+  public totalMade: Number;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private af: AngularFire, private authService: AuthService) {
+    this.totalSpent = 0.00;
+    this.totalMade = 0.00;
+    let historyObservable = this.af.database.list('users/' + authService.authState.uid + '/paymentHistory');
+    historyObservable.subscribe( (inList) => {
+      this.historyList = inList;
+      for (var i = inList.length - 1; i > 0; i--) {
+        if (inList[i] < 0){
+          this.totalSpent += inList[i];
+        }
+        else if (inList[i] > 0){
+          this.totalMade += inList[i];
+        }
+      }
+    });
   }
 
   ionViewDidLoad() {
