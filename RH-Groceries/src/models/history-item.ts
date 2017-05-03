@@ -1,5 +1,5 @@
 export class historyItem {
     total?: number;
-    date?: Date;
-    sortTime?: number;
+    date: Date =  new Date();
+    sortTime: number = Date.now();
 }

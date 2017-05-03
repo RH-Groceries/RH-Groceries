@@ -5,18 +5,20 @@
     <div text-center id="title">
       Payment History
     </div>
-    <div style="flex-grow: 1; position:relative;">
+    <div style="flex-grow: 1; position:relative; margin-bottom: 10px;">
       <ion-scroll scrollY="true" class="scroll-view">
         <ion-list no-lines>
-          <ion-item *ngFor="let item of historyList" [style.background-color]="(item.total < 0)?'red':'green'">
+          <div *ngFor="let item of historyList" [style.background-color]="(item.total < 0)?'red':'green'" style="margin-top: 20px; display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-around; height: 40px; font-size: 20px; align-items: center">
            <span>{{item.total | currency:'USD':true}}</span>
            <span>{{item.date | date:'shortDate'}}</span>
-          </ion-item>
+          </div>
         </ion-list>
       </ion-scroll>
     </div>
 
-    <div style="align-self: flex-end; width: 100%;">
+    <hr style="width: 100%">
+
+    <div style="align-self: flex-end; width: 100%; font-size: 20px;">
       <div class="payment-info" style="display: flex; justify-content: space-around;">
         <div>
           Total Made:

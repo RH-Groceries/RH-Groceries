@@ -16,7 +16,6 @@ export class HistoryHome {
   public totalMade: Number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private af: AngularFire, private authService: AuthService) {
-    console.log(Date.now());
     this.totalSpent = 0.00;
     this.totalMade = 0.00;
     let historyObservable = this.af.database.list('users/' + authService.authState.uid + '/paymentHistory', {
@@ -25,8 +24,8 @@ export class HistoryHome {
       }
     });
     historyObservable.subscribe((inList) => {
-      this.historyList = inList;
-      for (var i = inList.length - 1; i > 0; i--) {
+      this.historyList = inList.reverse();
+      for (var i = inList.length - 1; i >= 0; i--) {
         if (inList[i].total < 0) {
           this.totalSpent += inList[i].total;
         }
