@@ -8,50 +8,9 @@
     <div style="flex-grow: 1; position:relative;">
       <ion-scroll scrollY="true" class="scroll-view">
         <ion-list no-lines>
-          <ion-item>
-            payment1 (TODO)
-          </ion-item>
-          <ion-item>
-            payment2 (TODO)
-          </ion-item>
-          <ion-item>
-            payment3 (TODO)
-          </ion-item>
-          <ion-item>
-            payment4 (TODO)
-          </ion-item>
-          <ion-item>
-            payment5 (TODO)
-          </ion-item>
-          <ion-item>
-            payment6 (TODO)
-          </ion-item>
-          <ion-item>
-            payment7 (TODO)
-          </ion-item>
-          <ion-item>
-            payment8 (TODO)
-          </ion-item>
-          <ion-item>
-            payment9 (TODO)
-          </ion-item>
-          <ion-item>
-            payment10 (TODO)
-          </ion-item>
-          <ion-item>
-            payment11 (TODO)
-          </ion-item>
-          <ion-item>
-            payment12 (TODO)
-          </ion-item>
-          <ion-item>
-            payment13 (TODO)
-          </ion-item>
-          <ion-item>
-            payment14 (TODO)
-          </ion-item>
-          <ion-item>
-            payment15 (TODO)
+          <ion-item *ngFor="let item of historyList" [style.background-color]="(item.total < 0)?'red':'green'">
+           <span>{{item.total | currency:'USD':true}}</span>
+           <span>{{item.date | date:'shortDate'}}</span>
           </ion-item>
         </ion-list>
       </ion-scroll>
@@ -63,7 +22,7 @@
           Total Made:
         </div>
         <div>
-          ${{totalMade}}
+          {{totalMade | currency:'USD':true}}
         </div>
       </div>
 
@@ -72,7 +31,7 @@
           Total Spent:
         </div>
         <div>
-          ${{totalSpent}}
+          {{totalSpent | currency:'USD':true}}
         </div>
       </div>
     </div>
