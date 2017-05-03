@@ -81,6 +81,39 @@
       </button>
       </ion-item>
     </ion-list>
+
+    <div *ngIf="itemsForDisplay.length==0">
+      <ion-row align-items-center>
+        <h3>Subtotal:</h3>
+        <ion-item>
+          <ion-input name="listPrice" type="text" placeholder="$0.00" [(ngModel)]="price"></ion-input>
+        </ion-item>
+      </ion-row>
+      <button ion-button (click)="confirmShoppingComplete()">Confirm</button>
+    </div>
+
+  </div>
+
+  <!-- Waiting For Payment HERE -->
+  <div *ngIf="(listeningListStatusData | async).$value==4">
+    <h1>Waiting for Payment...</h1>
+
+    <br>
+
+    <h1>Rating Buyer Here...</h1>
+
+  </div>
+
+  <!-- Complete with payment HERE -->
+  <div *ngIf="(listeningListStatusData | async).$value==5">
+    <h3>Subtotal: ${{ (subtotal | async).$value }}</h3>
+    <h3>Tip: ${{ (tip | async).$value }}</h3>
+    <hr>
+
+    <br>
+
+    <h1>Rating Buyer Here...</h1>
+
   </div>
 
 </ion-content>

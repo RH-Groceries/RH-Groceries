@@ -26,6 +26,10 @@ export class ListForShopperModal {
   public purchasedItemsForDisplay: Array<string>;
   public listeningListStatusData: FirebaseObjectObservable<ShoppingList>;
 
+  public price: string = "";
+  public tip: FirebaseObjectObservable<string>;
+  public subtotal: FirebaseObjectObservable<string>;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private af: AngularFire, private authService: AuthService) {
     this.list = this.navParams.get("listData");
     this.listeningListStatusData = this.af.database.object(`/lists/${this.list.$key}/status`);
@@ -39,6 +43,10 @@ export class ListForShopperModal {
     this.purchasedItemsObservable.subscribe( (next) => {
       this.purchasedItemsForDisplay = next;
     });
+
+    this.tip = this.af.database.object(`/lists/${this.list.$key}/tip`);
+    this.subtotal = this.af.database.object(`/lists/${this.list.$key}/subtotal`);
+
   }
 
   ionViewDidLoad() {
@@ -108,6 +116,11 @@ export class ListForShopperModal {
     newItemsList.push(purchasedItem.$value);
     var itemRef = firebase.database().ref().child(`/lists/${this.list.$key}/itemsLeft`);
     itemRef.set(newItemsList);
+  }
+
+  confirmShoppingComplete(): void {
+    this.af.database.object(`/lists/${this.list.$key}/subtotal`).set(this.price);
+    this.af.database.object(`/lists/${this.list.$key}/status`).set(4);
   }
 
 }

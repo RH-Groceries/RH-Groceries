@@ -27,10 +27,16 @@ export class BuyerListModal {
   public itemsForDisplay: Array<string>;
   public purchasedItemsForDisplay: Array<string>;
 
+  public listeningListStatusData: FirebaseObjectObservable<ShoppingList>;
+
+  public tip: string = "";
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire) {
     this.list = this.navParams.get("listData");
     this.items = this.list.items;
     this.nameForUser = this.authService.rfUser.name;
+
+    this.listeningListStatusData = this.af.database.object(`/lists/${this.list.$key}/status`);
 
     this.shopper = this.af.database.object(`/users/${this.list.shopper}`);
 
@@ -56,6 +62,11 @@ export class BuyerListModal {
   confirmShopper(): void {
     this.af.database.object(`/lists/${this.list.$key}/status`).set(3);
     this.closeModal();
+  }
+
+  confirmDelivery(): void {
+    this.af.database.object(`/lists/${this.list.$key}/status`).set(5);
+    this.af.database.object(`/lists/${this.list.$key}/tip`).set(this.tip);
   }
 
 }

@@ -41,6 +41,43 @@
   </div>
 
 
+  <!--- In Progress List View HERE -->
+  <div *ngIf="inProgressLists.length!=0">
+    <hr>
+    <h4 center text-center id="setuplabel"> In Progress... </h4>
+
+    <ion-grid>
+      <ion-row wrap>
+        <ion-col>
+          <ion-card *ngFor="let list of inProgressLists " (click)="viewBuyerList(list)">
+            <ion-item>
+              <h2>{{ list.items[0] }}</h2>
+            </ion-item>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!--- Waiting for Delivery Confirmation List View HERE -->
+  <div *ngIf="deliveredLists.length!=0">
+    <hr>
+    <h4 center text-center id="setuplabel"> Delivered... </h4>
+
+    <ion-grid>
+      <ion-row wrap>
+        <ion-col>
+          <ion-card *ngFor="let list of deliveredLists " (click)="viewBuyerList(list)">
+            <ion-item>
+              <h2>{{ list.items[0] }}</h2>
+            </ion-item>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+
 
 
 </ion-content>

@@ -61,7 +61,7 @@
     </ion-grid>
   </div>
 
-  <!-- Need Approval Lists HERE -->
+  <!-- Progress Lists HERE -->
   <div *ngIf="inProgressLists.length!=0">
     <hr>
     <h4 center text-center id="setuplabel"> In Progress... </h4>
@@ -70,6 +70,24 @@
       <ion-row wrap>
           <ion-col>
             <ion-card *ngFor="let list of inProgressLists" (click)="viewBuyerList(list)">
+              <ion-item>
+                <h2>{{ list.items[0] }}</h2>
+              </ion-item>
+            </ion-card>
+          </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Progress Lists HERE -->
+  <div *ngIf="completedLists.length!=0">
+    <hr>
+    <h4 center text-center id="setuplabel"> Devliery! </h4>
+
+    <ion-grid>
+      <ion-row wrap>
+          <ion-col>
+            <ion-card *ngFor="let list of completedLists" (click)="viewBuyerList(list)">
               <ion-item>
                 <h2>{{ list.items[0] }}</h2>
               </ion-item>

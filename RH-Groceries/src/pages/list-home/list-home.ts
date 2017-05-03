@@ -20,12 +20,14 @@ export class ListHome {
   public titleForItem: string;
   public waitingLists: ShoppingList[];
   public inProgressLists: ShoppingList[];
+  public completedLists: ShoppingList[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private af: AngularFire, private authService: AuthService) {
     this.buyerLists = new Array<ShoppingList>();
     this.list = new Array<string>();
     this.waitingLists = new Array<ShoppingList>();
     this.inProgressLists = new Array<ShoppingList>();
+    this.completedLists = new Array<ShoppingList>();
     this.buyerListsObservable = this.af.database.list('/lists');
 
     const queryActiveObservable = this.af.database.list('/lists', {
@@ -69,6 +71,20 @@ export class ListHome {
         if (shoppingLists[i].buyer !== this.authService.authState.uid) shoppingLists.splice(i, 1);
       }
       this.inProgressLists = shoppingLists;
+    });
+
+    const queryCompletedObservable = this.af.database.list('/lists', {
+      query: {
+        orderByChild: 'status',
+        equalTo: 4
+      }
+    });
+
+    queryCompletedObservable.subscribe( (shoppingLists) => {
+      for (let i = shoppingLists.length - 1; i >= 0; i--) {
+        if (shoppingLists[i].buyer !== this.authService.authState.uid) shoppingLists.splice(i, 1);
+      }
+      this.completedLists = shoppingLists;
     });
 
   }
