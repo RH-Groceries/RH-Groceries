@@ -61,7 +61,6 @@ export class BuyerListModal {
 
   confirmShopper(): void {
     this.af.database.object(`/lists/${this.list.$key}/status`).set(3);
-    this.closeModal();
   }
 
   confirmDelivery(): void {
