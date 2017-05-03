@@ -1,3 +1,4 @@
+import { AuthService } from './../../providers/auth-service';
 import { FirebaseObjectObservable, AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
@@ -23,9 +24,12 @@ export class ListForShopperModal {
   public purchasedItemsObservable: FirebaseListObservable<Array<string>>;
   public itemsForDisplay: Array<string>;
   public purchasedItemsForDisplay: Array<string>;
+  public listeningListStatusData: FirebaseObjectObservable<ShoppingList>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private af: AngularFire) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private af: AngularFire, private authService: AuthService) {
     this.list = this.navParams.get("listData");
+    this.listeningListStatusData = this.af.database.object(`/lists/${this.list.$key}/status`);
+
     this.buyer = this.navParams.get("buyer");
     this.itemsObservable = this.af.database.list(`/lists/${this.list.$key}/itemsLeft`);
     this.itemsObservable.subscribe( (next) => {
@@ -43,6 +47,12 @@ export class ListForShopperModal {
 
   closeModal(): void {
     this.viewCtrl.dismiss();
+  }
+
+  readyToShop(): void {
+    console.log("Ready to Shop");
+    this.af.database.object(`/lists/${this.list.$key}/status`).set(2);
+    this.af.database.object(`/lists/${this.list.$key}/shopper`).set(this.authService.authState.uid);
   }
 
   addToPurchased(item: any): void {

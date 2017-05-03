@@ -18,29 +18,59 @@ export class ListHome {
   public buyerLists: ShoppingList[];
   public buyerListsObservable: FirebaseListObservable<ShoppingList[]>;
   public titleForItem: string;
+  public waitingLists: ShoppingList[];
+  public inProgressLists: ShoppingList[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private af: AngularFire, private authService: AuthService) {
     this.buyerLists = new Array<ShoppingList>();
     this.list = new Array<string>();
+    this.waitingLists = new Array<ShoppingList>();
+    this.inProgressLists = new Array<ShoppingList>();
     this.buyerListsObservable = this.af.database.list('/lists');
 
-    const queryObservable = this.af.database.list('/lists', {
+    const queryActiveObservable = this.af.database.list('/lists', {
       query: {
-        orderByChild: 'buyer',
-        equalTo: this.authService.authState.uid
+        orderByChild: 'status',
+        equalTo: 1
       }
     });
-    console.log(queryObservable);
-    queryObservable.subscribe( (shoppingLists) => {
-      console.log("Shopping List: ", shoppingLists);
+
+    queryActiveObservable.subscribe( (shoppingLists) => {
+      for (let i = shoppingLists.length - 1; i >= 0; i--) {
+        if (shoppingLists[i].buyer !== this.authService.authState.uid) shoppingLists.splice(i, 1);
+      }
       this.buyerLists = shoppingLists;
     });
 
-    console.log(this.buyerLists);
-    // this.buyerLists = this.af.database.list(`/lists/${this.authService.authState.uid}`);
-    // this.buyerLists.subscribe( (snapshot) => {
-    //   this.titleForItem = snapshot.length + " Items"
-    // });
+    const queryWaitingObservable = this.af.database.list('/lists', {
+      query: {
+        orderByChild: 'status',
+        equalTo: 2
+      }
+    });
+
+
+    queryWaitingObservable.subscribe( (shoppingLists) => {
+      for (let i = shoppingLists.length - 1; i >= 0; i--) {
+        if (shoppingLists[i].buyer !== this.authService.authState.uid) shoppingLists.splice(i, 1);
+      }
+      this.waitingLists = shoppingLists;
+    });
+
+    const queryInProgressObservable = this.af.database.list('/lists', {
+      query: {
+        orderByChild: 'status',
+        equalTo: 3
+      }
+    });
+
+    queryInProgressObservable.subscribe( (shoppingLists) => {
+      for (let i = shoppingLists.length - 1; i >= 0; i--) {
+        if (shoppingLists[i].buyer !== this.authService.authState.uid) shoppingLists.splice(i, 1);
+      }
+      this.inProgressLists = shoppingLists;
+    });
+
   }
 
   ionViewDidLoad() {

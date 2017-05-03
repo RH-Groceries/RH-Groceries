@@ -14,6 +14,7 @@ import { AuthService } from "../../providers/auth-service";
 export class ShopHome {
 
   activeLists: ShoppingList[] = new Array<ShoppingList>();
+  waitingForConfirmationLists: ShoppingList[] = new Array<ShoppingList>();
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private af: AngularFire, private authService: AuthService, private userInfoService: UserInfoService) {
     const queryObservable = af.database.list('/lists', {
@@ -29,7 +30,23 @@ export class ShopHome {
       }
       this.activeLists = items;
     });
-    // this.activeLists = this.af.database.list('/lists');
+    
+    const waitingForConfirmationListsQueryObservable = af.database.list('/lists', {
+      query: {
+        orderByChild: 'status',
+        equalTo: 2
+      }
+    });
+
+    waitingForConfirmationListsQueryObservable.subscribe((items) => {
+      for (let i = items.length - 1; i >= 0; i--) {
+        if (items[i].buyer === this.authService.authState.uid) items.splice(i, 1);
+      }
+      this.waitingForConfirmationLists = items;
+    });
+
+
+
   }
 
   ionViewDidLoad() {

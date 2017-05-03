@@ -32,22 +32,55 @@
     </ion-item>
   </ion-card>
 
-  <ion-list>
-    <ion-item *ngFor="let item of itemsForDisplay">
-      {{ item.$value }}
-      <button *ngIf="list.status==1" ion-button item-right clear icon-only (click)="addToPurchased(item)">
+
+  <!-- Confirm You Want to Shop HERE -->
+  <div *ngIf="(listeningListStatusData | async).$value==1">
+    <ion-list>
+      <ion-item *ngFor="let item of itemsForDisplay">
+        {{ item.$value }}
+      </ion-item>
+    </ion-list>
+    <button ion-button (click)="readyToShop()">
+      Confirm
+    </button>
+  </div>
+
+
+  <!-- Waiting to Shop HERE -->
+  <div *ngIf="(listeningListStatusData | async).$value==2">
+    <br>
+    <h3>Waiting for Buyer Confirmation...</h3>
+    <ion-list>
+      <ion-item *ngFor="let item of itemsForDisplay">
+        {{ item.$value }}
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+
+
+
+
+  <!-- Actively Shopping HERE -->
+  <div *ngIf="(listeningListStatusData | async).$value==3">
+    <ion-list>
+      <ion-item *ngFor="let item of itemsForDisplay">
+        {{ item.$value }}
+        <button ion-button item-right clear icon-only (click)="addToPurchased(item)">
         <ion-icon name="md-checkbox-outline"></ion-icon>
       </button>
-    </ion-item>
-  </ion-list>
+      </ion-item>
+    </ion-list>
 
-  <ion-list>
-    <ion-item *ngFor="let purchasedItem of purchasedItemsForDisplay">
-      {{ purchasedItem.$value }}
-      <button *ngIf="list.status==1" ion-button item-right clear icon-only (click)="removeFromPurchased(purchasedItem)">
+    <ion-list>
+      <ion-item *ngFor="let purchasedItem of purchasedItemsForDisplay">
+        {{ purchasedItem.$value }}
+        <button ion-button item-right clear icon-only (click)="removeFromPurchased(purchasedItem)">
         <ion-icon name="md-checkbox"></ion-icon>
       </button>
-    </ion-item>
-  </ion-list>
+      </ion-item>
+    </ion-list>
+  </div>
 
 </ion-content>

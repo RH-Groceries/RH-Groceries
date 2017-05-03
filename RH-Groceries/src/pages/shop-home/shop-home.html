@@ -1,6 +1,28 @@
 <ion-content padding>
 
+  <!-- Waiting for Response HERE -->
+  <div *ngIf="waitingForConfirmationLists.length!=0">
+    <h4 center text-center id="setuplabel"> Waiting for Buyer... </h4>
 
+    <ion-grid>
+      <ion-row wrap>
+        <ion-col>
+          <ion-card *ngFor="let list of waitingForConfirmationLists " (click)="viewBuyerList(list)">
+            <ion-item>
+              <h2>{{ list.items[0] }}</h2>
+            </ion-item>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  
+
+
+
+
+  <!--- Active List View HERE -->
   <div *ngIf="activeLists.length!=0">
     <hr>
     <h4 center text-center id="setuplabel"> Active Lists </h4>

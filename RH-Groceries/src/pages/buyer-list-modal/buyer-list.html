@@ -18,9 +18,74 @@
 
 
 <ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let item of items">
-      {{ item }}
-    </ion-item>
-  </ion-list>
+
+  <!-- Active List Content -->
+  <div *ngIf="list.status==1">
+    <ion-list>
+      <ion-item *ngFor="let item of items">
+        {{ item }}
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+  <!-- List Needing Approval -->
+  <div *ngIf="list.status==2">
+    <ion-card>
+      <ion-item>
+        <ion-avatar item-left>
+          <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
+          <ng-template #missingPhotoTemplate>
+            <img src="assets/images/missing_photo.png" alt="Missing Photo">
+          </ng-template>
+        </ion-avatar>
+        <h1>{{ (shopper | async)?.name }}</h1>
+        <h1>Rating Goes Here!</h1>
+        <br>
+      </ion-item>
+    </ion-card>
+
+    <ion-list>
+      <ion-item *ngFor="let item of items">
+        {{ item }}
+      </ion-item>
+    </ion-list>
+    <button ion-button (click)="confirmShopper()">
+      Confirm
+    </button>
+  </div>
+
+
+
+  <!-- List In Progress -->
+  <div *ngIf="list.status==3">
+    <ion-card>
+      <ion-item>
+        <ion-avatar item-left>
+          <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
+          <ng-template #missingPhotoTemplate>
+            <img src="assets/images/missing_photo.png" alt="Missing Photo">
+          </ng-template>
+        </ion-avatar>
+        <h1>{{ (shopper | async)?.name }}</h1>
+        <h1>Rating Goes Here!</h1>
+        <br>
+      </ion-item>
+    </ion-card>
+
+    <ion-list>
+      <h3>Items Left</h3>
+      <ion-item *ngFor="let item of itemsForDisplay">
+        {{ item.$value }}
+      </ion-item>
+    </ion-list>
+    <br>
+    <ion-list>
+      <h3>Items Picked Up</h3>
+      <ion-item *ngFor="let item of purchasedItemsForDisplay">
+        {{ item.$value }}
+      </ion-item>
+    </ion-list>
+  </div>
+
 </ion-content>
