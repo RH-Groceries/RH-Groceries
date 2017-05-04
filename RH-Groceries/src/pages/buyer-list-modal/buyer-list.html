@@ -32,15 +32,17 @@
   <!-- List Needing Approval -->
   <div *ngIf="(listeningListStatusData | async).$value==2">
     <ion-card>
-      <ion-item>
+      <ion-item *ngIf="(shopper | async) as shopperUser">
         <ion-avatar item-left>
           <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
           <ng-template #missingPhotoTemplate>
             <img src="assets/images/missing_photo.png" alt="Missing Photo">
           </ng-template>
         </ion-avatar>
-        <h1>{{ (shopper | async)?.name }}</h1>
-        <h1>Rating Goes Here!</h1>
+        <h1>{{ shopperUser?.name }}</h1>
+        <h3>{{ shopperUser?.phone }}</h3>
+        <h3 style="text-decoration: underline;">Shopper Rating</h3>
+        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating}}</span>
         <br>
       </ion-item>
     </ion-card>
@@ -60,15 +62,17 @@
   <!-- List In Progress -->
   <div *ngIf="(listeningListStatusData | async).$value==3">
     <ion-card>
-      <ion-item>
+      <ion-item *ngIf="(shopper | async) as shopperUser">
         <ion-avatar item-left>
           <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
           <ng-template #missingPhotoTemplate>
             <img src="assets/images/missing_photo.png" alt="Missing Photo">
           </ng-template>
         </ion-avatar>
-        <h1>{{ (shopper | async)?.name }}</h1>
-        <h1>Rating Goes Here!</h1>
+        <h1>{{ shopperUser?.name }}</h1>
+        <h3>{{ shopperUser?.phone }}</h3>
+        <h3 style="text-decoration: underline;">Shopper Rating</h3>
+        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating}}</span>
         <br>
       </ion-item>
     </ion-card>
@@ -91,15 +95,17 @@
   <!-- Delivery Confirm -->
   <div *ngIf="(listeningListStatusData | async).$value==4">
     <ion-card>
-      <ion-item>
+      <ion-item *ngIf="(shopper | async) as shopperUser">
         <ion-avatar item-left>
           <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
           <ng-template #missingPhotoTemplate>
             <img src="assets/images/missing_photo.png" alt="Missing Photo">
           </ng-template>
         </ion-avatar>
-        <h1>{{ (shopper | async)?.name }}</h1>
-        <h1>Rating Goes Here!</h1>
+        <h1>{{ shopperUser?.name }}</h1>
+        <h3>{{ shopperUser?.phone }}</h3>
+        <h3 style="text-decoration: underline;">Shopper Rating</h3>
+        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating}}</span>
         <br>
       </ion-item>
     </ion-card>
@@ -133,20 +139,40 @@
   <!-- Review Shopper -->
   <div *ngIf="(listeningListStatusData | async).$value==5">
     <ion-card>
-      <ion-item>
+      <ion-item *ngIf="(shopper | async) as shopperUser">
         <ion-avatar item-left>
           <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
           <ng-template #missingPhotoTemplate>
             <img src="assets/images/missing_photo.png" alt="Missing Photo">
           </ng-template>
         </ion-avatar>
-        <h1>{{ (shopper | async)?.name }}</h1>
-        <h1>Rating Goes Here!</h1>
+        <h1>{{ shopperUser?.name }}</h1>
+        <h3>{{ shopperUser?.phone }}</h3>
+        <h3 style="text-decoration: underline;">Shopper Rating</h3>
+        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating}}</span>
         <br>
       </ion-item>
     </ion-card>
 
-    <h1>Review Shopper Here...</h1>
+    <ion-grid>
+      <ion-row align-items-center justify-content-center>
+          <h1>Leave a review</h1>
+      </ion-row>
+      <ion-row align-items-center justify-content-center>
+        <textarea rows="4" placeholder="Write a review..." style="width: 100%" [(ngModel)]="tempReview"></textarea>
+      </ion-row>
+      <ion-row align-items-center justify-content-center>
+        <rating [(ngModel)]="tempRating" [float]="true"></rating>
+        <span id="rating-num">{{tempRating}}/5.0</span>
+      </ion-row>
+      <ion-row align-items-center justify-content-center>
+        <button ion-button (click)="submitReview()">Submit</button>
+      </ion-row>
+      <ion-row align-items-center justify-content-center>
+        <span style="color:red">{{reviewError}}</span>
+      </ion-row>
+    </ion-grid>
+
   </div>
 
 </ion-content>

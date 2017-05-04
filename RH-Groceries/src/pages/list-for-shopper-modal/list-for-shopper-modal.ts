@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ShoppingList } from "../../models/shopping-list";
 import * as firebase from 'firebase';
+import { RatingModule } from "ngx-rating";
 
 /**
  * This is the modal shoppers will see on active lists.
@@ -25,6 +26,10 @@ export class ListForShopperModal {
   public itemsForDisplay: Array<string>;
   public purchasedItemsForDisplay: Array<string>;
   public listeningListStatusData: FirebaseObjectObservable<ShoppingList>;
+  public tempRating: number;
+  public tempReview: string;
+  public reviewError: string = "";
+  public hasReviewed: boolean = false;
 
   public price: string = "";
   public tip: FirebaseObjectObservable<string>;
@@ -36,11 +41,11 @@ export class ListForShopperModal {
 
     this.buyer = this.navParams.get("buyer");
     this.itemsObservable = this.af.database.list(`/lists/${this.list.$key}/itemsLeft`);
-    this.itemsObservable.subscribe( (next) => {
+    this.itemsObservable.subscribe((next) => {
       this.itemsForDisplay = next;
     });
     this.purchasedItemsObservable = this.af.database.list(`/lists/${this.list.$key}/purchased`);
-    this.purchasedItemsObservable.subscribe( (next) => {
+    this.purchasedItemsObservable.subscribe((next) => {
       this.purchasedItemsForDisplay = next;
     });
 
@@ -67,9 +72,9 @@ export class ListForShopperModal {
     console.log("Added Item: ", item);
     // this.itemsObservable.remove(item);
     var newItemsList: Array<string> = new Array<string>();
-    this.itemsObservable.subscribe( (snapshot: any) => {
+    this.itemsObservable.subscribe((snapshot: any) => {
       console.log("Snapshot: ", snapshot);
-      snapshot.forEach( (next) => {
+      snapshot.forEach((next) => {
         newItemsList.push(next.$value);
       });
     });
@@ -84,8 +89,8 @@ export class ListForShopperModal {
     console.log(`/lists/${this.list.$key}/purchased`);
     console.log(item);
     var newPurchasedList: Array<string> = new Array<string>();
-    this.purchasedItemsObservable.subscribe( (snapshot: any) => {
-      snapshot.forEach( (next) => {
+    this.purchasedItemsObservable.subscribe((snapshot: any) => {
+      snapshot.forEach((next) => {
         newPurchasedList.push(next.$value);
       });
     });
@@ -99,8 +104,8 @@ export class ListForShopperModal {
 
     var ref = firebase.database().ref().child(`/lists/${this.list.$key}/purchased`);
     var newPurchasedList: Array<string> = new Array<string>();
-    this.purchasedItemsObservable.subscribe( (snapshot: any) => {
-      snapshot.forEach( (next) => {
+    this.purchasedItemsObservable.subscribe((snapshot: any) => {
+      snapshot.forEach((next) => {
         newPurchasedList.push(next.$value);
       });
     });
@@ -108,8 +113,8 @@ export class ListForShopperModal {
     ref.set(newPurchasedList);
 
     var newItemsList: Array<string> = new Array<string>();
-    this.itemsObservable.subscribe( (snapshot: any) => {
-      snapshot.forEach( (next) => {
+    this.itemsObservable.subscribe((snapshot: any) => {
+      snapshot.forEach((next) => {
         newItemsList.push(next.$value);
       });
     });
@@ -121,6 +126,21 @@ export class ListForShopperModal {
   confirmShoppingComplete(): void {
     this.af.database.object(`/lists/${this.list.$key}/subtotal`).set(this.price);
     this.af.database.object(`/lists/${this.list.$key}/status`).set(4);
+  }
+
+  submitReview() {
+    if (!this.tempReview || this.tempReview.length <= 0) {
+      this.reviewError = "Please write a review before submitting"
+    }
+    else if (!this.tempRating || this.tempRating < 0) {
+      this.reviewError = "Please set a rating by clicking on the stars before submitting";
+    }
+    else {
+      console.log("submitting rating = " + this.tempRating + ", review = " + this.tempReview);
+      this.reviewError = "";
+      this.closeModal();
+    }
+
   }
 
 }

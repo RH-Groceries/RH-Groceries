@@ -4,6 +4,7 @@ import { ShoppingList } from './../../models/shopping-list';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { AuthService } from "../../providers/auth-service";
+import { RatingModule } from "ngx-rating";
 
 /**
  * This is the modal buyers will see when selecting their active lists.
@@ -22,6 +23,9 @@ export class BuyerListModal {
   public items: Array<string>;
   public nameForUser: string;
   public shopper: FirebaseObjectObservable<any>;
+  public tempRating: number;
+  public tempReview: string;
+  public reviewError: string = "";
 
   public itemsObservable: FirebaseListObservable<Array<string>>;
   public purchasedItemsObservable: FirebaseListObservable<Array<string>>;
@@ -30,7 +34,7 @@ export class BuyerListModal {
 
   public listeningListStatusData: FirebaseObjectObservable<ShoppingList>;
 
-  public tip: number = 0.00;
+  public tip?: number;
   public subtotal: FirebaseObjectObservable<string>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire) {
@@ -76,6 +80,21 @@ export class BuyerListModal {
       this.af.database.object(`/lists/${this.list.$key}/status`).set(5);
       this.af.database.object(`/lists/${this.list.$key}/tip`).set(this.tip);
     });
+  }
+
+  submitReview() {
+    if (!this.tempReview || this.tempReview.length <= 0) {
+      this.reviewError = "Please write a review before submitting"
+    }
+    else if (!this.tempRating || this.tempRating < 0) {
+      this.reviewError = "Please set a rating by clicking on the stars before submitting";
+    }
+    else {
+      console.log("submitting rating = " + this.tempRating + ", review = " + this.tempReview);
+      this.reviewError = "";
+      this.closeModal();
+    }
+
   }
 
 }
