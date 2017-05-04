@@ -121,7 +121,7 @@
     <br>
 
     <ion-row align-items-center>
-      <h3>Subtotal: ${{list.subtotal}}</h3>
+      <h3>Subtotal: ${{ (subtotal | async).$value }}</h3>
       <ion-item>
         <ion-input name="listTip" type="text" placeholder="Tip: $0.00" [(ngModel)]="tip"></ion-input>
       </ion-item>

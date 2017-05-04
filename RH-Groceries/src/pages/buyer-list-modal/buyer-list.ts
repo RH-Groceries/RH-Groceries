@@ -30,6 +30,7 @@ export class BuyerListModal {
   public listeningListStatusData: FirebaseObjectObservable<ShoppingList>;
 
   public tip: string = "";
+  public subtotal: FirebaseObjectObservable<string>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire) {
     this.list = this.navParams.get("listData");
@@ -48,6 +49,8 @@ export class BuyerListModal {
     this.purchasedItemsObservable.subscribe( (next) => {
       this.purchasedItemsForDisplay = next;
     });
+
+    this.subtotal = this.af.database.object(`/lists/${this.list.$key}/subtotal`);
 
   }
 
