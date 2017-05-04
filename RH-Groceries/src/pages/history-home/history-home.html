@@ -1,5 +1,42 @@
-<ion-content padding>
-    TODO: History page
-    <br>
-    <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_ANoVOQ5X3RwS6GdalUOfnS7wc99iR5uh&scope=read_write" class="button">Connect with Stripe</a>
+<ion-content>
+  <!--<a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_ANoVOQ5X3RwS6GdalUOfnS7wc99iR5uh&scope=read_write" class="button">Connect with Stripe</a>-->
+
+  <div ion-fixed id="full-div" padding>
+    <div text-center id="title">
+      Payment History
+    </div>
+    <div class="list-container">
+      <ion-scroll scrollY="true" class="scroll-view">
+        <ion-list no-lines>
+          <div class="history-item" *ngFor="let item of historyList" [style.background-color]="(item.total < 0)?'red':'green'">
+           <span>{{item.total | currency:'USD':true}}</span>
+           <span>{{item.date | date:'shortDate'}}</span>
+          </div>
+        </ion-list>
+      </ion-scroll>
+    </div>
+
+    <hr class="full-width">
+
+    <div class="full-width payment-container">
+      <div class="payment-info">
+        <div>
+          Total Made:
+        </div>
+        <div>
+          {{totalMade | currency:'USD':true}}
+        </div>
+      </div>
+
+      <div class="payment-info">
+        <div>
+          Total Spent:
+        </div>
+        <div>
+          {{totalSpent | currency:'USD':true}}
+        </div>
+      </div>
+    </div>
+  </div>
+
 </ion-content>
