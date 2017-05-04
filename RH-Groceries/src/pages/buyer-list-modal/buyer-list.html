@@ -18,9 +18,135 @@
 
 
 <ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let item of items">
-      {{ item }}
-    </ion-item>
-  </ion-list>
+
+  <!-- Active List Content -->
+  <div *ngIf="(listeningListStatusData | async).$value==1">
+    <ion-list>
+      <ion-item *ngFor="let item of items">
+        {{ item }}
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+  <!-- List Needing Approval -->
+  <div *ngIf="(listeningListStatusData | async).$value==2">
+    <ion-card>
+      <ion-item>
+        <ion-avatar item-left>
+          <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
+          <ng-template #missingPhotoTemplate>
+            <img src="assets/images/missing_photo.png" alt="Missing Photo">
+          </ng-template>
+        </ion-avatar>
+        <h1>{{ (shopper | async)?.name }}</h1>
+        <h1>Rating Goes Here!</h1>
+        <br>
+      </ion-item>
+    </ion-card>
+
+    <ion-list>
+      <ion-item *ngFor="let item of items">
+        {{ item }}
+      </ion-item>
+    </ion-list>
+    <button ion-button (click)="confirmShopper()">
+      Confirm
+    </button>
+  </div>
+
+
+
+  <!-- List In Progress -->
+  <div *ngIf="(listeningListStatusData | async).$value==3">
+    <ion-card>
+      <ion-item>
+        <ion-avatar item-left>
+          <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
+          <ng-template #missingPhotoTemplate>
+            <img src="assets/images/missing_photo.png" alt="Missing Photo">
+          </ng-template>
+        </ion-avatar>
+        <h1>{{ (shopper | async)?.name }}</h1>
+        <h1>Rating Goes Here!</h1>
+        <br>
+      </ion-item>
+    </ion-card>
+
+    <ion-list>
+      <h3>Items Left</h3>
+      <ion-item *ngFor="let item of itemsForDisplay">
+        {{ item.$value }}
+      </ion-item>
+    </ion-list>
+    <br>
+    <ion-list>
+      <h3>Items Picked Up</h3>
+      <ion-item *ngFor="let item of purchasedItemsForDisplay">
+        {{ item.$value }}
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Delivery Confirm -->
+  <div *ngIf="(listeningListStatusData | async).$value==4">
+    <ion-card>
+      <ion-item>
+        <ion-avatar item-left>
+          <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
+          <ng-template #missingPhotoTemplate>
+            <img src="assets/images/missing_photo.png" alt="Missing Photo">
+          </ng-template>
+        </ion-avatar>
+        <h1>{{ (shopper | async)?.name }}</h1>
+        <h1>Rating Goes Here!</h1>
+        <br>
+      </ion-item>
+    </ion-card>
+
+    <ion-list>
+      <h3>Items Left</h3>
+      <ion-item *ngFor="let item of itemsForDisplay">
+        {{ item.$value }}
+      </ion-item>
+    </ion-list>
+    <br>
+    <ion-list>
+      <h3>Items Picked Up</h3>
+      <ion-item *ngFor="let item of purchasedItemsForDisplay">
+        {{ item.$value }}
+      </ion-item>
+    </ion-list>
+
+    <br>
+
+    <ion-row align-items-center>
+      <h3>Subtotal: ${{ (subtotal | async).$value }}</h3>
+      <ion-item>
+        <ion-input name="listTip" type="text" placeholder="Tip: $0.00" [(ngModel)]="tip"></ion-input>
+      </ion-item>
+    </ion-row>
+    <button ion-button (click)="confirmDelivery()">Confirm</button>
+  </div>
+
+
+  <!-- Review Shopper -->
+  <div *ngIf="(listeningListStatusData | async).$value==5">
+    <ion-card>
+      <ion-item>
+        <ion-avatar item-left>
+          <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
+          <ng-template #missingPhotoTemplate>
+            <img src="assets/images/missing_photo.png" alt="Missing Photo">
+          </ng-template>
+        </ion-avatar>
+        <h1>{{ (shopper | async)?.name }}</h1>
+        <h1>Rating Goes Here!</h1>
+        <br>
+      </ion-item>
+    </ion-card>
+
+    <h1>Review Shopper Here...</h1>
+  </div>
+
 </ion-content>

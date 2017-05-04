@@ -1,3 +1,4 @@
+import { FirebaseObjectObservable, AngularFire, FirebaseListObservable } from 'angularfire2';
 import { ShoppingList } from './../../models/shopping-list';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
@@ -19,11 +20,38 @@ export class BuyerListModal {
   public list: ShoppingList;
   public items: Array<string>;
   public nameForUser: string;
+  public shopper: FirebaseObjectObservable<any>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService) {
+  public itemsObservable: FirebaseListObservable<Array<string>>;
+  public purchasedItemsObservable: FirebaseListObservable<Array<string>>;
+  public itemsForDisplay: Array<string>;
+  public purchasedItemsForDisplay: Array<string>;
+
+  public listeningListStatusData: FirebaseObjectObservable<ShoppingList>;
+
+  public tip: string = "";
+  public subtotal: FirebaseObjectObservable<string>;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire) {
     this.list = this.navParams.get("listData");
     this.items = this.list.items;
     this.nameForUser = this.authService.rfUser.name;
+
+    this.listeningListStatusData = this.af.database.object(`/lists/${this.list.$key}/status`);
+
+    this.shopper = this.af.database.object(`/users/${this.list.shopper}`);
+
+    this.itemsObservable = this.af.database.list(`/lists/${this.list.$key}/itemsLeft`);
+    this.itemsObservable.subscribe( (next) => {
+      this.itemsForDisplay = next;
+    });
+    this.purchasedItemsObservable = this.af.database.list(`/lists/${this.list.$key}/purchased`);
+    this.purchasedItemsObservable.subscribe( (next) => {
+      this.purchasedItemsForDisplay = next;
+    });
+
+    this.subtotal = this.af.database.object(`/lists/${this.list.$key}/subtotal`);
+
   }
 
   ionViewDidLoad() {
@@ -32,6 +60,15 @@ export class BuyerListModal {
 
   closeModal(): void {
     this.viewCtrl.dismiss();
+  }
+
+  confirmShopper(): void {
+    this.af.database.object(`/lists/${this.list.$key}/status`).set(3);
+  }
+
+  confirmDelivery(): void {
+    this.af.database.object(`/lists/${this.list.$key}/status`).set(5);
+    this.af.database.object(`/lists/${this.list.$key}/tip`).set(this.tip);
   }
 
 }
