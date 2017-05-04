@@ -16,7 +16,7 @@
       <button ion-button outline item-right (click)="removeListItem(item)">Remove</button>
     </ion-item>
   </ion-list>
-  <div text-center><button id="savebutton" style="margin: 0 !important;" ion-button (click)="activateList()"> Create </button></div>
+  <div text-center><button id="savebutton" style="margin: 0 !important;" ion-button [disabled]="list.length <= 0" (click)="activateList()"> Create </button></div>
   <br>
 
 
@@ -82,7 +82,7 @@
   <!-- Progress Lists HERE -->
   <div *ngIf="completedLists.length!=0">
     <hr>
-    <h4 center text-center id="setuplabel"> Devliery! </h4>
+    <h4 center text-center id="setuplabel"> Delivery! </h4>
 
     <ion-grid>
       <ion-row wrap>
