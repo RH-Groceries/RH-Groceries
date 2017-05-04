@@ -1,7 +1,7 @@
 import { TabPage } from './../tab-page/tab-page';
 import { ProfileSetup } from './../profile-setup/profile-setup';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AuthService } from "../../providers/auth-service";
 import * as firebase from 'firebase';
 
@@ -12,7 +12,7 @@ import * as firebase from 'firebase';
 })
 export class Login {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService, public loadingCtrl: LoadingController) {
     if (this.authService.authState) {
       this.navCtrl.setRoot(TabPage);
     }
@@ -23,6 +23,11 @@ export class Login {
   }
 
   login() {
+    let loading = this.loadingCtrl.create({
+      content: 'Please Wait...',
+      dismissOnPageChange: true
+    });
+    loading.present();
     this.authService.signInWithRoseFire().subscribe(success => {
       if (success) {
         firebase.database().ref('/users/' + this.authService.authState.uid).once('value').then((snapshot) => {

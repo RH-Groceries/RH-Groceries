@@ -1,3 +1,53 @@
 page-history-home {
-
+  #full-div {
+    height: 100%;
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+  }
+  #title {
+    font-size: 30px;
+    font-weight: bold;
+    padding-bottom: 10px;
+  }
+  .scroll-view {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .scroll-content {
+    padding-top: 0px !important;
+  }
+  .payment-info {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+  }
+  .payment-container {
+    align-self: flex-end;
+    font-size: 20px;
+  }
+  .list-container {
+    flex-grow: 1;
+    position:relative;
+    margin-bottom: 10px;
+  }
+  ion-list {
+    margin-bottom: 0px !important;
+  }
+  .history-item {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    height: 40px;
+    font-size: 20px;
+    align-items: center;
+  }
+  .full-width {
+    width: 100%;
+  }
 }
