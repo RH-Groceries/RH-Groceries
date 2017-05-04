@@ -1,3 +1,4 @@
+import { historyItem } from './../../models/history-item';
 import { FirebaseObjectObservable, AngularFire, FirebaseListObservable } from 'angularfire2';
 import { ShoppingList } from './../../models/shopping-list';
 import { Component } from '@angular/core';
@@ -29,7 +30,7 @@ export class BuyerListModal {
 
   public listeningListStatusData: FirebaseObjectObservable<ShoppingList>;
 
-  public tip: string = "";
+  public tip: number = 0.00;
   public subtotal: FirebaseObjectObservable<string>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire) {
@@ -42,11 +43,11 @@ export class BuyerListModal {
     this.shopper = this.af.database.object(`/users/${this.list.shopper}`);
 
     this.itemsObservable = this.af.database.list(`/lists/${this.list.$key}/itemsLeft`);
-    this.itemsObservable.subscribe( (next) => {
+    this.itemsObservable.subscribe((next) => {
       this.itemsForDisplay = next;
     });
     this.purchasedItemsObservable = this.af.database.list(`/lists/${this.list.$key}/purchased`);
-    this.purchasedItemsObservable.subscribe( (next) => {
+    this.purchasedItemsObservable.subscribe((next) => {
       this.purchasedItemsForDisplay = next;
     });
 
@@ -67,8 +68,14 @@ export class BuyerListModal {
   }
 
   confirmDelivery(): void {
-    this.af.database.object(`/lists/${this.list.$key}/status`).set(5);
-    this.af.database.object(`/lists/${this.list.$key}/tip`).set(this.tip);
+    let buyerHistory = new historyItem(-1 * this.tip);
+    let shopperHistory = new historyItem(this.tip);
+    this.af.database.object(`/lists/${this.list.$key}/shopper`).subscribe((val) => {
+      this.af.database.list('users/' + this.authService.authState.uid + '/paymentHistory').push(buyerHistory);
+      this.af.database.list('users/' + val.$value + '/paymentHistory').push(shopperHistory);
+      this.af.database.object(`/lists/${this.list.$key}/status`).set(5);
+      this.af.database.object(`/lists/${this.list.$key}/tip`).set(this.tip);
+    });
   }
 
 }

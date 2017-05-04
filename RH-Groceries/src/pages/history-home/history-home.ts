@@ -16,6 +16,9 @@ export class HistoryHome {
   public totalMade: Number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private af: AngularFire, private authService: AuthService) {
+    let date = new Date();
+    let dateString = date.toString();
+    let returnedDate = new Date(dateString);
     this.totalSpent = 0.00;
     this.totalMade = 0.00;
     let historyObservable = this.af.database.list('users/' + authService.authState.uid + '/paymentHistory', {
