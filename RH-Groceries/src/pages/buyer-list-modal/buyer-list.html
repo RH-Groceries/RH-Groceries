@@ -42,7 +42,7 @@
         <h1>{{ shopperUser?.name }}</h1>
         <h3>{{ shopperUser?.phone }}</h3>
         <h3 style="text-decoration: underline;">Shopper Rating</h3>
-        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating}}</span>
+        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating | number : '1.1-1'}}</span>
         <br>
       </ion-item>
     </ion-card>
@@ -72,7 +72,7 @@
         <h1>{{ shopperUser?.name }}</h1>
         <h3>{{ shopperUser?.phone }}</h3>
         <h3 style="text-decoration: underline;">Shopper Rating</h3>
-        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating}}</span>
+        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating | number : '1.1-1'}}</span>
         <br>
       </ion-item>
     </ion-card>
@@ -105,7 +105,7 @@
         <h1>{{ shopperUser?.name }}</h1>
         <h3>{{ shopperUser?.phone }}</h3>
         <h3 style="text-decoration: underline;">Shopper Rating</h3>
-        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating}}</span>
+        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating | number : '1.1-1'}}</span>
         <br>
       </ion-item>
     </ion-card>
@@ -149,7 +149,7 @@
         <h1>{{ shopperUser?.name }}</h1>
         <h3>{{ shopperUser?.phone }}</h3>
         <h3 style="text-decoration: underline;">Shopper Rating</h3>
-        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating}}</span>
+        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating | number : '1.1-1'}}</span>
         <br>
       </ion-item>
     </ion-card>
@@ -163,7 +163,7 @@
       </ion-row>
       <ion-row align-items-center justify-content-center>
         <rating [(ngModel)]="tempRating" [float]="true"></rating>
-        <span id="rating-num">{{tempRating}}/5.0</span>
+        <span id="rating-num">{{tempRating | number : '1.1-1'}}/5.0</span>
       </ion-row>
       <ion-row align-items-center justify-content-center>
         <button ion-button (click)="submitReview()">Submit</button>
