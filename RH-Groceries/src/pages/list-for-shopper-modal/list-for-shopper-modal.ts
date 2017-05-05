@@ -32,7 +32,7 @@ export class ListForShopperModal {
   public hasReviewed: boolean = false;
 
   public price: string = "";
-  public tip: FirebaseObjectObservable<string>;
+  public tip: FirebaseObjectObservable<number>;
   public subtotal: FirebaseObjectObservable<string>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private af: AngularFire, private authService: AuthService) {
