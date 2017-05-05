@@ -1,8 +1,8 @@
+import { ShoppingList } from './../../models/shopping-list';
 import { AuthService } from './../../providers/auth-service';
 import { FirebaseObjectObservable, AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { ShoppingList } from "../../models/shopping-list";
 import * as firebase from 'firebase';
 import { RatingModule } from "ngx-rating";
 
@@ -25,7 +25,7 @@ export class ListForShopperModal {
   public purchasedItemsObservable: FirebaseListObservable<Array<string>>;
   public itemsForDisplay: Array<string>;
   public purchasedItemsForDisplay: Array<string>;
-  public listeningListStatusData: FirebaseObjectObservable<ShoppingList>;
+  public listeningListStatusData: FirebaseObjectObservable<number>;
   public tempRating: number;
   public tempReview: string;
   public reviewError: string = "";
@@ -138,7 +138,12 @@ export class ListForShopperModal {
     else {
       console.log("submitting rating = " + this.tempRating + ", review = " + this.tempReview);
       this.reviewError = "";
-      this.closeModal();
+      this.hasReviewed = true;
+      firebase.database().ref(`/lists/${this.list.$key}/status`).once("value").then( (snapshot: any) => {
+        if (snapshot.val() == 5){
+          this.closeModal();
+        }
+      });
     }
 
   }
