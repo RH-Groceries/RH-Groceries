@@ -18,23 +18,26 @@
 
 <ion-content padding>
   <ion-card>
-    <ion-item>
+    <ion-item *ngIf="(buyer | async) as buyerUser">
       <ion-avatar item-left>
-        <img *ngIf="(buyer | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
+        <img *ngIf="buyerUser?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
         <ng-template #missingPhotoTemplate>
           <img src="assets/images/missing_photo.png" alt="Missing Photo">
         </ng-template>
       </ion-avatar>
-      <h1>{{ (buyer | async)?.name }}</h1>
-      <h1>Rating Goes Here!</h1>
+      <h1>{{ buyerUser?.name }}</h1>
+      <h3>{{ buyerUser?.phone }}</h3>
+      <h3>{{ buyerUser?.address }}</h3>
+      <h3 style="text-decoration: underline;">Buyer Rating</h3>
+      <rating [(ngModel)]="buyerUser && buyerUser.buyerRating" [float]="true" [readonly]="true"></rating><span>{{buyerUser?.buyerRating | number : '1.1-1'}}</span>
       <br>
-      <!--<h1>{{ items.length}} Items</h1>-->
     </ion-item>
   </ion-card>
 
 
   <!-- Confirm You Want to Shop HERE -->
   <div *ngIf="(listeningListStatusData | async).$value==1">
+
     <ion-list>
       <ion-item *ngFor="let item of itemsForDisplay">
         {{ item.$value }}
@@ -100,7 +103,25 @@
 
     <br>
 
-    <h1>Rating Buyer Here...</h1>
+    <ion-grid *ngIf="!hasReviewed">
+      <ion-row align-items-center justify-content-center>
+        <h1>Leave a review</h1>
+      </ion-row>
+      <ion-row align-items-center justify-content-center>
+        <textarea rows="4" placeholder="Write a review..." style="width: 100%" [(ngModel)]="tempReview"></textarea>
+      </ion-row>
+      <ion-row align-items-center justify-content-center>
+        <rating [(ngModel)]="tempRating" [float]="true"></rating>
+        <span id="rating-num">{{tempRating | number : '1.1-1'}} / 5.0</span>
+      </ion-row>
+      <ion-row align-items-center justify-content-center>
+        <button ion-button (click)="submitReview()">Submit</button>
+      </ion-row>
+      <ion-row align-items-center justify-content-center>
+        <span style="color:red">{{reviewError}}</span>
+      </ion-row>
+    </ion-grid>
+    <h1 *ngIf="hasReviewed">Review Submitted!</h1>
 
   </div>
 
@@ -112,7 +133,26 @@
 
     <br>
 
-    <h1>Rating Buyer Here...</h1>
+    <ion-grid *ngIf="!hasReviewed">
+      <ion-row align-items-center justify-content-center>
+        <h1>Leave a review</h1>
+      </ion-row>
+      <ion-row align-items-center justify-content-center>
+        <textarea rows="4" placeholder="Write a review..." style="width: 100%" [(ngModel)]="tempReview"></textarea>
+      </ion-row>
+      <ion-row align-items-center justify-content-center>
+        <rating [(ngModel)]="tempRating" [float]="true"></rating>
+        <span id="rating-num">{{tempRating | number : '1.1-1'}} / 5.0</span>
+      </ion-row>
+      <ion-row align-items-center justify-content-center>
+        <button ion-button (click)="submitReview()">Submit</button>
+      </ion-row>
+      <ion-row align-items-center justify-content-center>
+        <span style="color:red">{{reviewError}}</span>
+      </ion-row>
+    </ion-grid>
+    <h1 *ngIf="hasReviewed">Review Submitted!</h1>
+
 
   </div>
 

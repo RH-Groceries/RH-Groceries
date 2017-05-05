@@ -27,7 +27,7 @@ export class HistoryHome {
       }
     });
     historyObservable.subscribe((inList) => {
-      this.historyList = inList.reverse();
+      this.historyList = inList.slice().reverse();
       for (var i = inList.length - 1; i >= 0; i--) {
         if (inList[i].total < 0) {
           this.totalSpent += inList[i].total;

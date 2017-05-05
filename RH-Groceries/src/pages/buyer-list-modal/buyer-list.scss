@@ -1,3 +1,11 @@
 page-buyer-list {
-
+    ion-grid {
+        margin-top: 60px;
+        * {
+            padding-bottom: 10px;
+        }
+        #rating-num {
+            padding-left: 15px;
+        }
+    }
 }
