@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { AuthService } from "../../providers/auth-service";
 import { RatingModule } from "ngx-rating";
+import * as firebase from 'firebase';
 
 /**
  * This is the modal buyers will see when selecting their active lists.
@@ -74,9 +75,9 @@ export class BuyerListModal {
   confirmDelivery(): void {
     let buyerHistory = new historyItem(-1 * this.tip);
     let shopperHistory = new historyItem(this.tip);
-    this.af.database.object(`/lists/${this.list.$key}/shopper`).subscribe((val) => {
+    firebase.database().ref(`/lists/${this.list.$key}/shopper`).once("value").then((snapshot) => {
       this.af.database.list('users/' + this.authService.authState.uid + '/paymentHistory').push(buyerHistory);
-      this.af.database.list('users/' + val.$value + '/paymentHistory').push(shopperHistory);
+      this.af.database.list('users/' + snapshot.val() + '/paymentHistory').push(shopperHistory);
       this.af.database.object(`/lists/${this.list.$key}/status`).set(5);
       this.af.database.object(`/lists/${this.list.$key}/tip`).set(this.tip);
     });
@@ -90,9 +91,23 @@ export class BuyerListModal {
       this.reviewError = "Please set a rating by clicking on the stars before submitting";
     }
     else {
-      console.log("submitting rating = " + this.tempRating + ", review = " + this.tempReview);
+      //console.log("submitting rating = " + this.tempRating + ", review = " + this.tempReview);
       this.reviewError = "";
-      this.closeModal();
+      firebase.database().ref(`/users/${this.list.shopper}`).once("value").then((snapshot) => {
+        let user = snapshot.val();
+        let shopperRating = user.shopperRating;
+        let shopperTotal = user.shopperTotal;
+        let newShopperRating = ((shopperRating * shopperTotal) + this.tempRating) / (shopperTotal + 1);
+        //console.log("previous rating: " + shopperRating + ", previous total: " + shopperTotal + ", new rating: " + newShopperRating);
+        firebase.database().ref(`/users/${this.list.shopper}`).update({
+          shopperRating: newShopperRating,
+          shopperTotal: shopperTotal + 1
+        }, (error) => {
+          if (!error) {
+            this.closeModal();
+          }
+        });
+      });
     }
 
   }
