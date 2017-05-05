@@ -68,7 +68,7 @@
           </rating>
         </ion-col>
         <ion-col col-auto>
-          {{user?.buyerRating}}
+          {{user?.buyerRating | number : '1.1-1'}}
         </ion-col>
       </ion-row>
       <ion-row align-items-center>
@@ -80,7 +80,7 @@
           </rating>
         </ion-col>
         <ion-col col-auto>
-          {{user?.shopperRating}}
+          {{user?.shopperRating | number : '1.1-1'}}
         </ion-col>
       </ion-row>
     </ng-template>

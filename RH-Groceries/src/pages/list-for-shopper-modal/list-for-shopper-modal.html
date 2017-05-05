@@ -29,7 +29,7 @@
       <h3>{{ buyerUser?.phone }}</h3>
       <h3>{{ buyerUser?.address }}</h3>
       <h3 style="text-decoration: underline;">Buyer Rating</h3>
-      <rating [(ngModel)]="buyerUser && buyerUser.buyerRating" [float]="true" [readonly]="true"></rating><span>{{buyerUser?.buyerRating}}</span>
+      <rating [(ngModel)]="buyerUser && buyerUser.buyerRating" [float]="true" [readonly]="true"></rating><span>{{buyerUser?.buyerRating | number : '1.1-1'}}</span>
       <br>
     </ion-item>
   </ion-card>
@@ -112,7 +112,7 @@
       </ion-row>
       <ion-row align-items-center justify-content-center>
         <rating [(ngModel)]="tempRating" [float]="true"></rating>
-        <span id="rating-num">{{tempRating}}/5.0</span>
+        <span id="rating-num">{{tempRating | number : '1.1-1'}} / 5.0</span>
       </ion-row>
       <ion-row align-items-center justify-content-center>
         <button ion-button (click)="submitReview()">Submit</button>
@@ -142,7 +142,7 @@
       </ion-row>
       <ion-row align-items-center justify-content-center>
         <rating [(ngModel)]="tempRating" [float]="true"></rating>
-        <span id="rating-num">{{tempRating}}/5.0</span>
+        <span id="rating-num">{{tempRating | number : '1.1-1'}} / 5.0</span>
       </ion-row>
       <ion-row align-items-center justify-content-center>
         <button ion-button (click)="submitReview()">Submit</button>

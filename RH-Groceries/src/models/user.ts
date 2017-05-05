@@ -3,6 +3,8 @@ export class User {
     address: string =  "";
     phone: string = "";
     image: string = "";
-    buyerRating: number = -1.0;
-    shopperRating: number = -1.0;
+    buyerRating: number = 0.0;
+    buyerTotal: number = 0;
+    shopperRating: number = 0.0;
+    shopperTotal: number = 0;
 }

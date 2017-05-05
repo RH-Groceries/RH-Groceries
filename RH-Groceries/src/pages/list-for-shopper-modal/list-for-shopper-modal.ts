@@ -136,14 +136,29 @@ export class ListForShopperModal {
       this.reviewError = "Please set a rating by clicking on the stars before submitting";
     }
     else {
-      console.log("submitting rating = " + this.tempRating + ", review = " + this.tempReview);
+      //console.log("submitting rating = " + this.tempRating + ", review = " + this.tempReview + ", buyer = " + this.list.buyer);
       this.reviewError = "";
-      this.hasReviewed = true;
-      firebase.database().ref(`/lists/${this.list.$key}/status`).once("value").then( (snapshot: any) => {
-        if (snapshot.val() == 5){
-          this.closeModal();
-        }
+      firebase.database().ref(`/users/${this.list.buyer}`).once("value").then((snapshot: any) => {
+        let user = snapshot.val();
+        let buyerRating = user.buyerRating;
+        let buyerTotal = user.buyerTotal;
+        let newBuyerRating = ((buyerRating * buyerTotal) + this.tempRating) / (buyerTotal + 1);
+        //console.log("previous rating: " + buyerRating + ", previous total: " + buyerTotal + ", new rating: " + newBuyerRating);
+        firebase.database().ref(`/users/${this.list.buyer}`).update({
+          buyerRating: newBuyerRating,
+          buyerTotal: buyerTotal+1
+        }, (error) => {
+          if (!error) {
+            this.hasReviewed = true;
+            firebase.database().ref(`/lists/${this.list.$key}/status`).once("value").then((snapshot: any) => {
+              if (snapshot.val() == 5) {
+                this.closeModal();
+              }
+            });
+          }
+        });
       });
+
     }
 
   }
