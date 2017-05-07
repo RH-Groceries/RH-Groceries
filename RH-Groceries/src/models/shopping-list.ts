@@ -8,6 +8,7 @@ export class ShoppingList {
     itemsLeft?: Array<string>;
     purchased?: Array<string>;
     status: number;
+    title: string;
 
     // TODO: Need to establish what statuses there are...
     // 0: Inactive
