@@ -19,7 +19,7 @@ export class ProfileSetup {
   public imageUrl: string = "";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private imagePicker: ImagePicker, private authService: AuthService, private http: Http) {
-
+        this.user = new User();
   }
 
   ionViewDidLoad() {
@@ -31,11 +31,13 @@ export class ProfileSetup {
   }
 
   saveProfile(form: HTMLFormElement) {
+
     //${this.authService.rfUser.name}
     this.http.get(`https://rh-groceries-backend.herokuapp.com/api/create/${this.authService.authState.uid}/${this.authService.authState.uid}@rose-hulman.edu`).subscribe((value) => {
 
     });
     this.user = new User();
+
     this.user.name = this.authService.rfUser.name;
     firebase.database().ref().child('users').child(this.authService.authState.uid).set(this.user, (err) => {
       if (err) {
