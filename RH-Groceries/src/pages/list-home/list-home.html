@@ -4,19 +4,19 @@
 
   <ion-row align-items-center>
     <ion-item>
-      <ion-input name="new-item" type="text" placeholder="New Item..." [(ngModel)]="newItemValue" (keyup.enter)="addItem()"></ion-input>
+      <ion-input id="item-input" name="new-item" type="text" [placeholder]="placeholderText" [(ngModel)]="newItemValue" (keyup.enter)="addItem()"></ion-input>
     </ion-item>
   </ion-row>
 
-  <ion-item-divider color="light" *ngIf="list.length!=0">New List</ion-item-divider>
+  <ion-item-divider color="light" *ngIf="listName" >List Title: {{listName}}</ion-item-divider>
 
   <ion-list>
-    <ion-item *ngFor="let item of list">
-      {{ item }}
+    <ion-item *ngFor="let item of list; let i = index">
+      {{i+1}}. {{item}}
       <button ion-button outline item-right (click)="removeListItem(item)">Remove</button>
     </ion-item>
   </ion-list>
-  <div text-center><button id="savebutton" style="margin: 0 !important;" ion-button [disabled]="list.length <= 0" (click)="activateList()"> Create </button></div>
+  <div text-center><button id="savebutton" style="margin: 0 !important;" ion-button [disabled]="list.length <= 0 && (listName !== undefined || listName !== '')" (click)="activateList()"> Create </button></div>
   <br>
 
 
@@ -33,7 +33,7 @@
           <ion-col>
             <ion-card *ngFor="let list of buyerLists" (click)="viewBuyerList(list)">
               <ion-item>
-                <h2>{{ list.items[0] }}</h2>
+                <h2>{{ list.title }}</h2>
                 <button ion-button outline item-right (click)="removeBuyerList(list)">Remove</button>
               </ion-item>
             </ion-card>
@@ -52,7 +52,7 @@
           <ion-col>
             <ion-card *ngFor="let list of waitingLists" (click)="viewBuyerList(list)">
               <ion-item>
-                <h2>{{ list.items[0] }}</h2>
+                <h2>{{ list.title }}</h2>
                 <button ion-button outline item-right>Remove</button>
               </ion-item>
             </ion-card>
@@ -71,7 +71,7 @@
           <ion-col>
             <ion-card *ngFor="let list of inProgressLists" (click)="viewBuyerList(list)">
               <ion-item>
-                <h2>{{ list.items[0] }}</h2>
+                <h2>{{ list.title }}</h2>
               </ion-item>
             </ion-card>
           </ion-col>
@@ -89,7 +89,7 @@
           <ion-col>
             <ion-card *ngFor="let list of completedLists" (click)="viewBuyerList(list)">
               <ion-item>
-                <h2>{{ list.items[0] }}</h2>
+                <h2>{{ list.title }}</h2>
               </ion-item>
             </ion-card>
           </ion-col>

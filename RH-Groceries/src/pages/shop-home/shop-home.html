@@ -9,7 +9,7 @@
         <ion-col>
           <ion-card *ngFor="let list of waitingForConfirmationLists " (click)="viewBuyerList(list)">
             <ion-item>
-              <h2>{{ list.items[0] }}</h2>
+              <h2>{{ list.title }}</h2>
             </ion-item>
           </ion-card>
         </ion-col>
@@ -32,7 +32,7 @@
         <ion-col>
           <ion-card *ngFor="let list of activeLists " (click)="viewBuyerList(list)">
             <ion-item>
-              <h2>{{ list.items[0] }}</h2>
+              <h2>{{ list.title }}</h2>
             </ion-item>
           </ion-card>
         </ion-col>
@@ -51,7 +51,7 @@
         <ion-col>
           <ion-card *ngFor="let list of inProgressLists " (click)="viewBuyerList(list)">
             <ion-item>
-              <h2>{{ list.items[0] }}</h2>
+              <h2>{{ list.title }}</h2>
             </ion-item>
           </ion-card>
         </ion-col>
@@ -69,7 +69,7 @@
         <ion-col>
           <ion-card *ngFor="let list of deliveredLists " (click)="viewBuyerList(list)">
             <ion-item>
-              <h2>{{ list.items[0] }}</h2>
+              <h2>{{ list.title }}</h2>
             </ion-item>
           </ion-card>
         </ion-col>

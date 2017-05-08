@@ -14,6 +14,8 @@ import * as firebase from 'firebase';
 export class ListHome {
 
   public list: Array<string>;
+  public listName: string;
+  public placeholderText: string = "Enter the list name";
   public newItemValue: string;
   public buyerLists: ShoppingList[];
   public buyerListsObservable: FirebaseListObservable<ShoppingList[]>;
@@ -37,7 +39,7 @@ export class ListHome {
       }
     });
 
-    queryActiveObservable.subscribe( (shoppingLists) => {
+    queryActiveObservable.subscribe((shoppingLists) => {
       for (let i = shoppingLists.length - 1; i >= 0; i--) {
         if (shoppingLists[i].buyer !== this.authService.authState.uid) shoppingLists.splice(i, 1);
       }
@@ -52,7 +54,7 @@ export class ListHome {
     });
 
 
-    queryWaitingObservable.subscribe( (shoppingLists) => {
+    queryWaitingObservable.subscribe((shoppingLists) => {
       for (let i = shoppingLists.length - 1; i >= 0; i--) {
         if (shoppingLists[i].buyer !== this.authService.authState.uid) shoppingLists.splice(i, 1);
       }
@@ -66,7 +68,7 @@ export class ListHome {
       }
     });
 
-    queryInProgressObservable.subscribe( (shoppingLists) => {
+    queryInProgressObservable.subscribe((shoppingLists) => {
       for (let i = shoppingLists.length - 1; i >= 0; i--) {
         if (shoppingLists[i].buyer !== this.authService.authState.uid) shoppingLists.splice(i, 1);
       }
@@ -80,7 +82,7 @@ export class ListHome {
       }
     });
 
-    queryCompletedObservable.subscribe( (shoppingLists) => {
+    queryCompletedObservable.subscribe((shoppingLists) => {
       for (let i = shoppingLists.length - 1; i >= 0; i--) {
         if (shoppingLists[i].buyer !== this.authService.authState.uid) shoppingLists.splice(i, 1);
       }
@@ -95,13 +97,27 @@ export class ListHome {
   }
 
   addItem(): void {
-    this.list.push(this.newItemValue);
-    this.newItemValue = "";
+    if (!this.listName) {
+      console.log("setting listName ", this.newItemValue);
+      this.placeholderText = "New Item";
+      this.listName = this.newItemValue;
+      this.newItemValue = "";
+    }
+    else {
+      this.list.push(this.newItemValue);
+      this.newItemValue = "";
+    }
+
+
   }
 
   removeListItem(item: string): void {
     var index = this.list.indexOf(item);
     this.list.splice(index, 1);
+    if (this.list.length === 0) {
+      this.listName = "";
+      this.placeholderText = "Enter the list name";
+    }
   }
 
   activateList(): void {
@@ -113,7 +129,10 @@ export class ListHome {
     newList.subtotal = 0;
     newList.tip = 0;
     newList.status = 1;
+    newList.title = this.listName;
     this.buyerListsObservable.push(newList);
+    this.listName = "";
+    this.placeholderText = "Enter the list name";
     // var newItemKey =  this.buyerLists.push(newList).key;
     // var ref = firebase.database().ref().child(`/lists/${newItemKey}/items`);
     // this.list.forEach( (newItem) => {
@@ -133,7 +152,7 @@ export class ListHome {
   }
 
   viewBuyerList(list: ShoppingList): void {
-    let buyerListModal = this.modalCtrl.create(BuyerListModal, {"listData": list});
+    let buyerListModal = this.modalCtrl.create(BuyerListModal, { "listData": list });
     buyerListModal.present();
   }
 
