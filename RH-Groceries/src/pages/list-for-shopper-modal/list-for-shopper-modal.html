@@ -92,7 +92,7 @@
           <ion-input name="listPrice" type="text" placeholder="$0.00" [(ngModel)]="price"></ion-input>
         </ion-item>
       </ion-row>
-      <button ion-button (click)="confirmShoppingComplete()">Confirm</button>
+      <button ion-button [disabled]="!price" (click)="confirmShoppingComplete()">Confirm</button>
     </div>
 
   </div>

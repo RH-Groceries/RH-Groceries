@@ -81,7 +81,8 @@ export class BuyerListModal {
     this.af.database.object(`/users/${this.authService.authState.uid}/stripeAccount/id`).subscribe((payerId) => {
       this.af.database.object(`/users/${this.list.shopper}/stripeAccount/id`).subscribe((destinationId) => {
         this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe((subTotal) => {
-          this.http.get(`https://rh-groceries-backend.herokuapp.com/api/pay/${payerId.$value}/${destinationId.$value}/${subTotal.$value + Number(this.tip)}`).subscribe((value) => {
+          let total = parseFloat(subTotal.$value) + Number(this.tip);
+          this.http.get(`https://rh-groceries-backend.herokuapp.com/api/pay/${payerId.$value}/${destinationId.$value}/${total}`).subscribe((value) => {
 
           });
         })
