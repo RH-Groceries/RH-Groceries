@@ -17,6 +17,7 @@ export class ProfileSetup {
   public imageUrl: string = "";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private imagePicker: ImagePicker, private authService: AuthService) {
+        this.user = new User();
   }
 
   ionViewDidLoad() {
@@ -28,7 +29,6 @@ export class ProfileSetup {
   }
 
   saveProfile(form: HTMLFormElement) {
-    this.user = new User();
     this.user.name = this.authService.rfUser.name;
     firebase.database().ref().child('users').child(this.authService.authState.uid).set(this.user, (err) => {
       if (err) {
