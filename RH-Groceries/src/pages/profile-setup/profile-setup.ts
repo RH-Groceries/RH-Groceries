@@ -32,7 +32,7 @@ export class ProfileSetup {
 
   saveProfile(form: HTMLFormElement) {
     //${this.authService.rfUser.name}
-    this.http.get(`https://rh-groceries-backend.herokuapp.com/api/create/${this.authService.authState.uid}/gayso.joshua@gmail.com`).subscribe((value) => {
+    this.http.get(`https://rh-groceries-backend.herokuapp.com/api/create/${this.authService.authState.uid}/${this.authService.authState.uid}@rose-hulman.edu`).subscribe((value) => {
 
     });
     this.user = new User();

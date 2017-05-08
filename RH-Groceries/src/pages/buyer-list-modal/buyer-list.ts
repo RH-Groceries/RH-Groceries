@@ -1,3 +1,4 @@
+import { Http } from '@angular/http';
 import { historyItem } from './../../models/history-item';
 import { FirebaseObjectObservable, AngularFire, FirebaseListObservable } from 'angularfire2';
 import { ShoppingList } from './../../models/shopping-list';
@@ -38,7 +39,9 @@ export class BuyerListModal {
   public tip?: number;
   public subtotal: FirebaseObjectObservable<string>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire) {
+  public shopperStripeId: string;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire, private http: Http) {
     this.list = this.navParams.get("listData");
     this.items = this.list.items;
     this.nameForUser = this.authService.rfUser.name;
@@ -73,6 +76,22 @@ export class BuyerListModal {
   }
 
   confirmDelivery(): void {
+    // Do Stripe Work Here
+
+    this.af.database.object(`/users/${this.authService.authState.uid}/stripeAccount/id`).subscribe((payerId) => {
+      this.af.database.object(`/users/${this.list.shopper}/stripeAccount/id`).subscribe((destinationId) => {
+        this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe((subTotal) => {
+          this.http.get(`https://rh-groceries-backend.herokuapp.com/api/pay/${payerId.$value}/${destinationId.$value}/${subTotal.$value + Number(this.tip)}`).subscribe((value) => {
+
+          });
+        })
+
+      });
+    });
+
+
+
+
     let buyerHistory = new historyItem(-1 * this.tip);
     let shopperHistory = new historyItem(1 * this.tip);
     firebase.database().ref(`/lists/${this.list.$key}/shopper`).once("value").then((snapshot) => {
