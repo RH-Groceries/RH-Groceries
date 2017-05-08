@@ -40,6 +40,7 @@ export class ShopHome {
       }
     });
 
+    // Need to only allow active shopper here
     waitingForConfirmationListsQueryObservable.subscribe((items) => {
       for (let i = items.length - 1; i >= 0; i--) {
         if (items[i].buyer === this.authService.authState.uid) items.splice(i, 1);

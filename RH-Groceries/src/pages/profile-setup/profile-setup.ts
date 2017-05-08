@@ -36,7 +36,6 @@ export class ProfileSetup {
     this.http.get(`https://rh-groceries-backend.herokuapp.com/api/create/${this.authService.authState.uid}/${this.authService.authState.uid}@rose-hulman.edu`).subscribe((value) => {
 
     });
-    this.user = new User();
 
     this.user.name = this.authService.rfUser.name;
     firebase.database().ref().child('users').child(this.authService.authState.uid).set(this.user, (err) => {

@@ -41,6 +41,10 @@ export class BuyerListModal {
 
   public shopperStripeId: string;
 
+  public payerId: string = "";
+  public destinationId: string = "";
+  public submittedSubtotal: string = "";
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire, private http: Http) {
     this.list = this.navParams.get("listData");
     this.items = this.list.items;
@@ -61,6 +65,19 @@ export class BuyerListModal {
 
     this.subtotal = this.af.database.object(`/lists/${this.list.$key}/subtotal`);
 
+
+    this.af.database.object(`/users/${this.authService.authState.uid}/stripeAccount/id`).subscribe((payerId) => {
+      this.payerId = payerId.$value;
+    });
+
+    this.af.database.object(`/users/${this.list.shopper}/stripeAccount/id`).subscribe((destinationId) => {
+      this.destinationId = destinationId.$value;
+    });
+
+    this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe((subTotal) => {
+      this.submittedSubtotal = subTotal.$value;
+    });
+
   }
 
   ionViewDidLoad() {
@@ -78,16 +95,24 @@ export class BuyerListModal {
   confirmDelivery(): void {
     // Do Stripe Work Here
 
-    this.af.database.object(`/users/${this.authService.authState.uid}/stripeAccount/id`).subscribe((payerId) => {
-      this.af.database.object(`/users/${this.list.shopper}/stripeAccount/id`).subscribe((destinationId) => {
-        this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe((subTotal) => {
-          let total = parseFloat(subTotal.$value) + Number(this.tip);
-          this.http.get(`https://rh-groceries-backend.herokuapp.com/api/pay/${payerId.$value}/${destinationId.$value}/${total}`).subscribe((value) => {
+    // Pull this apart into constructor to make sure values are up to date
 
-          });
-        })
+    // this.af.database.object(`/users/${this.authService.authState.uid}/stripeAccount/id`).subscribe((payerId) => {
+    //   this.af.database.object(`/users/${this.list.shopper}/stripeAccount/id`).subscribe((destinationId) => {
+    //     this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe((subTotal) => {
+    //       let total = parseFloat(subTotal.$value) + Number(this.tip);
+    //       this.http.get(`https://rh-groceries-backend.herokuapp.com/api/pay/${payerId.$value}/${destinationId.$value}/${total}`).subscribe((value) => {
 
-      });
+    //       });
+    //     })
+
+    //   });
+    // });
+
+
+    let total = parseFloat(this.submittedSubtotal) + Number(this.tip);
+    this.http.get(`https://rh-groceries-backend.herokuapp.com/api/pay/${this.payerId}/${this.destinationId}/${total}`).subscribe((value) => {
+      
     });
 
 
