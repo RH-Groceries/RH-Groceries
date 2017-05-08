@@ -42,8 +42,11 @@ export class ShopHome {
 
     // Need to only allow active shopper here
     waitingForConfirmationListsQueryObservable.subscribe((items) => {
+      // for (let i = items.length - 1; i >= 0; i--) {
+      //   if (items[i].buyer === this.authService.authState.uid) items.splice(i, 1);
+      // }
       for (let i = items.length - 1; i >= 0; i--) {
-        if (items[i].buyer === this.authService.authState.uid) items.splice(i, 1);
+        if (items[i].shopper !== this.authService.authState.uid) items.splice(i, 1);
       }
       this.waitingForConfirmationLists = items;
     });
@@ -56,8 +59,11 @@ export class ShopHome {
     });
 
     inProgressListsQueryObservable.subscribe((items) => {
+      // for (let i = items.length - 1; i >= 0; i--) {
+      //   if (items[i].buyer === this.authService.authState.uid) items.splice(i, 1);
+      // }
       for (let i = items.length - 1; i >= 0; i--) {
-        if (items[i].buyer === this.authService.authState.uid) items.splice(i, 1);
+        if (items[i].shopper !== this.authService.authState.uid) items.splice(i, 1);
       }
       this.inProgressLists = items;
     });
@@ -70,8 +76,11 @@ export class ShopHome {
     });
 
     deliveredListsQueryObservable.subscribe((items) => {
+      // for (let i = items.length - 1; i >= 0; i--) {
+      //   if (items[i].buyer === this.authService.authState.uid) items.splice(i, 1);
+      // }
       for (let i = items.length - 1; i >= 0; i--) {
-        if (items[i].buyer === this.authService.authState.uid) items.splice(i, 1);
+        if (items[i].shopper !== this.authService.authState.uid) items.splice(i, 1);
       }
       this.deliveredLists = items;
     });
