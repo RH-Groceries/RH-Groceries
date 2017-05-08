@@ -39,6 +39,13 @@
           <img *ngIf="this.imageUrl" src="" alt="profile image">
         </ion-col>
       </ion-row>
+      <br>
+
+      <ion-row align-items-center>
+        <h2>Payments:</h2>
+        <p>We use Stripe Connect as our primary payment service which allows safe payments between users. After finishing your profile here, you will be given an unactivated Stripe account which will give you limited access to buying and shopping. Stripe will send an email with instructions on how to activate your account which will remove all limitations.
+      </ion-row>
+
     </ion-grid>
 
     <div text-center><button id="savebutton" [disabled]="!form.valid" ion-button type="submit"> Finish </button></div>

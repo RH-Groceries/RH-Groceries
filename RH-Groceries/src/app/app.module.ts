@@ -22,6 +22,7 @@ import { RatingModule } from 'ngx-rating';
 import { AngularFireModule } from 'angularfire2';
 import { ListForShopperModal } from "../pages/list-for-shopper-modal/list-for-shopper-modal";
 import { UserInfoService } from "../providers/user-info-service";
+import { HttpModule } from "@angular/http";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { UserInfoService } from "../providers/user-info-service";
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    RatingModule
+    RatingModule,
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
