@@ -1,4 +1,3 @@
-import { ImagePicker } from '@ionic-native/image-picker';
 import { AuthService } from './../providers/auth-service';
 import { environment } from './../environments/environment.prod';
 import { BrowserModule } from '@angular/platform-browser';
@@ -60,7 +59,6 @@ import { HttpModule } from "@angular/http";
   providers: [
     AuthService,
     UserInfoService,
-    ImagePicker,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

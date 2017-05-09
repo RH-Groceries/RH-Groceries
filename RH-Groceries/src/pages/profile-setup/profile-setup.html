@@ -8,7 +8,7 @@
 
   <p center text-center id="setuplabel"> Profile Setup </p>
 
-  <form #form="ngForm" (ngSubmit)="saveProfile(form)" >
+  <form #form="ngForm" (ngSubmit)="saveProfile(form)">
 
     <ion-grid>
 
@@ -25,7 +25,8 @@
         <ion-col col-auto>Phone #:</ion-col>
         <ion-col>
           <ion-item>
-            <ion-input id="phone" type="tel" placeholder="(555) 555-5555" class="form-control" [(ngModel)]="user.phone" name="phone" required></ion-input>
+            <ion-input id="phone" type="tel" placeholder="(555) 555-5555" class="form-control" [(ngModel)]="user.phone" name="phone"
+              required></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -33,22 +34,33 @@
       <ion-row align-items-center>
         <ion-col col-auto>Profile Image:</ion-col>
         <ion-col>
-          <button ion-button type="button" (click)="pickImage()">Choose</button>
-        </ion-col>
-        <ion-col>
-          <img *ngIf="this.imageUrl" src="" alt="profile image">
+          <input #fileInput id="fileInput" type="file" (change)="photoSelected($event)" style="display:none"> <button type="button"
+            ion-button (click)="fileInput.click()">Choose</button>
+          <button type="button" ion-button color="danger" *ngIf="photo && !loadingImage && tempPhotoUrl" (click)="removePhoto()">Clear Photo</button>
         </ion-col>
       </ion-row>
-      <br>
+
+      <ion-row align-items-center>
+        <ion-col text-center>
+          <div class="spinner-img" *ngIf="loadingImage">
+            <ion-spinner></ion-spinner>
+            <p>Uploading...</p>
+          </div>
+          <img *ngIf="photo && !loadingImage && tempPhotoUrl" class="profile-img" [src]="tempPhotoUrl" alt="Missing Photo">
+        </ion-col>
+      </ion-row>
+
+      <div text-center><button id="savebutton" [disabled]="!form.valid || !user || user.phone.length != 14 || user.address.length <= 0" ion-button
+          type="submit"> Finish </button></div>
 
       <ion-row align-items-center>
         <h2>Payments:</h2>
-        <p>We use Stripe Connect as our primary payment service which allows safe payments between users. After finishing your profile here, you will be given an unactivated Stripe account which will give you limited access to buying and shopping. Stripe will send an email with instructions on how to activate your account which will remove all limitations.
+        <p>We use Stripe Connect as our primary payment service which allows safe payments between users. After finishing your
+          profile here, you will be given an unactivated Stripe account which will give you limited access to buying and
+          shopping. Stripe will send an email with instructions on how to activate your account which will remove all limitations.
       </ion-row>
 
     </ion-grid>
-
-    <div text-center><button id="savebutton" [disabled]="!form.valid || !user || user.phone.length != 14 || user.address.length <= 0" ion-button type="submit"> Finish </button></div>
 
   </form>
 

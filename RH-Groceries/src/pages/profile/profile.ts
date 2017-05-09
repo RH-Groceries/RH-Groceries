@@ -3,7 +3,6 @@ import { AuthService } from './../../providers/auth-service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import * as firebase from 'firebase';
-import { ImagePicker } from '@ionic-native/image-picker';
 import { RatingModule } from "ngx-rating";
 
 @IonicPage()
@@ -15,11 +14,13 @@ export class Profile {
 
   public user: User;
   public editing: boolean = false;
+  public loadingImage: boolean = false;
+  public tempPhotoUrl: string;
   private backupAddr: string;
   private backupPhone: string;
-  public imageUrl: string = "";
+  private photo: File;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private imagePicker: ImagePicker, public authService: AuthService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService) {
     firebase.database().ref('/users/' + authService.authState.uid).on("value", (snapshot) => {
       this.user = snapshot.val();
       //console.log(snapshot.val());
@@ -46,6 +47,8 @@ export class Profile {
   cancel() {
     this.user.address = this.backupAddr;
     this.user.phone = this.backupPhone;
+    this.tempPhotoUrl = "";
+    this.photo = null;
     this.editing = false;
   }
 
@@ -56,33 +59,54 @@ export class Profile {
     }
     var strippedUser = {
       phone: this.user.phone,
-      address: this.user.address
+      address: this.user.address,
+      image: this.user.image
     }
-    firebase.database().ref().child('users').child(this.authService.authState.uid).update(strippedUser, (err) => {
-      if (err) {
-        //do something
-      }
-      else {
+    if (this.photo && this.tempPhotoUrl) {
+      this.loadingImage = true;
+      const metadata = { "content-type": this.photo.type }
+      const storageRef: firebase.storage.Reference = firebase.storage().ref().child("photos").child(this.authService.authState.uid);
+      const uploadTask: firebase.storage.UploadTask = storageRef.put(this.photo, metadata);
+      uploadTask.then((uploadSnapshot: firebase.storage.UploadTaskSnapshot) => {
+        const downloadUrl = uploadSnapshot.downloadURL;
+        strippedUser.image = downloadUrl;
+        firebase.database().ref().child('users').child(this.authService.authState.uid).update(strippedUser, (err) => {
+          this.editing = false;
+          this.loadingImage = false;
+          this.photo = null;
+          this.tempPhotoUrl = "";
+        });
+      });
+    }
+    else {
+      firebase.database().ref().child('users').child(this.authService.authState.uid).update(strippedUser, (err) => {
         this.editing = false;
-      }
-    });
+      });
+    }
+
+
   }
 
-  pickImage() {
-    console.log("Opening image picker");
-    let options = {
-      maximumImagesCount: 1,
-      width: 500,
-      height: 500,
-      quality: 50
+  photoSelected(event: any) {
+    let newphoto = event.target.files[0];
+    if (newphoto) {
+      this.photo = newphoto;
+      this.loadingImage = true;
+      const metadata = { "content-type": this.photo.type }
+      const storageRef: firebase.storage.Reference = firebase.storage().ref().child("photos").child(this.authService.authState.uid + "temp");
+      const uploadTask: firebase.storage.UploadTask = storageRef.put(this.photo, metadata);
+      uploadTask.then((uploadSnapshot: firebase.storage.UploadTaskSnapshot) => {
+        const downloadUrl = uploadSnapshot.downloadURL;
+        this.tempPhotoUrl = downloadUrl;
+        this.loadingImage = false;
+      });
     }
 
-    this.imagePicker.getPictures(options).then((file_uris) => {
-      this.imageUrl = file_uris[0];
-      //do something
-    }, (err) => {
-      console.log('Picker failed (are you running in a mobile simulator?)');
-    });
+  }
+
+  resetPhoto() {
+    this.tempPhotoUrl = "";
+    this.photo = null;
   }
 
 }

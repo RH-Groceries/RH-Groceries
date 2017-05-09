@@ -4,8 +4,26 @@
 }
 
 #savebutton {
-    margin-top: 30px;
+    margin-top: 5px;
+    margin-bottom: 15px;
     width: 200px;
     height: 60px;
     font-size: 24px;
+}
+
+.profile-img {
+    width: 100px !important;
+    height: 100px !important;
+}
+
+.spinner-img {
+    text-align: center;
+    ion-spinner {
+        height: 50px;
+        width: 50px;
+    }
+    p {
+        position: absolute;
+        bottom: 0px;
+    }
 }
