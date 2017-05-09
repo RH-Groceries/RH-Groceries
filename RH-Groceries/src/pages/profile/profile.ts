@@ -109,4 +109,10 @@ export class Profile {
     this.photo = null;
   }
 
+  promptForPicture(fileInput: HTMLInputElement) {
+    if (this.editing) {
+      fileInput.click();
+    }
+  }
+
 }

@@ -1,9 +1,13 @@
 .profile-img {
+    position: relative;
     width: 100px !important;
     height: 100px !important;
+    z-index: 1;
 }
 
 .spinner-img {
+    position: absolute;
+    z-index: 0;
     width: 100px !important;
     height: 100px !important;
     text-align: center;
