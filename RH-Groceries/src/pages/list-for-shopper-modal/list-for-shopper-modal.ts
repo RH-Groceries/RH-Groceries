@@ -1,3 +1,4 @@
+import { Review } from './../../models/review';
 import { ShoppingList } from './../../models/shopping-list';
 import { AuthService } from './../../providers/auth-service';
 import { FirebaseObjectObservable, AngularFire, FirebaseListObservable } from 'angularfire2';
@@ -54,8 +55,8 @@ export class ListForShopperModal {
     this.tip = this.af.database.object(`/lists/${this.list.$key}/tip`);
     this.subtotal = this.af.database.object(`/lists/${this.list.$key}/subtotal`);
 
-    this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe( (fireSubtotal) => {
-      this.af.database.object(`/lists/${this.list.$key}/tip`).subscribe( (fireTip) => {
+    this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe((fireSubtotal) => {
+      this.af.database.object(`/lists/${this.list.$key}/tip`).subscribe((fireTip) => {
         this.total = Number(fireSubtotal.$value) + Number(fireTip.$value);
       });
     });
@@ -154,9 +155,16 @@ export class ListForShopperModal {
         //console.log("previous rating: " + buyerRating + ", previous total: " + buyerTotal + ", new rating: " + newBuyerRating);
         firebase.database().ref(`/users/${this.list.buyer}`).update({
           buyerRating: newBuyerRating,
-          buyerTotal: buyerTotal+1
+          buyerTotal: buyerTotal + 1
         }, (error) => {
           if (!error) {
+            let newReview: Review = new Review();
+            newReview.rating = this.tempRating;
+            newReview.reviewer = this.authService.rfUser.name;
+            newReview.review = this.tempReview;
+            this.af.database.list(`/users/${this.list.buyer}/buyerReviews`).push(newReview).then(() => {
+              this.closeModal();
+            })
             this.hasReviewed = true;
             firebase.database().ref(`/lists/${this.list.$key}/status`).once("value").then((snapshot: any) => {
               if (snapshot.val() == 5) {

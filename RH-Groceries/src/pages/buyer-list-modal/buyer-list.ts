@@ -1,3 +1,4 @@
+import { Review } from './../../models/review';
 import { Http } from '@angular/http';
 import { historyItem } from './../../models/history-item';
 import { FirebaseObjectObservable, AngularFire, FirebaseListObservable } from 'angularfire2';
@@ -54,7 +55,7 @@ export class BuyerListModal {
 
     this.listeningListStatusData = this.af.database.object(`/lists/${this.list.$key}/status`);
 
-    this.af.database.object(`/lists/${this.list.$key}/shopper`).subscribe( (newShopper) => {
+    this.af.database.object(`/lists/${this.list.$key}/shopper`).subscribe((newShopper) => {
       this.shopper = this.af.database.object(`/users/${newShopper.$value}`);
     });
 
@@ -82,8 +83,8 @@ export class BuyerListModal {
       this.submittedSubtotal = subTotal.$value;
     });
 
-    this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe( (fireSubtotal) => {
-      this.af.database.object(`/lists/${this.list.$key}/tip`).subscribe( (fireTip) => {
+    this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe((fireSubtotal) => {
+      this.af.database.object(`/lists/${this.list.$key}/tip`).subscribe((fireTip) => {
         this.total = Number(fireSubtotal.$value) + Number(fireTip.$value);
       });
     });
@@ -122,7 +123,7 @@ export class BuyerListModal {
 
     let total = parseFloat(this.submittedSubtotal) + Number(this.tip);
     this.http.get(`https://rh-groceries-backend.herokuapp.com/api/pay/${this.payerId}/${this.destinationId}/${total}`).subscribe((value) => {
-      
+
     });
 
 
@@ -159,7 +160,13 @@ export class BuyerListModal {
           shopperTotal: shopperTotal + 1
         }, (error) => {
           if (!error) {
-            this.closeModal();
+            let newReview: Review = new Review();
+            newReview.rating = this.tempRating;
+            newReview.reviewer = this.nameForUser;
+            newReview.review = this.tempReview;
+            this.af.database.list(`/users/${this.list.shopper}/shopperReviews`).push(newReview).then(() => {
+              this.closeModal();
+            })
           }
         });
       });
