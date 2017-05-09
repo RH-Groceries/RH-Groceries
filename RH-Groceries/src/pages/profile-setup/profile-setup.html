@@ -42,11 +42,13 @@
 
       <ion-row align-items-center>
         <ion-col text-center>
-          <div class="spinner-img" *ngIf="loadingImage">
-            <ion-spinner></ion-spinner>
-            <p>Uploading...</p>
+          <div class="profile-img" *ngIf="photo && tempPhotoUrl" text-center>
+            <div class="spinner-img">
+              <ion-spinner></ion-spinner>
+              <p>Uploading...</p>
+            </div>
+            <img *ngIf="photo && !loadingImage && tempPhotoUrl" class="profile-img" [src]="tempPhotoUrl" alt="Missing Photo">
           </div>
-          <img *ngIf="photo && !loadingImage && tempPhotoUrl" class="profile-img" [src]="tempPhotoUrl" alt="Missing Photo">
         </ion-col>
       </ion-row>
 
