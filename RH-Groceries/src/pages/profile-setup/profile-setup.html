@@ -48,7 +48,7 @@
 
     </ion-grid>
 
-    <div text-center><button id="savebutton" [disabled]="!form.valid" ion-button type="submit"> Finish </button></div>
+    <div text-center><button id="savebutton" [disabled]="!form.valid || !user || user.phone.length != 14 || user.address.length <= 0" ion-button type="submit"> Finish </button></div>
 
   </form>
 

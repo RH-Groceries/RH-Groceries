@@ -13,7 +13,7 @@ import { RatingModule } from "ngx-rating";
 })
 export class Profile {
 
-  public user : User;
+  public user: User;
   public editing: boolean = false;
   private backupAddr: string;
   private backupPhone: string;
@@ -50,7 +50,7 @@ export class Profile {
   }
 
   save() {
-    if (this.user.address === '' || this.user.phone === ''){
+    if (this.user.address === '' || this.user.phone === '') {
       this.cancel();
       return;
     }
