@@ -69,34 +69,38 @@
     </div>
 
     <ng-template #ratings>
-      <ion-row align-items-center style="margin-top: 20px;">
-        <ion-col>
-          <h3 style="text-decoration: underline">Buying</h3>
-        </ion-col>
-      </ion-row>
-      <ion-row align-items-center>
-        <ion-col>
-          <rating [(ngModel)]="user && user.buyerRating" [float]="true" [readonly]="true">
-          </rating>
-        </ion-col>
-        <ion-col col-auto>
-          {{user?.buyerRating | number : '1.1-1'}} ({{user?.buyerTotal}} ratings)
-        </ion-col>
-      </ion-row>
-      <ion-row align-items-center>
-        <ion-col>
-          <h3 style="text-decoration: underline">Shopping</h3>
-        </ion-col>
-      </ion-row>
-      <ion-row align-items-center>
-        <ion-col>
-          <rating [(ngModel)]="user && user.shopperRating" [float]="true" [readonly]="true">
-          </rating>
-        </ion-col>
-        <ion-col col-auto>
-          {{user?.shopperRating | number : '1.1-1'}} ({{user?.shopperTotal}} ratings)
-        </ion-col>
-      </ion-row>
+      <ion-card (click)="displayReviews('buyer')">
+        <ion-row align-items-center style="margin-top: 20px;">
+          <ion-col>
+            <h3 style="text-decoration: underline">Buying</h3>
+          </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+          <ion-col>
+            <rating [(ngModel)]="user && user.buyerRating" [float]="true" [readonly]="true">
+            </rating>
+          </ion-col>
+          <ion-col col-auto>
+            {{user?.buyerRating | number : '1.1-1'}} ({{user?.buyerTotal}} ratings)
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <ion-card (click)="displayReviews('shopper')">
+        <ion-row align-items-center>
+          <ion-col>
+            <h3 style="text-decoration: underline">Shopping</h3>
+          </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+          <ion-col>
+            <rating [(ngModel)]="user && user.shopperRating" [float]="true" [readonly]="true">
+            </rating>
+          </ion-col>
+          <ion-col col-auto>
+            {{user?.shopperRating | number : '1.1-1'}} ({{user?.shopperTotal}} ratings)
+          </ion-col>
+        </ion-row>
+      </ion-card>
     </ng-template>
   </ion-grid>
 </ion-content>

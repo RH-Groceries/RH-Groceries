@@ -174,13 +174,13 @@ export class BuyerListModal {
     else {
       //console.log("submitting rating = " + this.tempRating + ", review = " + this.tempReview);
       this.reviewError = "";
-      firebase.database().ref(`/users/${this.list.shopper}`).once("value").then((snapshot) => {
+      firebase.database().ref(`/users/${this.foundShopper}`).once("value").then((snapshot) => {
         let user = snapshot.val();
         let shopperRating = user.shopperRating;
         let shopperTotal = user.shopperTotal;
         let newShopperRating = ((shopperRating * shopperTotal) + this.tempRating) / (shopperTotal + 1);
         //console.log("previous rating: " + shopperRating + ", previous total: " + shopperTotal + ", new rating: " + newShopperRating);
-        firebase.database().ref(`/users/${this.list.shopper}`).update({
+        firebase.database().ref(`/users/${this.foundShopper}`).update({
           shopperRating: newShopperRating,
           shopperTotal: shopperTotal + 1
         }, (error) => {
@@ -189,7 +189,7 @@ export class BuyerListModal {
             newReview.rating = this.tempRating;
             newReview.reviewer = this.nameForUser;
             newReview.review = this.tempReview;
-            this.af.database.list(`/users/${this.list.shopper}/shopperReviews`).push(newReview).then(() => {
+            this.af.database.list(`/users/${this.foundShopper}/shopperReviews`).push(newReview).then(() => {
               this.closeModal();
             })
           }

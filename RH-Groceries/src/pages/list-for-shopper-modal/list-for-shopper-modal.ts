@@ -63,8 +63,8 @@ export class ListForShopperModal {
       });
     });
 
-    this.af.database.list(`/lists/${this.list.$key}/blacklistedShoppers`).subscribe( (rejectedShoppers) => {
-      rejectedShoppers.forEach( (element) => {
+    this.af.database.list(`/lists/${this.list.$key}/blacklistedShoppers`).subscribe((rejectedShoppers) => {
+      rejectedShoppers.forEach((element) => {
         if (element.$value == this.authService.authState.uid) this.blacklisted = true;
       });
     });
@@ -173,14 +173,13 @@ export class ListForShopperModal {
             newReview.reviewer = this.authService.rfUser.name;
             newReview.review = this.tempReview;
             this.af.database.list(`/users/${this.list.buyer}/buyerReviews`).push(newReview).then(() => {
-              this.closeModal();
+              this.hasReviewed = true;
+              firebase.database().ref(`/lists/${this.list.$key}/status`).once("value").then((snapshot: any) => {
+                if (snapshot.val() == 5) {
+                  this.closeModal();
+                }
+              });
             })
-            this.hasReviewed = true;
-            firebase.database().ref(`/lists/${this.list.$key}/status`).once("value").then((snapshot: any) => {
-              if (snapshot.val() == 5) {
-                this.closeModal();
-              }
-            });
           }
         });
       });
