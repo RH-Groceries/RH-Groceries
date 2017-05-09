@@ -23,8 +23,10 @@
           <p>Uploading...</p>
         </div>
         <img *ngIf="photo && !loadingImage && tempPhotoUrl" class="profile-img" [src]="tempPhotoUrl" alt="Missing Photo">
-        <img *ngIf="(!photo && !loadingImage && user && user.image) as imageUrl; else missingPhotoTemplate" class="profile-img" [src]="imageUrl" alt="Missing Photo">
-        <img *ngIf="(!photo && !loadingImage && (!user || !user.image))" class="profile-img" src="assets/images/missing_photo.png" alt="Missing Photo">
+        <img *ngIf="(!photo && !loadingImage && user && user.image) as imageUrl; else missingPhotoTemplate" class="profile-img" [src]="imageUrl"
+          alt="Missing Photo">
+        <img *ngIf="(!photo && !loadingImage && (!user || !user.image))" class="profile-img" src="assets/images/missing_photo.png"
+          alt="Missing Photo">
       </ion-col>
       <ion-col>
         <p>{{user?.name}}</p>
@@ -58,6 +60,7 @@
         <ion-col>
           <input #fileInput id="fileInput" type="file" (change)="photoSelected($event)" style="display:none"> <button ion-button
             (click)="fileInput.click()">Choose</button>
+          <button type="button" ion-button color="danger" *ngIf="photo && !loadingImage && tempPhotoUrl" (click)="resetPhoto()">reset Photo</button>
         </ion-col>
       </ion-row>
     </div>

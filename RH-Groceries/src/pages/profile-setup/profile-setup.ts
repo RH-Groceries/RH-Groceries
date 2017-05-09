@@ -62,8 +62,9 @@ export class ProfileSetup {
   }
 
   photoSelected(event: any) {
-    this.photo = event.target.files[0];
-    if (this.photo) {
+    let newphoto = event.target.files[0];
+    if (newphoto) {
+      this.photo = newphoto;
       this.loadingImage = true;
       const metadata = { "content-type": this.photo.type }
       const storageRef: firebase.storage.Reference = firebase.storage().ref().child("photos").child(this.authService.authState.uid + "temp");

@@ -88,16 +88,25 @@ export class Profile {
   }
 
   photoSelected(event: any) {
-    this.loadingImage = true;
-    this.photo = event.target.files[0];
-    const metadata = { "content-type": this.photo.type }
-    const storageRef: firebase.storage.Reference = firebase.storage().ref().child("photos").child(this.authService.authState.uid + "temp");
-    const uploadTask: firebase.storage.UploadTask = storageRef.put(this.photo, metadata);
-    uploadTask.then((uploadSnapshot: firebase.storage.UploadTaskSnapshot) => {
-      const downloadUrl = uploadSnapshot.downloadURL;
-      this.tempPhotoUrl = downloadUrl;
-      this.loadingImage = false;
-    });
+    let newphoto = event.target.files[0];
+    if (newphoto) {
+      this.photo = newphoto;
+      this.loadingImage = true;
+      const metadata = { "content-type": this.photo.type }
+      const storageRef: firebase.storage.Reference = firebase.storage().ref().child("photos").child(this.authService.authState.uid + "temp");
+      const uploadTask: firebase.storage.UploadTask = storageRef.put(this.photo, metadata);
+      uploadTask.then((uploadSnapshot: firebase.storage.UploadTaskSnapshot) => {
+        const downloadUrl = uploadSnapshot.downloadURL;
+        this.tempPhotoUrl = downloadUrl;
+        this.loadingImage = false;
+      });
+    }
+
+  }
+
+  resetPhoto() {
+    this.tempPhotoUrl = "";
+    this.photo = null;
   }
 
 }
