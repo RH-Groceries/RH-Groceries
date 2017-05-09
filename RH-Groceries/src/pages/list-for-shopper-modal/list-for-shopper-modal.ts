@@ -64,8 +64,8 @@ export class ListForShopperModal {
 
   readyToShop(): void {
     console.log("Ready to Shop");
-    this.af.database.object(`/lists/${this.list.$key}/status`).set(2);
     this.af.database.object(`/lists/${this.list.$key}/shopper`).set(this.authService.authState.uid);
+    this.af.database.object(`/lists/${this.list.$key}/status`).set(2);
   }
 
   addToPurchased(item: any): void {
