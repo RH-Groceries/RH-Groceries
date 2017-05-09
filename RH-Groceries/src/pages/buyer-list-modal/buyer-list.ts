@@ -52,7 +52,9 @@ export class BuyerListModal {
 
     this.listeningListStatusData = this.af.database.object(`/lists/${this.list.$key}/status`);
 
-    this.shopper = this.af.database.object(`/users/${this.list.shopper}`);
+    this.af.database.object(`/lists/${this.list.$key}/shopper`).subscribe( (newShopper) => {
+      this.shopper = this.af.database.object(`/users/${newShopper.$value}`);
+    });
 
     this.itemsObservable = this.af.database.list(`/lists/${this.list.$key}/itemsLeft`);
     this.itemsObservable.subscribe((next) => {
