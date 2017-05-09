@@ -52,9 +52,15 @@
         {{ item }}
       </ion-item>
     </ion-list>
+    <ion-row>
     <button ion-button (click)="confirmShopper()">
       Confirm
     </button>
+    <button ion-button color="danger" (click)="rejectShopper()">
+      Reject
+    </button>
+    </ion-row>
+
   </div>
 
 

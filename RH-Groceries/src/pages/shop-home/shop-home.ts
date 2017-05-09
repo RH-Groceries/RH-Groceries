@@ -29,10 +29,17 @@ export class ShopHome {
     queryObservable.subscribe((items) => {
       for (let i = items.length - 1; i >= 0; i--) {
         if (items[i].buyer === this.authService.authState.uid) items.splice(i, 1);
+        if (items[i].blacklistedShoppers != null) {
+          items[i].blacklistedShoppers.forEach(element => {
+            if (element == this.authService.authState.uid) {
+              items.splice(i, 1);
+            }
+          });
+        }
       }
       this.activeLists = items;
     });
-    
+
     const waitingForConfirmationListsQueryObservable = af.database.list('/lists', {
       query: {
         orderByChild: 'status',
