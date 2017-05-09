@@ -3,12 +3,20 @@
 
 
   <ion-row align-items-center>
-    <ion-item>
-      <ion-input id="item-input" name="new-item" type="text" [placeholder]="placeholderText" [(ngModel)]="newItemValue" (keyup.enter)="addItem()"></ion-input>
-    </ion-item>
+    <ion-col>
+      <ion-item>
+        <ion-input autofocus #itemInput id="item-input" name="new-item" type="text" [placeholder]="placeholderText" [(ngModel)]="newItemValue" (keyup.enter)="addItem(itemInput)"></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col col-auto>
+      <button ion-button (click)="addItem(itemInput)" [disabled]="!newItemValue">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-col>
+
   </ion-row>
 
-  <ion-item-divider color="light" *ngIf="listName" >List Title: {{listName}}</ion-item-divider>
+  <ion-item-divider color="light" *ngIf="listName">List Title: {{listName}}</ion-item-divider>
 
   <ion-list>
     <ion-item *ngFor="let item of list; let i = index">
@@ -16,7 +24,8 @@
       <button ion-button outline item-right (click)="removeListItem(item)">Remove</button>
     </ion-item>
   </ion-list>
-  <div text-center><button id="savebutton" style="margin: 0 !important;" ion-button [disabled]="list.length <= 0 && (listName !== undefined || listName !== '')" (click)="activateList()"> Create </button></div>
+  <div text-center><button id="savebutton" style="margin: 0 !important;" ion-button [disabled]="list.length <= 0 && (listName !== undefined || listName !== '')"
+      (click)="activateList()"> Create </button></div>
   <br>
 
 
@@ -30,14 +39,14 @@
 
     <ion-grid>
       <ion-row wrap>
-          <ion-col>
-            <ion-card *ngFor="let list of buyerLists" (click)="viewBuyerList(list)">
-              <ion-item>
-                <h2>{{ list.title }}</h2>
-                <button ion-button outline item-right (click)="removeBuyerList(list)">Remove</button>
-              </ion-item>
-            </ion-card>
-          </ion-col>
+        <ion-col>
+          <ion-card *ngFor="let list of buyerLists" (click)="viewBuyerList(list)">
+            <ion-item>
+              <h2>{{ list.title }}</h2>
+              <button ion-button outline item-right (click)="removeBuyerList(list)">Remove</button>
+            </ion-item>
+          </ion-card>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </div>
@@ -49,14 +58,14 @@
 
     <ion-grid>
       <ion-row wrap>
-          <ion-col>
-            <ion-card *ngFor="let list of waitingLists" (click)="viewBuyerList(list)">
-              <ion-item>
-                <h2>{{ list.title }}</h2>
-                <button ion-button outline item-right>Remove</button>
-              </ion-item>
-            </ion-card>
-          </ion-col>
+        <ion-col>
+          <ion-card *ngFor="let list of waitingLists" (click)="viewBuyerList(list)">
+            <ion-item>
+              <h2>{{ list.title }}</h2>
+              <button ion-button outline item-right>Remove</button>
+            </ion-item>
+          </ion-card>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </div>
@@ -68,13 +77,13 @@
 
     <ion-grid>
       <ion-row wrap>
-          <ion-col>
-            <ion-card *ngFor="let list of inProgressLists" (click)="viewBuyerList(list)">
-              <ion-item>
-                <h2>{{ list.title }}</h2>
-              </ion-item>
-            </ion-card>
-          </ion-col>
+        <ion-col>
+          <ion-card *ngFor="let list of inProgressLists" (click)="viewBuyerList(list)">
+            <ion-item>
+              <h2>{{ list.title }}</h2>
+            </ion-item>
+          </ion-card>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </div>
@@ -86,13 +95,13 @@
 
     <ion-grid>
       <ion-row wrap>
-          <ion-col>
-            <ion-card *ngFor="let list of completedLists" (click)="viewBuyerList(list)">
-              <ion-item>
-                <h2>{{ list.title }}</h2>
-              </ion-item>
-            </ion-card>
-          </ion-col>
+        <ion-col>
+          <ion-card *ngFor="let list of completedLists" (click)="viewBuyerList(list)">
+            <ion-item>
+              <h2>{{ list.title }}</h2>
+            </ion-item>
+          </ion-card>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </div>

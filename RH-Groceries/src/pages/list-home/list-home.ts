@@ -96,9 +96,8 @@ export class ListHome {
     console.log(this.buyerLists);
   }
 
-  addItem(): void {
+  addItem(input): void {
     if (!this.listName) {
-      console.log("setting listName ", this.newItemValue);
       this.placeholderText = "New Item";
       this.listName = this.newItemValue;
       this.newItemValue = "";
@@ -107,7 +106,7 @@ export class ListHome {
       this.list.push(this.newItemValue);
       this.newItemValue = "";
     }
-
+    input.setFocus();
 
   }
 
