@@ -17,10 +17,10 @@
         <ion-card *ngFor="let review of (reviewStream | async)">
           <ion-grid>
             <ion-row>
-              <span>{{ review.review }}</span>
+              <span style="font-style: italic">{{ review.review }}</span>
             </ion-row>
             <ion-row align-items-center>
-              <rating [(ngModel)]="review.rating" [float]="true" [readonly]="true"></rating> <p style="margin-left: 10px">{{review.rating}}</p>
+              <rating [(ngModel)]="review.rating" [float]="true" [readonly]="true"></rating> <p style="margin-left: 10px; margin-bottom: 0px;">{{review.rating}}</p>
             </ion-row>
             <ion-row justify-content-end>
               <h2>- {{ review.reviewer }}</h2>
