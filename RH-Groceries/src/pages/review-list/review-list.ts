@@ -19,11 +19,13 @@ export class ReviewList {
 
   public reviewStream: FirebaseListObservable<Review>;
   public reviewType: string = "";
+  public reviewee: string = "";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private af: AngularFire, public authService: AuthService, public viewCtrl: ViewController) {
     //TODO: switch between buyer and Shopper reviews
     this.reviewType = this.navParams.get("reviewType");
-    this.reviewStream = this.af.database.list(`/users/${this.authService.authState.uid}/${this.reviewType}Reviews`);
+    this.reviewee = this.navParams.get("reviewee");
+    this.reviewStream = this.af.database.list(`/users/${this.reviewee}/${this.reviewType}Reviews`);
   }
 
   ionViewDidLoad() {

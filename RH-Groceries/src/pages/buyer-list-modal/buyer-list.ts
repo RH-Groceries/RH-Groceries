@@ -1,10 +1,11 @@
+import { ReviewList } from './../review-list/review-list';
 import { Review } from './../../models/review';
 import { Http } from '@angular/http';
 import { historyItem } from './../../models/history-item';
 import { FirebaseObjectObservable, AngularFire, FirebaseListObservable } from 'angularfire2';
 import { ShoppingList } from './../../models/shopping-list';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
 import { AuthService } from "../../providers/auth-service";
 import { RatingModule } from "ngx-rating";
 import * as firebase from 'firebase';
@@ -51,7 +52,7 @@ export class BuyerListModal {
   public foundBlackList: Array<any> = new Array<any>();
   public foundShopper: string = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire, private http: Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire, private http: Http, public modalCtrl: ModalController) {
     this.list = this.navParams.get("listData");
     this.items = this.list.items;
     this.nameForUser = this.authService.rfUser.name;
@@ -196,7 +197,12 @@ export class BuyerListModal {
         });
       });
     }
+  }
 
+
+  displayReviews(reviewType: string) {
+    let reviewListModal = this.modalCtrl.create(ReviewList, { "reviewType": reviewType, "reviewee": this.foundShopper });
+    reviewListModal.present();
   }
 
 }

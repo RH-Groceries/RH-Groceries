@@ -117,7 +117,7 @@ export class Profile {
   }
 
   displayReviews(reviewType: string) {
-    let reviewListModal = this.modalCtrl.create(ReviewList, { "reviewType": reviewType });
+    let reviewListModal = this.modalCtrl.create(ReviewList, { "reviewType": reviewType, "reviewee": this.authService.authState.uid });
     reviewListModal.present();
   }
 
