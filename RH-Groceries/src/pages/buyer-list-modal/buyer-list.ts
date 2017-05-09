@@ -47,6 +47,9 @@ export class BuyerListModal {
 
   public total: number = 0;
 
+  public foundBlackList: Array<any> = new Array<any>();
+  public foundShopper: string = "";
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire, private http: Http) {
     this.list = this.navParams.get("listData");
     this.items = this.list.items;
@@ -54,7 +57,7 @@ export class BuyerListModal {
 
     this.listeningListStatusData = this.af.database.object(`/lists/${this.list.$key}/status`);
 
-    this.af.database.object(`/lists/${this.list.$key}/shopper`).subscribe( (newShopper) => {
+    this.af.database.object(`/lists/${this.list.$key}/shopper`).subscribe((newShopper) => {
       this.shopper = this.af.database.object(`/users/${newShopper.$value}`);
     });
 
@@ -82,10 +85,17 @@ export class BuyerListModal {
       this.submittedSubtotal = subTotal.$value;
     });
 
-    this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe( (fireSubtotal) => {
-      this.af.database.object(`/lists/${this.list.$key}/tip`).subscribe( (fireTip) => {
+    this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe((fireSubtotal) => {
+      this.af.database.object(`/lists/${this.list.$key}/tip`).subscribe((fireTip) => {
         this.total = Number(fireSubtotal.$value) + Number(fireTip.$value);
       });
+    });
+
+    this.af.database.list(`/lists/${this.list.$key}/blacklistedShoppers`).subscribe((fireBlacklist) => {
+      this.foundBlackList = fireBlacklist;
+    });
+    this.af.database.object(`/lists/${this.list.$key}/shopper`).subscribe((newShopper) => {
+      this.foundShopper = newShopper.$value;
     });
 
   }
@@ -100,6 +110,21 @@ export class BuyerListModal {
 
   confirmShopper(): void {
     this.af.database.object(`/lists/${this.list.$key}/status`).set(3);
+  }
+
+  rejectShopper(): void {
+    var newBlackList: Array<string> = new Array<string>();
+    for (let i = this.foundBlackList.length - 1; i >= 0; i--) {
+      newBlackList.push(this.foundBlackList[i].$value);
+    }
+
+    newBlackList.push(this.foundShopper);
+    console.log(newBlackList);
+
+    this.af.database.object(`/lists/${this.list.$key}/status`).set(1);
+    this.af.database.object(`/lists/${this.list.$key}/blacklistedShoppers`).remove();
+    firebase.database().ref().child(`/lists/${this.list.$key}/blacklistedShoppers`).set(newBlackList);
+    this.af.database.object(`/lists/${this.list.$key}/shopper`).remove();
   }
 
   confirmDelivery(): void {
@@ -122,7 +147,7 @@ export class BuyerListModal {
 
     let total = parseFloat(this.submittedSubtotal) + Number(this.tip);
     this.http.get(`https://rh-groceries-backend.herokuapp.com/api/pay/${this.payerId}/${this.destinationId}/${total}`).subscribe((value) => {
-      
+
     });
 
 
