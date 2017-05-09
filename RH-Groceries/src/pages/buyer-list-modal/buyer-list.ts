@@ -48,6 +48,9 @@ export class BuyerListModal {
 
   public total: number = 0;
 
+  public foundBlackList: Array<any> = new Array<any>();
+  public foundShopper: string = "";
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire, private http: Http) {
     this.list = this.navParams.get("listData");
     this.items = this.list.items;
@@ -89,6 +92,13 @@ export class BuyerListModal {
       });
     });
 
+    this.af.database.list(`/lists/${this.list.$key}/blacklistedShoppers`).subscribe((fireBlacklist) => {
+      this.foundBlackList = fireBlacklist;
+    });
+    this.af.database.object(`/lists/${this.list.$key}/shopper`).subscribe((newShopper) => {
+      this.foundShopper = newShopper.$value;
+    });
+
   }
 
   ionViewDidLoad() {
@@ -101,6 +111,21 @@ export class BuyerListModal {
 
   confirmShopper(): void {
     this.af.database.object(`/lists/${this.list.$key}/status`).set(3);
+  }
+
+  rejectShopper(): void {
+    var newBlackList: Array<string> = new Array<string>();
+    for (let i = this.foundBlackList.length - 1; i >= 0; i--) {
+      newBlackList.push(this.foundBlackList[i].$value);
+    }
+
+    newBlackList.push(this.foundShopper);
+    console.log(newBlackList);
+
+    this.af.database.object(`/lists/${this.list.$key}/status`).set(1);
+    this.af.database.object(`/lists/${this.list.$key}/blacklistedShoppers`).remove();
+    firebase.database().ref().child(`/lists/${this.list.$key}/blacklistedShoppers`).set(newBlackList);
+    this.af.database.object(`/lists/${this.list.$key}/shopper`).remove();
   }
 
   confirmDelivery(): void {

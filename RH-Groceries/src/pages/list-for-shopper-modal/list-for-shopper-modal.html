@@ -17,7 +17,7 @@
 
 
 <ion-content padding>
-  <ion-card>
+  <ion-card *ngIf="!blacklisted">
     <ion-item *ngIf="(buyer | async) as buyerUser">
       <ion-avatar item-left>
         <img *ngIf="buyerUser?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
@@ -34,9 +34,14 @@
     </ion-item>
   </ion-card>
 
+  <!-- Blacklisted Shopper View -->
+  <div *ngIf="blacklisted">
+    <h3 text-center>Sorry, Looks Like The Buyer Chose Another Shopper</h3>
+  </div>
+
 
   <!-- Confirm You Want to Shop HERE -->
-  <div *ngIf="(listeningListStatusData | async).$value==1">
+  <div *ngIf="(listeningListStatusData | async).$value==1 && !blacklisted">
 
     <ion-list>
       <ion-item *ngFor="let item of itemsForDisplay">
@@ -50,7 +55,7 @@
 
 
   <!-- Waiting to Shop HERE -->
-  <div *ngIf="(listeningListStatusData | async).$value==2">
+  <div *ngIf="(listeningListStatusData | async).$value==2 && !blacklisted">
     <br>
     <h3>Waiting for Buyer Confirmation...</h3>
     <ion-list>

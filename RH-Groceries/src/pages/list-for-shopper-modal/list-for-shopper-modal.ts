@@ -38,6 +38,8 @@ export class ListForShopperModal {
 
   public total: number = 0;
 
+  public blacklisted: boolean = false;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private af: AngularFire, private authService: AuthService) {
     this.list = this.navParams.get("listData");
     this.listeningListStatusData = this.af.database.object(`/lists/${this.list.$key}/status`);
@@ -60,6 +62,14 @@ export class ListForShopperModal {
         this.total = Number(fireSubtotal.$value) + Number(fireTip.$value);
       });
     });
+
+    this.af.database.list(`/lists/${this.list.$key}/blacklistedShoppers`).subscribe( (rejectedShoppers) => {
+      rejectedShoppers.forEach( (element) => {
+        if (element.$value == this.authService.authState.uid) this.blacklisted = true;
+      });
+    });
+
+
 
   }
 
