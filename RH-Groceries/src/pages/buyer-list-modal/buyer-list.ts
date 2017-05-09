@@ -45,6 +45,8 @@ export class BuyerListModal {
   public destinationId: string = "";
   public submittedSubtotal: string = "";
 
+  public total: number = 0;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire, private http: Http) {
     this.list = this.navParams.get("listData");
     this.items = this.list.items;
@@ -78,6 +80,12 @@ export class BuyerListModal {
 
     this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe((subTotal) => {
       this.submittedSubtotal = subTotal.$value;
+    });
+
+    this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe( (fireSubtotal) => {
+      this.af.database.object(`/lists/${this.list.$key}/tip`).subscribe( (fireTip) => {
+        this.total = Number(fireSubtotal.$value) + Number(fireTip.$value);
+      });
     });
 
   }
