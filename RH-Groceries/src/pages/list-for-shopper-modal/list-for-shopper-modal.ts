@@ -35,6 +35,8 @@ export class ListForShopperModal {
   public tip: FirebaseObjectObservable<number>;
   public subtotal: FirebaseObjectObservable<string>;
 
+  public total: number = 0;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private af: AngularFire, private authService: AuthService) {
     this.list = this.navParams.get("listData");
     this.listeningListStatusData = this.af.database.object(`/lists/${this.list.$key}/status`);
@@ -52,6 +54,12 @@ export class ListForShopperModal {
     this.tip = this.af.database.object(`/lists/${this.list.$key}/tip`);
     this.subtotal = this.af.database.object(`/lists/${this.list.$key}/subtotal`);
 
+    this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe( (fireSubtotal) => {
+      this.af.database.object(`/lists/${this.list.$key}/tip`).subscribe( (fireTip) => {
+        this.total = Number(fireSubtotal.$value) + Number(fireTip.$value);
+      });
+    });
+
   }
 
   ionViewDidLoad() {
@@ -64,8 +72,8 @@ export class ListForShopperModal {
 
   readyToShop(): void {
     console.log("Ready to Shop");
-    this.af.database.object(`/lists/${this.list.$key}/status`).set(2);
     this.af.database.object(`/lists/${this.list.$key}/shopper`).set(this.authService.authState.uid);
+    this.af.database.object(`/lists/${this.list.$key}/status`).set(2);
   }
 
   addToPurchased(item: any): void {
