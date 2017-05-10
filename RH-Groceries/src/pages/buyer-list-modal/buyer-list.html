@@ -31,7 +31,7 @@
 
   <!-- List Needing Approval -->
   <div *ngIf="(listeningListStatusData | async).$value==2">
-    <ion-card>
+    <ion-card (click)="displayReviews('shopper')">
       <ion-item *ngIf="(shopper | async) as shopperUser">
         <ion-avatar item-left>
           <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
@@ -67,7 +67,7 @@
 
   <!-- List In Progress -->
   <div *ngIf="(listeningListStatusData | async).$value==3">
-    <ion-card>
+    <ion-card (click)="displayReviews('shopper')">
       <ion-item *ngIf="(shopper | async) as shopperUser">
         <ion-avatar item-left>
           <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
@@ -100,7 +100,7 @@
 
   <!-- Delivery Confirm -->
   <div *ngIf="(listeningListStatusData | async).$value==4">
-    <ion-card>
+    <ion-card (click)="displayReviews('shopper')">
       <ion-item *ngIf="(shopper | async) as shopperUser">
         <ion-avatar item-left>
           <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
@@ -144,7 +144,7 @@
 
   <!-- Review Shopper -->
   <div *ngIf="(listeningListStatusData | async).$value==5">
-    <ion-card>
+    <ion-card (click)="displayReviews('shopper')">
       <ion-item *ngIf="(shopper | async) as shopperUser">
         <ion-avatar item-left>
           <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">

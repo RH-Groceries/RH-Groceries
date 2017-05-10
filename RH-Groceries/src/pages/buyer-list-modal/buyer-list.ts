@@ -1,9 +1,11 @@
+import { ReviewList } from './../review-list/review-list';
+import { Review } from './../../models/review';
 import { Http } from '@angular/http';
 import { historyItem } from './../../models/history-item';
 import { FirebaseObjectObservable, AngularFire, FirebaseListObservable } from 'angularfire2';
 import { ShoppingList } from './../../models/shopping-list';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
 import { AuthService } from "../../providers/auth-service";
 import { RatingModule } from "ngx-rating";
 import * as firebase from 'firebase';
@@ -50,7 +52,7 @@ export class BuyerListModal {
   public foundBlackList: Array<any> = new Array<any>();
   public foundShopper: string = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire, private http: Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private authService: AuthService, private af: AngularFire, private http: Http, public modalCtrl: ModalController) {
     this.list = this.navParams.get("listData");
     this.items = this.list.items;
     this.nameForUser = this.authService.rfUser.name;
@@ -173,23 +175,34 @@ export class BuyerListModal {
     else {
       //console.log("submitting rating = " + this.tempRating + ", review = " + this.tempReview);
       this.reviewError = "";
-      firebase.database().ref(`/users/${this.list.shopper}`).once("value").then((snapshot) => {
+      firebase.database().ref(`/users/${this.foundShopper}`).once("value").then((snapshot) => {
         let user = snapshot.val();
         let shopperRating = user.shopperRating;
         let shopperTotal = user.shopperTotal;
         let newShopperRating = ((shopperRating * shopperTotal) + this.tempRating) / (shopperTotal + 1);
         //console.log("previous rating: " + shopperRating + ", previous total: " + shopperTotal + ", new rating: " + newShopperRating);
-        firebase.database().ref(`/users/${this.list.shopper}`).update({
+        firebase.database().ref(`/users/${this.foundShopper}`).update({
           shopperRating: newShopperRating,
           shopperTotal: shopperTotal + 1
         }, (error) => {
           if (!error) {
-            this.closeModal();
+            let newReview: Review = new Review();
+            newReview.rating = this.tempRating;
+            newReview.reviewer = this.nameForUser;
+            newReview.review = this.tempReview;
+            this.af.database.list(`/users/${this.foundShopper}/shopperReviews`).push(newReview).then(() => {
+              this.closeModal();
+            })
           }
         });
       });
     }
+  }
 
+
+  displayReviews(reviewType: string) {
+    let reviewListModal = this.modalCtrl.create(ReviewList, { "reviewType": reviewType, "reviewee": this.foundShopper });
+    reviewListModal.present();
   }
 
 }

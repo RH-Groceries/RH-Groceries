@@ -1,7 +1,8 @@
+import { ReviewList } from './../review-list/review-list';
 import { User } from './../../models/user';
 import { AuthService } from './../../providers/auth-service';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import * as firebase from 'firebase';
 import { RatingModule } from "ngx-rating";
 
@@ -20,7 +21,7 @@ export class Profile {
   private backupPhone: string;
   private photo: File;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthService, public modalCtrl: ModalController) {
     firebase.database().ref('/users/' + authService.authState.uid).on("value", (snapshot) => {
       this.user = snapshot.val();
       //console.log(snapshot.val());
@@ -113,6 +114,11 @@ export class Profile {
     if (this.editing) {
       fileInput.click();
     }
+  }
+
+  displayReviews(reviewType: string) {
+    let reviewListModal = this.modalCtrl.create(ReviewList, { "reviewType": reviewType, "reviewee": this.authService.authState.uid });
+    reviewListModal.present();
   }
 
 }

@@ -1,8 +1,10 @@
+import { ReviewList } from './../review-list/review-list';
+import { Review } from './../../models/review';
 import { ShoppingList } from './../../models/shopping-list';
 import { AuthService } from './../../providers/auth-service';
 import { FirebaseObjectObservable, AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
 import * as firebase from 'firebase';
 import { RatingModule } from "ngx-rating";
 
@@ -39,7 +41,7 @@ export class ListForShopperModal {
 
   public blacklisted: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private af: AngularFire, private authService: AuthService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private af: AngularFire, private authService: AuthService, public modalCtrl: ModalController) {
     this.list = this.navParams.get("listData");
     this.listeningListStatusData = this.af.database.object(`/lists/${this.list.$key}/status`);
 
@@ -56,14 +58,14 @@ export class ListForShopperModal {
     this.tip = this.af.database.object(`/lists/${this.list.$key}/tip`);
     this.subtotal = this.af.database.object(`/lists/${this.list.$key}/subtotal`);
 
-    this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe( (fireSubtotal) => {
-      this.af.database.object(`/lists/${this.list.$key}/tip`).subscribe( (fireTip) => {
+    this.af.database.object(`/lists/${this.list.$key}/subtotal`).subscribe((fireSubtotal) => {
+      this.af.database.object(`/lists/${this.list.$key}/tip`).subscribe((fireTip) => {
         this.total = Number(fireSubtotal.$value) + Number(fireTip.$value);
       });
     });
 
-    this.af.database.list(`/lists/${this.list.$key}/blacklistedShoppers`).subscribe( (rejectedShoppers) => {
-      rejectedShoppers.forEach( (element) => {
+    this.af.database.list(`/lists/${this.list.$key}/blacklistedShoppers`).subscribe((rejectedShoppers) => {
+      rejectedShoppers.forEach((element) => {
         if (element.$value == this.authService.authState.uid) this.blacklisted = true;
       });
     });
@@ -164,21 +166,30 @@ export class ListForShopperModal {
         //console.log("previous rating: " + buyerRating + ", previous total: " + buyerTotal + ", new rating: " + newBuyerRating);
         firebase.database().ref(`/users/${this.list.buyer}`).update({
           buyerRating: newBuyerRating,
-          buyerTotal: buyerTotal+1
+          buyerTotal: buyerTotal + 1
         }, (error) => {
           if (!error) {
-            this.hasReviewed = true;
-            firebase.database().ref(`/lists/${this.list.$key}/status`).once("value").then((snapshot: any) => {
-              if (snapshot.val() == 5) {
-                this.closeModal();
-              }
-            });
+            let newReview: Review = new Review();
+            newReview.rating = this.tempRating;
+            newReview.reviewer = this.authService.rfUser.name;
+            newReview.review = this.tempReview;
+            this.af.database.list(`/users/${this.list.buyer}/buyerReviews`).push(newReview).then(() => {
+              this.hasReviewed = true;
+              firebase.database().ref(`/lists/${this.list.$key}/status`).once("value").then((snapshot: any) => {
+                if (snapshot.val() == 5) {
+                  this.closeModal();
+                }
+              });
+            })
           }
         });
       });
-
     }
+  }
 
+  displayReviews(reviewType: string) {
+    let reviewListModal = this.modalCtrl.create(ReviewList, { "reviewType": reviewType, "reviewee": this.list.buyer });
+    reviewListModal.present();
   }
 
 }

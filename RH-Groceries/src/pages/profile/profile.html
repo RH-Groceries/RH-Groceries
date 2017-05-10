@@ -69,34 +69,46 @@
     </div>
 
     <ng-template #ratings>
-      <ion-row align-items-center style="margin-top: 20px;">
-        <ion-col>
-          <h3 style="text-decoration: underline">Buying</h3>
-        </ion-col>
-      </ion-row>
-      <ion-row align-items-center>
-        <ion-col>
-          <rating [(ngModel)]="user && user.buyerRating" [float]="true" [readonly]="true">
-          </rating>
-        </ion-col>
-        <ion-col col-auto>
-          {{user?.buyerRating | number : '1.1-1'}} ({{user?.buyerTotal}} ratings)
-        </ion-col>
-      </ion-row>
-      <ion-row align-items-center>
-        <ion-col>
-          <h3 style="text-decoration: underline">Shopping</h3>
-        </ion-col>
-      </ion-row>
-      <ion-row align-items-center>
-        <ion-col>
-          <rating [(ngModel)]="user && user.shopperRating" [float]="true" [readonly]="true">
-          </rating>
-        </ion-col>
-        <ion-col col-auto>
-          {{user?.shopperRating | number : '1.1-1'}} ({{user?.shopperTotal}} ratings)
-        </ion-col>
-      </ion-row>
+      <ion-card class="review-card" (click)="displayReviews('buyer')" text-center>
+        <ion-card-title text-center style="padding-bottom: 0px;">
+          Buying
+        </ion-card-title>
+        <ion-row align-items-center justify-content-center>
+          <ion-col col-auto no-padding>
+            <rating [(ngModel)]="user && user.buyerRating" [float]="true" [readonly]="true">
+            </rating>
+          </ion-col>
+          <ion-col col-auto>
+            {{user?.buyerRating | number : '1.1-1'}}
+          </ion-col>
+        </ion-row>
+        <ion-row align-items-center justify-content-center>
+          <ion-col>{{user?.buyerTotal}} total ratings</ion-col>
+        </ion-row>
+        <ion-row align-items-center justify-content-center>
+          <ion-col style="font-style: italic">(click to read past buyer reviews)</ion-col>
+        </ion-row>
+      </ion-card>
+      <ion-card class="review-card" (click)="displayReviews('shopper')" text-center>
+        <ion-card-title text-center style="padding-bottom: 0px;">
+          Shopping
+        </ion-card-title>
+        <ion-row align-items-center justify-content-center>
+          <ion-col col-auto no-padding>
+            <rating [(ngModel)]="user && user.shopperRating" [float]="true" [readonly]="true">
+            </rating>
+          </ion-col>
+          <ion-col col-auto>
+            {{user?.shopperRating | number : '1.1-1'}}
+          </ion-col>
+        </ion-row>
+        <ion-row align-items-center justify-content-center>
+          <ion-col>{{user?.shopperTotal}} total ratings</ion-col>
+        </ion-row>
+        <ion-row align-items-center justify-content-center>
+          <ion-col style="font-style: italic">(click to read past shopper reviews)</ion-col>
+        </ion-row>
+      </ion-card>
     </ng-template>
   </ion-grid>
 </ion-content>

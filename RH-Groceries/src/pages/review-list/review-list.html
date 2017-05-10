@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title> {{reviewType}} reviews </ion-title>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="closeModal()">
+                    <ion-icon name="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <!-- Active Lists HERE -->
+  <ion-grid>
+    <ion-row wrap>
+      <ion-col>
+        <ion-card *ngFor="let review of (reviewStream | async)">
+          <ion-grid>
+            <ion-row>
+              <span style="font-style: italic">{{ review.review }}</span>
+            </ion-row>
+            <ion-row align-items-center>
+              <rating [(ngModel)]="review.rating" [float]="true" [readonly]="true"></rating> <p style="margin-left: 10px; margin-bottom: 0px;">{{review.rating}}</p>
+            </ion-row>
+            <ion-row justify-content-end>
+              <h2>- {{ review.reviewer }}</h2>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

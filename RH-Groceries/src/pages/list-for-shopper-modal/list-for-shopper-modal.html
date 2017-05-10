@@ -17,7 +17,7 @@
 
 
 <ion-content padding>
-  <ion-card *ngIf="!blacklisted">
+  <ion-card *ngIf="!blacklisted" (click)="displayReviews('buyer')">
     <ion-item *ngIf="(buyer | async) as buyerUser">
       <ion-avatar item-left>
         <img *ngIf="buyerUser?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">

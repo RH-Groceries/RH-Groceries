@@ -1,3 +1,4 @@
+import { ReviewList } from './../pages/review-list/review-list';
 import { AuthService } from './../providers/auth-service';
 import { environment } from './../environments/environment.prod';
 import { BrowserModule } from '@angular/platform-browser';
@@ -34,7 +35,8 @@ import { HttpModule } from "@angular/http";
     ShopHome,
     ProfileSetup,
     BuyerListModal,
-    ListForShopperModal
+    ListForShopperModal,
+    ReviewList
   ],
   imports: [
     BrowserModule,
@@ -54,7 +56,8 @@ import { HttpModule } from "@angular/http";
     ShopHome,
     ProfileSetup,
     BuyerListModal,
-    ListForShopperModal
+    ListForShopperModal,
+    ReviewList
   ],
   providers: [
     AuthService,
