@@ -1,3 +1,4 @@
+import { HistoryDetails } from './../pages/history-details/history-details';
 import { ReviewList } from './../pages/review-list/review-list';
 import { AuthService } from './../providers/auth-service';
 import { environment } from './../environments/environment.prod';
@@ -36,7 +37,8 @@ import { HttpModule } from "@angular/http";
     ProfileSetup,
     BuyerListModal,
     ListForShopperModal,
-    ReviewList
+    ReviewList,
+    HistoryDetails
   ],
   imports: [
     BrowserModule,
@@ -57,14 +59,15 @@ import { HttpModule } from "@angular/http";
     ProfileSetup,
     BuyerListModal,
     ListForShopperModal,
-    ReviewList
+    ReviewList,
+    HistoryDetails
   ],
   providers: [
     AuthService,
     UserInfoService,
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }

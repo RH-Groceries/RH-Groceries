@@ -1,8 +1,9 @@
+import { HistoryDetails } from './../history-details/history-details';
 import { historyItem } from './../../models/history-item';
 import { AuthService } from './../../providers/auth-service';
 import { AngularFire } from 'angularfire2';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -15,7 +16,7 @@ export class HistoryHome {
   public totalSpent: Number;
   public totalMade: Number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private af: AngularFire, private authService: AuthService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private af: AngularFire, private authService: AuthService, public modalCtrl: ModalController) {
     let date = new Date();
     let dateString = date.toString();
     let returnedDate = new Date(dateString);
@@ -41,6 +42,11 @@ export class HistoryHome {
 
   ionViewDidLoad() {
     // console.log('ionViewDidLoad HistoryHome');
+  }
+
+  displayHistoryDetail(item: historyItem) {
+    let reviewListModal = this.modalCtrl.create(HistoryDetails, {"listKey": item.listKey});
+    reviewListModal.present();
   }
 
 }

@@ -134,9 +134,9 @@
 
   <!-- Complete with payment HERE -->
   <div *ngIf="(listeningListStatusData | async).$value==5">
-    <h3>Subtotal: ${{ (subtotal | async).$value }}</h3>
-    <h3>Tip: ${{ (tip | async).$value }}</h3>
-    <h3>Total: ${{ total }}</h3>
+    <h3>Subtotal: {{ (subtotal | async).$value | currency:'USD':true}}</h3>
+    <h3>Tip: {{ (tip | async).$value | currency:'USD':true}}</h3>
+    <h3>Total: {{ total | currency:'USD':true}}</h3>
     <hr>
 
     <br>

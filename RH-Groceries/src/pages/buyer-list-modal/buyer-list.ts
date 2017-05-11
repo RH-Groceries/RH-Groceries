@@ -155,8 +155,8 @@ export class BuyerListModal {
 
 
 
-    let buyerHistory = new historyItem(-1 * this.tip);
-    let shopperHistory = new historyItem(1 * this.tip);
+    let buyerHistory = new historyItem(-1 * this.tip, this.list.$key);
+    let shopperHistory = new historyItem(1 * this.tip, this.list.$key);
     firebase.database().ref(`/lists/${this.list.$key}/shopper`).once("value").then((snapshot) => {
       this.af.database.list('users/' + this.authService.authState.uid + '/paymentHistory').push(buyerHistory);
       this.af.database.list('users/' + snapshot.val() + '/paymentHistory').push(shopperHistory);
