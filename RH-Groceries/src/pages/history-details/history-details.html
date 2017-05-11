@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title> TODOS's List: TODO</ion-title>
+    <ion-title> {{list?.buyer}}'s List: {{list?.title}}</ion-title>
     <ion-buttons start>
       <button ion-button icon-only (click)="closeModal()">
         <ion-icon name="md-close"></ion-icon>
@@ -17,16 +17,40 @@
 
 
 <ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let purchasedItem of purchasedItemsForDisplay">
-      {{ purchasedItem.$value }}
+  <h2 style="text-decoration: underline">Items</h2>
+  <ion-list *ngIf="list && list.purchased as items">
+    <ion-item *ngFor="let purchasedItem of items">
+      {{ purchasedItem }}
     </ion-item>
   </ion-list>
 
   <div>
-    <h3>Subtotal: TODO</h3>
-    <h3>Tip: TODO</h3>
-    <h3>Total: TODO</h3>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-5>
+          <h3>Subtotal: </h3>
+        </ion-col>
+        <ion-col col-4 text-right>
+          <h3>{{list?.subtotal | currency:'USD':true}}</h3>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-5>
+          <h3>Tip: </h3>
+        </ion-col>
+        <ion-col col-4 text-right>
+          <h3 style="border-bottom: 2px solid black; padding-bottom: 5px; margin-bottom: 5px;">+ {{list?.tip | currency:'USD':true}}</h3>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-5>
+          <h3>Total: </h3>
+        </ion-col>
+        <ion-col col-4 text-right>
+          <h3>{{total | currency:'USD':true}}</h3>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 
 
