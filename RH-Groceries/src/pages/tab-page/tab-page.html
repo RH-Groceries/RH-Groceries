@@ -1,4 +1,4 @@
-<ion-menu [content]="mycontent">
+<ion-menu [content]="mycontent" color="primary">
   <ion-header>
     <ion-toolbar>
       <ion-title>Menu</ion-title>
@@ -13,7 +13,7 @@
 </ion-menu>
 
 <ion-header>
-  <ion-navbar hideBackButton="true">
+  <ion-navbar hideBackButton="true" color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -22,8 +22,8 @@
 </ion-header>
 
 
-<ion-content padding #mycontent >
-  <ion-tabs>
+<ion-content padding #mycontent>
+  <ion-tabs color="black">
     <ion-tab [root]="tab1Root" tabTitle="Your List" tabIcon="create"></ion-tab>
     <ion-tab [root]="tab2Root" tabTitle="Shop" tabIcon="cart"></ion-tab>
     <ion-tab [root]="tab3Root" tabTitle="Profile" tabIcon="person"></ion-tab>
