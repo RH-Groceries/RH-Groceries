@@ -1,9 +1,12 @@
 export class historyItem {
     total?: number;
-    date: string =  new Date().toString();
+    listKey?: string;
+    date: string = new Date().toString();
     sortTime: number = Date.now();
+    $key?: string;
 
-    constructor(total: number) {
+    constructor(total: number, key: string) {
         this.total = total;
+        this.listKey = key;
     }
 }

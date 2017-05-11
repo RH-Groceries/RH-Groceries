@@ -44,8 +44,8 @@ export class HistoryHome {
     // console.log('ionViewDidLoad HistoryHome');
   }
 
-  displayHistoryDetail() {
-    let reviewListModal = this.modalCtrl.create(HistoryDetails, {});
+  displayHistoryDetail(item: historyItem) {
+    let reviewListModal = this.modalCtrl.create(HistoryDetails, {"listKey": item.listKey});
     reviewListModal.present();
   }
 
