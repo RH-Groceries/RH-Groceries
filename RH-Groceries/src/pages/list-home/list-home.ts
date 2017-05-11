@@ -102,7 +102,7 @@ export class ListHome {
       this.listName = this.newItemValue;
       this.newItemValue = "";
     }
-    else {
+    else if (this.newItemValue) {
       this.list.push(this.newItemValue);
       this.newItemValue = "";
     }
