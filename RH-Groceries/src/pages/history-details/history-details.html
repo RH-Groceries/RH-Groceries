@@ -1,0 +1,48 @@
+<!--
+  Generated template for the HistoryDetails page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title> TODOS's List: TODO</ion-title>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="closeModal()">
+        <ion-icon name="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let purchasedItem of purchasedItemsForDisplay">
+      {{ purchasedItem.$value }}
+    </ion-item>
+  </ion-list>
+
+  <div>
+    <h3>Subtotal: TODO</h3>
+    <h3>Tip: TODO</h3>
+    <h3>Total: TODO</h3>
+  </div>
+
+  <ion-card>
+    <ion-grid>
+      <ion-row>
+        <span style="font-style: italic">TODO: review text</span>
+      </ion-row>
+      <ion-row align-items-center>
+        <!--<rating [(ngModel)]="0" [float]="true" [readonly]="true"></rating>-->
+        <p style="margin-left: 10px; margin-bottom: 0px;">TODO: rating</p>
+      </ion-row>
+      <ion-row justify-content-end>
+        <h2>- TODO reviewer</h2>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+
+</ion-content>

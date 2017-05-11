@@ -8,7 +8,7 @@
     <div class="list-container">
       <ion-scroll scrollY="true" class="scroll-view">
         <ion-list no-lines>
-          <div class="history-item" *ngFor="let item of historyList" [style.background-color]="(item.total < 0)?'red':'green'">
+          <div class="history-item" *ngFor="let item of historyList" [style.background-color]="(item.total < 0)?'red':'green'" (click)="displayHistoryDetail()">
            <span>{{item.total | currency:'USD':true}}</span>
            <span>{{item.date | date:'shortDate'}}</span>
           </div>
