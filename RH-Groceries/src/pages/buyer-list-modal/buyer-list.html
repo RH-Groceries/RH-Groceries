@@ -19,6 +19,23 @@
 
 <ion-content padding>
 
+  <ion-card (click)="displayReviews('shopper')" *ngIf="foundShopper && (shopper | async) as shopperUser">
+    <ion-item>
+      <ion-avatar item-left>
+        <img *ngIf="shopperUser.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
+        <ng-template #missingPhotoTemplate>
+          <img src="assets/images/missing_photo.png" alt="Missing Photo">
+        </ng-template>
+      </ion-avatar>
+      <h1>{{ shopperUser?.name }}</h1>
+      <h3>{{ shopperUser?.phone }}</h3>
+      <h3 style="text-decoration: underline;">Shopper Rating</h3>
+    </ion-item>
+    <div text-center>
+      <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating | number : '1.1-1'}}</span>
+    </div>
+  </ion-card>
+
   <!-- Active List Content -->
   <div *ngIf="(listeningListStatusData | async).$value==1">
     <ion-list>
@@ -31,32 +48,16 @@
 
   <!-- List Needing Approval -->
   <div *ngIf="(listeningListStatusData | async).$value==2">
-    <ion-card (click)="displayReviews('shopper')">
-      <ion-item *ngIf="(shopper | async) as shopperUser">
-        <ion-avatar item-left>
-          <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
-          <ng-template #missingPhotoTemplate>
-            <img src="assets/images/missing_photo.png" alt="Missing Photo">
-          </ng-template>
-        </ion-avatar>
-        <h1>{{ shopperUser?.name }}</h1>
-        <h3>{{ shopperUser?.phone }}</h3>
-        <h3 style="text-decoration: underline;">Shopper Rating</h3>
-        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating | number : '1.1-1'}}</span>
-        <br>
-      </ion-item>
-    </ion-card>
-
     <ion-list>
       <ion-item *ngFor="let item of items">
         {{ item }}
       </ion-item>
     </ion-list>
     <ion-row>
-    <button ion-button (click)="confirmShopper()">
+      <button ion-button (click)="confirmShopper()">
       Confirm
     </button>
-    <button ion-button color="danger" (click)="rejectShopper()">
+      <button ion-button color="danger" (click)="rejectShopper()">
       Reject
     </button>
     </ion-row>
@@ -67,21 +68,6 @@
 
   <!-- List In Progress -->
   <div *ngIf="(listeningListStatusData | async).$value==3">
-    <ion-card (click)="displayReviews('shopper')">
-      <ion-item *ngIf="(shopper | async) as shopperUser">
-        <ion-avatar item-left>
-          <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
-          <ng-template #missingPhotoTemplate>
-            <img src="assets/images/missing_photo.png" alt="Missing Photo">
-          </ng-template>
-        </ion-avatar>
-        <h1>{{ shopperUser?.name }}</h1>
-        <h3>{{ shopperUser?.phone }}</h3>
-        <h3 style="text-decoration: underline;">Shopper Rating</h3>
-        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating | number : '1.1-1'}}</span>
-        <br>
-      </ion-item>
-    </ion-card>
 
     <ion-list>
       <h3>Items Left</h3>
@@ -100,21 +86,6 @@
 
   <!-- Delivery Confirm -->
   <div *ngIf="(listeningListStatusData | async).$value==4">
-    <ion-card (click)="displayReviews('shopper')">
-      <ion-item *ngIf="(shopper | async) as shopperUser">
-        <ion-avatar item-left>
-          <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
-          <ng-template #missingPhotoTemplate>
-            <img src="assets/images/missing_photo.png" alt="Missing Photo">
-          </ng-template>
-        </ion-avatar>
-        <h1>{{ shopperUser?.name }}</h1>
-        <h3>{{ shopperUser?.phone }}</h3>
-        <h3 style="text-decoration: underline;">Shopper Rating</h3>
-        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating | number : '1.1-1'}}</span>
-        <br>
-      </ion-item>
-    </ion-card>
 
     <ion-list>
       <h3>Items Left</h3>
@@ -144,23 +115,6 @@
 
   <!-- Review Shopper -->
   <div *ngIf="(listeningListStatusData | async).$value==5">
-    <ion-card (click)="displayReviews('shopper')">
-      <ion-item *ngIf="(shopper | async) as shopperUser">
-        <ion-avatar item-left>
-          <img *ngIf="(shopper | async)?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
-          <ng-template #missingPhotoTemplate>
-            <img src="assets/images/missing_photo.png" alt="Missing Photo">
-          </ng-template>
-        </ion-avatar>
-        <h1>{{ shopperUser?.name }}</h1>
-        <h3>{{ shopperUser?.phone }}</h3>
-        <h3 style="text-decoration: underline;">Shopper Rating</h3>
-        <rating [(ngModel)]="shopperUser && shopperUser.shopperRating" [float]="true" [readonly]="true"></rating><span>{{shopperUser?.shopperRating | number : '1.1-1'}}</span>
-        <br>
-      </ion-item>
-    </ion-card>
-
-    <br>
 
     <h3>Total Spent: {{ total | currency:'USD':true}}</h3>
     <hr>
