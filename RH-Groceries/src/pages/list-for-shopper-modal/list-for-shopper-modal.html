@@ -90,7 +90,7 @@
       <ion-row align-items-center>
         <h3>Subtotal:</h3>
         <ion-item>
-          <ion-input name="listPrice" type="text" placeholder="$0.00" [(ngModel)]="price"></ion-input>
+          <ion-input name="listPrice" type="number" placeholder="0.00" [(ngModel)]="price"></ion-input>
         </ion-item>
       </ion-row>
       <button ion-button [disabled]="!price" (click)="confirmShoppingComplete()">Confirm</button>
