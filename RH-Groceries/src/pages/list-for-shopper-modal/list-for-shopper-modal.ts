@@ -33,7 +33,7 @@ export class ListForShopperModal {
   public reviewError: string = "";
   public hasReviewed: boolean = false;
 
-  public price: string = "";
+  public price: number;
   public tip: FirebaseObjectObservable<number>;
   public subtotal: FirebaseObjectObservable<string>;
 

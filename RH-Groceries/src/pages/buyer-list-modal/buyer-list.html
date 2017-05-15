@@ -105,11 +105,15 @@
 
     <ion-row align-items-center>
       <h3>Subtotal: {{ (subtotal | async).$value | currency:'USD':true}}</h3>
+    </ion-row>
+
+    <ion-row align-items-center>
+      <h3>Tip:</h3>
       <ion-item>
-        <ion-input name="listTip" type="number" placeholder="Tip: $0.00" [(ngModel)]="tip"></ion-input>
+        <ion-input name="listTip" type="number" placeholder="0.00" [(ngModel)]="tip"></ion-input>
       </ion-item>
     </ion-row>
-    <button ion-button [disabled]="tip<0" (click)="confirmDelivery()">Confirm</button>
+    <button ion-button [disabled]="tip<0 || !tip" (click)="confirmDelivery()">Confirm</button>
   </div>
 
 
