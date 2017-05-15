@@ -2,7 +2,7 @@
 
   <!-- Waiting for Response HERE -->
   <div *ngIf="waitingForConfirmationLists.length!=0">
-    <h4 center text-center id="setuplabel"> Waiting for Buyer... </h4>
+    <h4 center text-center class="setuplabel">Waiting for Buyer</h4>
 
     <ion-grid>
       <ion-row wrap>
@@ -15,17 +15,17 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+    <hr>
   </div>
 
-  
+
 
 
 
 
   <!--- Active List View HERE -->
   <div *ngIf="activeLists.length!=0">
-    <hr>
-    <h4 center text-center id="setuplabel"> Active Lists </h4>
+    <h4 center text-center class="setuplabel">Active Lists</h4>
 
     <ion-grid>
       <ion-row wrap>
@@ -44,7 +44,7 @@
   <!--- In Progress List View HERE -->
   <div *ngIf="inProgressLists.length!=0">
     <hr>
-    <h4 center text-center id="setuplabel"> In Progress... </h4>
+    <h4 center text-center class="setuplabel">In Progress</h4>
 
     <ion-grid>
       <ion-row wrap>
@@ -62,7 +62,7 @@
   <!--- Waiting for Delivery Confirmation List View HERE -->
   <div *ngIf="deliveredLists.length!=0">
     <hr>
-    <h4 center text-center id="setuplabel"> Delivered... </h4>
+    <h4 center text-center class="setuplabel">Delivered</h4>
 
     <ion-grid>
       <ion-row wrap>

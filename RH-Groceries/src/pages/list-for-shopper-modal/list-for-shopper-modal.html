@@ -17,8 +17,8 @@
 
 
 <ion-content padding>
-  <ion-card *ngIf="!blacklisted" (click)="displayReviews('buyer')">
-    <ion-item *ngIf="(buyer | async) as buyerUser">
+  <ion-card *ngIf="!blacklisted && (buyer | async) as buyerUser" (click)="displayReviews('buyer')">
+    <ion-item>
       <ion-avatar item-left>
         <img *ngIf="buyerUser?.image as imageUrl; else missingPhotoTemplate" [src]="imageUrl" alt="Missing Photo">
         <ng-template #missingPhotoTemplate>
@@ -29,9 +29,10 @@
       <h3>{{ buyerUser?.phone }}</h3>
       <h3>{{ buyerUser?.address }}</h3>
       <h3 style="text-decoration: underline;">Buyer Rating</h3>
-      <rating [(ngModel)]="buyerUser && buyerUser.buyerRating" [float]="true" [readonly]="true"></rating><span>{{buyerUser?.buyerRating | number : '1.1-1'}}</span>
-      <br>
     </ion-item>
+    <div text-center>
+      <rating [(ngModel)]="buyerUser && buyerUser.buyerRating" [float]="true" [readonly]="true"></rating><span>{{buyerUser?.buyerRating | number : '1.1-1'}}</span>
+    </div>
   </ion-card>
 
   <!-- Blacklisted Shopper View -->
@@ -64,11 +65,6 @@
       </ion-item>
     </ion-list>
   </div>
-
-
-
-
-
 
   <!-- Actively Shopping HERE -->
   <div *ngIf="(listeningListStatusData | async).$value==3">

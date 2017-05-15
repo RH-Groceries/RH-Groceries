@@ -1,14 +1,20 @@
 page-buyer-list {
-    ion-grid {
-        margin-top: 60px;
-        * {
-            padding-bottom: 10px;
-        }
-        #rating-num {
-            padding-left: 15px;
-        }
+  ion-grid {
+    margin-top: 60px;
+    * {
+      padding-bottom: 10px;
     }
-    ion-title {
-        padding: 0px 35px !important;
+    #rating-num {
+      padding-left: 15px;
     }
+  }
+  ion-title {
+    padding: 0px 0px 0px 30px !important;
+    text-align: center;
+  }
+  ion-card {
+    ion-label {
+      margin-bottom: 0px !important;
+    }
+  }
 }
